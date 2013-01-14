@@ -17,8 +17,8 @@ module SpanReport
       else
         condition = Base.new(iename, scope)
       end
-        condition.parse
-        condition
+      condition.parse
+      condition
     end
         
   end
