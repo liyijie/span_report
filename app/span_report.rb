@@ -8,4 +8,5 @@ module SpanReport
    autoload :Condition, "span_report/condition"
    autoload :Model, "span_report/model"
    autoload :Logfile, "span_report/logfile"
+   autoload :Process, "span_report/process"
 end
