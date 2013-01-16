@@ -3,7 +3,7 @@ require "spec_helper"
 module SpanReport::Model
   describe Logformat do
     
-    let(:logformat) { Logformat.new }
+    let(:logformat) { Logformat.instance }
 
     before(:each) do
       logformat.load_xml("config/LogFormat_100.xml")
@@ -43,6 +43,15 @@ module SpanReport::Model
       end
     end
 
+    context "log group 100" do
+      it "should be RecordId from the 100-0 from item_map" do
+        logitem = logformat.item_map["RecordId"]
+        logitem.name.should == "RecordId"
+        logitem.type.should == "double"
+        logitem.group.should == 100
+        logitem.index.should == 0
+      end
+    end
 
 
   end
