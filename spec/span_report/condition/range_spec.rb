@@ -9,15 +9,8 @@ module SpanReport::Condition
         range.parse
       end
 
-
-      it "should be correct parse" do
-        # range.parse
-        # range.scope.should == "[-10.5,3]"
-        # range.low_mark.should == "["
-      end
-
       it "should be true in the range" do
-        range.validate?({"ie1" => "-10.5"}).should be_true
+        range.validate?({"ie1" => "-10.50"}).should be_true
         range.validate?({"ie1" => "-10"}).should be_true
         range.validate?({"ie1" => "0"}).should be_true
         range.validate?({"ie1" => "2"}).should be_true

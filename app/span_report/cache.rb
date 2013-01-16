@@ -1,6 +1,16 @@
 # encoding: utf-8
 
 module SpanReport
+
+  ########################################
+  #缓存中保存的key都是长IE的名称，方便进行访问
+  #通过log组号和IE所在的相关位置
+  #
+  #
+  #
+  #
+  ########################################
+
   class Cache
     def initialize
       @relate_ies = {}
@@ -11,8 +21,10 @@ module SpanReport
     #根据报表模板中的KPI获取相关的值
     #这里需要注意的是，这里的名称是可以进行扩展的
     #基本的格式如下：
-    #1. <kpiname>
-    #2. <logkey.kpiname>
+    #1. kpiname
+    #2. logkey.kpiname
+    #3. kpiname[1]
+    #4. kpiname[0][1]
     #########################################
     def get_kpi_value(kpi_name)
 
@@ -40,15 +52,12 @@ module SpanReport
       @counter_ies[condition.iename] = condition
     end
 
-    private:
+    private
 
     def data_needed?
       
     end
 
-    def method_name
-      
-    end
   end
   
 end

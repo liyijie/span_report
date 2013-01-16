@@ -3,6 +3,8 @@
 module SpanReport::Condition
     class Section < Default
 
+      # section condition is a list of range conditions
+      # 
       def parse
         
       end

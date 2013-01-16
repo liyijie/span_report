@@ -98,7 +98,7 @@
     <LogItem Name="i24" Type="double" Alias="Common_Application_wap_Kjava_Down_size"/>
     <LogItem Name="i25" Type="double" Alias="Common_Application_wap_Kjava_Down_Time"/>
     <LogItem Name="i26" Type="double" Alias="Common_Application_wap_Kjava_Average_Down_Rate"/>
-    <LogItem Name="i27" Type="double" Alias="Common_Application_wap_Wap_Down_size"/>
+    <LogItem Name="i27" Type="double" Alias="Cobemmon_Application_wap_Wap_Down_size"/>
     <LogItem Name="i28" Type="double" Alias="Common_Application_wap_Wap_Down_Time"/>
     <LogItem Name="i29" Type="double" Alias="Common_Application_wap_Wap_Average_Down_Rate"/>
     <LogItem Name="i30" Type="double" Alias="Common_Application_wap_WAP_Logon_time"/>
