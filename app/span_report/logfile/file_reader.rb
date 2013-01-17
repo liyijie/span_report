@@ -18,13 +18,14 @@ module SpanReport::Logfile
 
     def parse(processor)
       filepath = unzip @filename, "config/temp"
-      logs = list_files(filepath, "")
+      logs = list_files(filepath, ["txt"])
       logs.each do |logfile|
         process(logfile, processor)
       end
     end
 
     def process(logfile, processor)
+      puts "process #{logfile} ......"
       File.foreach(logfile) do |line|
         processor.add_logdata line
       end
@@ -40,7 +41,7 @@ module SpanReport::Logfile
 
       Zip::ZipFile.open zip_file do |zf|  
         zf.each do |e|
-          path = File.join unzip_dir, e.name  
+          path = File.join unzip_dir, "#{e.name}.txt"  
           zf.extract(e, path) { true }  
         end  
       end
