@@ -5,6 +5,7 @@ GEM
       bundler
     diff-lcs (1.1.3)
     nokogiri (1.5.5)
+    nokogiri (1.5.5-x86-mingw32)
     rake (10.0.2)
     rspec (2.12.0)
       rspec-core (~> 2.12.0)
@@ -18,6 +19,7 @@ GEM
 
 PLATFORMS
   ruby
+  x86-mingw32
 
 DEPENDENCIES
   bundle

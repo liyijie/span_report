@@ -19,7 +19,7 @@ module SpanReport::Process
       end
 
       it "should return true when the iename is include" do
-        export_process.reg_iename "RecordId"
+        export_process.reg_iename "RecordId", "RecordId"
         export_process.data_needed?(logdata).should be_true
       end
       

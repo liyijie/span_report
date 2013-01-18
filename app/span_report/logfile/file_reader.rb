@@ -14,10 +14,11 @@ module SpanReport::Logfile
     
     def initialize(filename)
       @filename = filename
+      @unzip_path = ""
     end
 
     def parse(processor)
-      filepath = unzip @filename, "config/temp"
+      filepath = unzip @filename, "./config"
       logs = list_files(filepath, ["txt"])
       logs.each do |logfile|
         process(logfile, processor)
@@ -34,10 +35,12 @@ module SpanReport::Logfile
     #解压文件到临时目录中，为每个日志都解压到当前的文件夹中
     #返回解压后的目录
     def unzip zip_file, dest_dir
+      puts "unzip log #{zip_file}"
       zipfile_name = File.split(zip_file)[1]
       unzip_dir = File.join dest_dir, zipfile_name
       Dir.mkdir(dest_dir) unless File.exist?(dest_dir)
       Dir.mkdir(unzip_dir) unless File.exist?(unzip_dir)
+      @unzip_path = unzip_dir
 
       Zip::ZipFile.open zip_file do |zf|  
         zf.each do |e|
@@ -61,6 +64,10 @@ module SpanReport::Logfile
         end
       end 
       files
+    end
+
+    def clear_files
+      FileUtils.rm_rf @unzip_path
     end
 
   end

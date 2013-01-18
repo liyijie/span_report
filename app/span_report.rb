@@ -1,7 +1,9 @@
 # encoding: utf-8
 
-require "span_report/cache"
-require "span_report/counter_def"
+
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "app"))
+
 require "nokogiri"
 
 module SpanReport
@@ -11,15 +13,4 @@ module SpanReport
    autoload :Process, "span_report/process"
 end
 
-
-SpanReport::Model::Logformat.instance.load_xml "config/LogFormat_100.xml"
-export = SpanReport::Process::Export.new
-["TDDLTE_L1_measurement_Serving_Cell_Measurement_RSRP", 
-  "TDDLTE_L1_measurement_Serving_Cell_Measurement_SINR"].each do |iename|
-  export.reg_iename iename
-end
-
-filereader = SpanReport::Logfile::FileReader.new("config/leadcore-gps-ftp.lgl")
-filereader.parse(export)
-export.write_result("result.csv")
-
+# export "./log"

@@ -1,26 +1,26 @@
-require "spec_helper"
+# require "spec_helper"
 
-module SpanReport
+# module SpanReport
   
-  describe CounterDef do
-    context "with no condition" do
+#   describe CounterDef do
+#     context "with no condition" do
       
-    end
+#     end
 
-    context "with self condition" do
+#     context "with self condition" do
       
-    end
+#     end
 
-    context "with one relate condition" do
+#     context "with one relate condition" do
       
-    end
+#     end
 
-    context "with two relate conditions" do
+#     context "with two relate conditions" do
       
-    end
+#     end
 
-    context "with self condition and two relate conditions" do
+#     context "with self condition and two relate conditions" do
       
-    end
-  end
-end
+#     end
+#   end
+# end
