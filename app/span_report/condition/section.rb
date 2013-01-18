@@ -1,17 +1,15 @@
 # encoding: utf-8
 
 module SpanReport::Condition
-    class Section < Default
+  class Section < Default
 
-      # section condition is a list of range conditions
-      # 
-      def parse
-        
-      end
+    # section condition is a list of range conditions
+    # 
+    def parse
 
-      def validate?(validate_datas)
-        
-      end
+    end
+
+    def validate?(validate_datas)
 
     end
   end
