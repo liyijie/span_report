@@ -29,13 +29,15 @@ module SpanReport::Process
     def process_data logdata
       contents = logdata.split(/,|:/)
       group_id = contents[1].to_i
-      needed_ies = get_needed_ies  group_id
+      needed_ies = get_needed_ies group_id
 
       needed_ies.each do |logitem|
         ie_name = logitem.name
         ie_index = logitem.index + 3
         @ie_caches[ie_name] = contents[ie_index]
       end
+
+
     end
       
     ########################################
