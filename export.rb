@@ -32,11 +32,16 @@ def export(log_path)
   end
 
   logfiles.each do |logfile|
-    filereader = SpanReport::Logfile::FileReader.new(logfile)
-    filereader.parse(export)
-    resultfile = logfile.sub('lgl', 'csv')
-    export.write_result(resultfile)
-    filereader.clear_files
+    begin
+      filereader = SpanReport::Logfile::FileReader.new(logfile)
+      filereader.parse(export)
+      resultfile = logfile.sub('lgl', 'csv')
+      export.write_result(resultfile)
+    rescue Exception => e
+
+    ensure
+      filereader.clear_files
+    end
   end
 end
 

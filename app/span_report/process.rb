@@ -2,7 +2,10 @@
 
 module SpanReport
   module Process
+    autoload :Base, "span_report/process/base"
     autoload :Export, "span_report/process/export"
+    autoload :Report, "span_report/process/report"
+
   end
   
 end

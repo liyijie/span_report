@@ -8,6 +8,7 @@ module SpanReport::Logfile
 
     it "should be correct unzip" do
       filereader.unzip "log/1.lgl", "config"
+      filereader.clear_files
     end
 
   end

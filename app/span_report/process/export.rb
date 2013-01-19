@@ -3,38 +3,17 @@
 
 module SpanReport::Process
   
-  class Export
+  class Export < Base
 
     def initialize
-      @reg_ies = []
-      @reg_groups = {}
-      @alis_map = {}
+      super
       @export_datas = []
-    end
-
-    def reg_iename iename, alisname
-      @reg_ies << iename
-      @alis_map[iename] = alisname
-      logitem = SpanReport::Model::Logformat.instance.get_logitem(iename)
-      if logitem
-        @reg_groups[logitem.group] ||= []
-        @reg_groups[logitem.group] << logitem
-      end
-    end
-
-    def add_logdata logdata
-      process_data logdata if data_needed? logdata
-    end
-
-    def data_needed? logdata
-      group_id = logdata.split(',', 3)[1].to_i
-      @reg_groups.has_key? group_id
     end
 
     def process_data logdata
       contents = logdata.split(/,|:/)
       group_id = contents[1].to_i
-      needed_ies = @reg_groups[group_id]
+      needed_ies = get_needed_ies group_id
 
       #last data
       last_data = @export_datas[-1]
