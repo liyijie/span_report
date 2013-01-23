@@ -40,7 +40,7 @@ module SpanReport::Process
         data_index = get_data_index ie_name
 
         export_data[data_index] = contents[ie_index] if data_index
-        is_value = true if data_index && !contents[ie_index].empty? && !is_lastdata
+        is_value = true if data_index && !contents[ie_index].nil? && !is_lastdata
       end
 
       @export_datas << export_data if is_value

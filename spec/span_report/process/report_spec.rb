@@ -6,8 +6,12 @@ module SpanReport::Process
     let(:report) { Report.new }
     let(:logformat) { SpanReport::Model::Logformat.instance }
 
+    before(:all) do
+      logformat.load_xml("config/LogFormat_100.xml")
+    end
+
     before(:each) do
-      logformat.load_xml("config/LogFormat_100.xml")  
+      report = Report.new
     end
 
     context "add one data" do
@@ -18,7 +22,7 @@ module SpanReport::Process
         report.add_logdata logdata
         report.get_kpi_value("RecordId").should be_empty
 
-        report.reg_iename "RecordId1", "RecordId"
+        report.reg_iename "RecordId1", "RecordId1"
         report.add_logdata logdata
         report.get_kpi_value("RecordId").should be_empty
       end

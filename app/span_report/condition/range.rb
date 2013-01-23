@@ -6,6 +6,7 @@ module SpanReport::Condition
     #[-1,0) (-1,0], (-1,0), [-1,0]"
     def parse
       @scope = @scope.sub!(' ', '')
+
       parse_result = false
       if @scope=~/^(\[|\().*,.*(\]|\))$/
         @low_mark = $1

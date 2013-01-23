@@ -98,7 +98,7 @@
     <LogItem Name="i24" Type="double" Alias="Common_Application_wap_Kjava_Down_size"/>
     <LogItem Name="i25" Type="double" Alias="Common_Application_wap_Kjava_Down_Time"/>
     <LogItem Name="i26" Type="double" Alias="Common_Application_wap_Kjava_Average_Down_Rate"/>
-    <LogItem Name="i27" Type="double" Alias="Cobemmon_Application_wap_Wap_Down_size"/>
+    <LogItem Name="i27" Type="double" Alias="Common_Application_wap_Wap_Down_size"/>
     <LogItem Name="i28" Type="double" Alias="Common_Application_wap_Wap_Down_Time"/>
     <LogItem Name="i29" Type="double" Alias="Common_Application_wap_Wap_Average_Down_Rate"/>
     <LogItem Name="i30" Type="double" Alias="Common_Application_wap_WAP_Logon_time"/>
@@ -8858,58 +8858,213 @@
     <LogItem Name="i836" Type="double" Alias="TDDLTE_PUSCH_Info_DL_PUSCH_Slot1_VRB"/>
   </LogLine>
   <LogLine Name="1277" Index="1277">
-    <LogItem Name="i839" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count"/>
+    <LogItem Name="i839_0" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_0"/>
+    <LogItem Name="i839_1" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_1"/>
+    <LogItem Name="i839_2" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_2"/>
+    <LogItem Name="i839_3" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_3"/>
+    <LogItem Name="i839_4" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_4"/>
+    <LogItem Name="i839_5" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_5"/>
+    <LogItem Name="i839_6" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_6"/>
+    <LogItem Name="i839_7" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_7"/>
+    <LogItem Name="i839_8" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_8"/>
+    <LogItem Name="i839_9" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_9"/>
+    <LogItem Name="i839_10" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_10"/>
+    <LogItem Name="i839_11" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_11"/>
+    <LogItem Name="i839_12" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_12"/>
+    <LogItem Name="i839_13" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_13"/>
+    <LogItem Name="i839_14" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_14"/>
+    <LogItem Name="i839_15" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_15"/>
+    <LogItem Name="i839_16" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_16"/>
+    <LogItem Name="i839_17" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_17"/>
+    <LogItem Name="i839_18" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_18"/>
+    <LogItem Name="i839_19" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_19"/>
+    <LogItem Name="i839_20" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_20"/>
+    <LogItem Name="i839_21" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_21"/>
+    <LogItem Name="i839_22" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_22"/>
+    <LogItem Name="i839_23" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_23"/>
+    <LogItem Name="i839_24" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_24"/>
+    <LogItem Name="i839_25" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_25"/>
+    <LogItem Name="i839_26" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_26"/>
+    <LogItem Name="i839_27" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_27"/>
+    <LogItem Name="i839_28" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_28"/>
+    <LogItem Name="i839_29" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_29"/>
+    <LogItem Name="i839_30" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_30"/>
+    <LogItem Name="i839_31" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Count_31"/>
     <LogItem Name="i829" Type="double" Alias="TDDLTE_PDSCH_Info_DL_PDSCH_Slot0_PRB"/>
   </LogLine>
   <LogLine Name="1278" Index="1278">
-    <LogItem Name="i840" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS"/>
+    <LogItem Name="i840_0" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_0"/>
+    <LogItem Name="i840_1" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_1"/>
+    <LogItem Name="i840_2" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_2"/>
+    <LogItem Name="i840_3" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_3"/>
+    <LogItem Name="i840_4" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_4"/>
+    <LogItem Name="i840_5" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_5"/>
+    <LogItem Name="i840_6" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_6"/>
+    <LogItem Name="i840_7" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_7"/>
+    <LogItem Name="i840_8" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_8"/>
+    <LogItem Name="i840_9" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_9"/>
+    <LogItem Name="i840_10" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_10"/>
+    <LogItem Name="i840_11" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_11"/>
+    <LogItem Name="i840_12" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_12"/>
+    <LogItem Name="i840_13" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_13"/>
+    <LogItem Name="i840_14" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_14"/>
+    <LogItem Name="i840_15" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_15"/>
+    <LogItem Name="i840_16" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_16"/>
+    <LogItem Name="i840_17" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_17"/>
+    <LogItem Name="i840_18" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_18"/>
+    <LogItem Name="i840_19" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_19"/>
+    <LogItem Name="i840_20" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_20"/>
+    <LogItem Name="i840_21" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_21"/>
+    <LogItem Name="i840_22" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_22"/>
+    <LogItem Name="i840_23" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_23"/>
+    <LogItem Name="i840_24" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_24"/>
+    <LogItem Name="i840_25" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_25"/>
+    <LogItem Name="i840_26" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_26"/>
+    <LogItem Name="i840_27" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_27"/>
+    <LogItem Name="i840_28" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_28"/>
+    <LogItem Name="i840_29" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_29"/>
+    <LogItem Name="i840_30" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_30"/>
+    <LogItem Name="i840_31" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_31"/>
   </LogLine>
   <LogLine Name="1279" Index="1279">
-    <LogItem Name="i841" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count"/>
+    <LogItem Name="i841_0" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_0"/>
+    <LogItem Name="i841_1" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_1"/>
+    <LogItem Name="i841_2" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_2"/>
+    <LogItem Name="i841_3" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_3"/>
+    <LogItem Name="i841_4" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_4"/>
+    <LogItem Name="i841_5" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_5"/>
+    <LogItem Name="i841_6" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_6"/>
+    <LogItem Name="i841_7" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_7"/>
+    <LogItem Name="i841_8" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_8"/>
+    <LogItem Name="i841_9" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_9"/>
+    <LogItem Name="i841_10" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_10"/>
+    <LogItem Name="i841_11" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_11"/>
+    <LogItem Name="i841_12" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_12"/>
+    <LogItem Name="i841_13" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_13"/>
+    <LogItem Name="i841_14" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_14"/>
+    <LogItem Name="i841_15" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_15"/>
+    <LogItem Name="i841_16" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_16"/>
+    <LogItem Name="i841_17" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_17"/>
+    <LogItem Name="i841_18" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_18"/>
+    <LogItem Name="i841_19" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_19"/>
+    <LogItem Name="i841_20" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_20"/>
+    <LogItem Name="i841_21" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_21"/>
+    <LogItem Name="i841_22" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_22"/>
+    <LogItem Name="i841_23" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_23"/>
+    <LogItem Name="i841_24" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_24"/>
+    <LogItem Name="i841_25" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_25"/>
+    <LogItem Name="i841_26" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_26"/>
+    <LogItem Name="i841_27" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_27"/>
+    <LogItem Name="i841_28" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_28"/>
+    <LogItem Name="i841_29" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_29"/>
+    <LogItem Name="i841_30" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_30"/>
+    <LogItem Name="i841_31" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Count_31"/>
   </LogLine>
   <LogLine Name="1280" Index="1280">
-    <LogItem Name="i842" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS"/>
+    <LogItem Name="i842_0" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_0"/>
+    <LogItem Name="i842_1" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_1"/>
+    <LogItem Name="i842_2" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_2"/>
+    <LogItem Name="i842_3" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_3"/>
+    <LogItem Name="i842_4" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_4"/>
+    <LogItem Name="i842_5" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_5"/>
+    <LogItem Name="i842_6" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_6"/>
+    <LogItem Name="i842_7" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_7"/>
+    <LogItem Name="i842_8" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_8"/>
+    <LogItem Name="i842_9" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_9"/>
+    <LogItem Name="i842_10" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_10"/>
+    <LogItem Name="i842_11" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_11"/>
+    <LogItem Name="i842_12" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_12"/>
+    <LogItem Name="i842_13" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_13"/>
+    <LogItem Name="i842_14" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_14"/>
+    <LogItem Name="i842_15" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_15"/>
+    <LogItem Name="i842_16" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_16"/>
+    <LogItem Name="i842_17" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_17"/>
+    <LogItem Name="i842_18" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_18"/>
+    <LogItem Name="i842_19" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_19"/>
+    <LogItem Name="i842_20" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_20"/>
+    <LogItem Name="i842_21" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_21"/>
+    <LogItem Name="i842_22" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_22"/>
+    <LogItem Name="i842_23" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_23"/>
+    <LogItem Name="i842_24" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_24"/>
+    <LogItem Name="i842_25" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_25"/>
+    <LogItem Name="i842_26" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_26"/>
+    <LogItem Name="i842_27" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_27"/>
+    <LogItem Name="i842_28" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_28"/>
+    <LogItem Name="i842_29" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_29"/>
+    <LogItem Name="i842_30" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_30"/>
+    <LogItem Name="i842_31" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_31"/>
   </LogLine>
   <LogLine Name="1281" Index="1281">
-    <LogItem Name="i843" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count"/>
+    <LogItem Name="i843_0" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_0"/>
+    <LogItem Name="i843_1" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_1"/>
+    <LogItem Name="i843_2" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_2"/>
+    <LogItem Name="i843_3" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_3"/>
+    <LogItem Name="i843_4" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_4"/>
+    <LogItem Name="i843_5" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_5"/>
+    <LogItem Name="i843_6" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_6"/>
+    <LogItem Name="i843_7" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_7"/>
+    <LogItem Name="i843_8" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_8"/>
+    <LogItem Name="i843_9" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_9"/>
+    <LogItem Name="i843_10" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_10"/>
+    <LogItem Name="i843_11" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_11"/>
+    <LogItem Name="i843_12" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_12"/>
+    <LogItem Name="i843_13" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_13"/>
+    <LogItem Name="i843_14" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_14"/>
+    <LogItem Name="i843_15" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_15"/>
+    <LogItem Name="i843_16" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_16"/>
+    <LogItem Name="i843_17" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_17"/>
+    <LogItem Name="i843_18" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_18"/>
+    <LogItem Name="i843_19" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_19"/>
+    <LogItem Name="i843_20" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_20"/>
+    <LogItem Name="i843_21" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_21"/>
+    <LogItem Name="i843_22" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_22"/>
+    <LogItem Name="i843_23" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_23"/>
+    <LogItem Name="i843_24" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_24"/>
+    <LogItem Name="i843_25" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_25"/>
+    <LogItem Name="i843_26" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_26"/>
+    <LogItem Name="i843_27" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_27"/>
+    <LogItem Name="i843_28" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_28"/>
+    <LogItem Name="i843_29" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_29"/>
+    <LogItem Name="i843_30" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_30"/>
+    <LogItem Name="i843_31" Type="double" Alias="TDDLTE_MCS_UL_MCS_Count_31"/>
   </LogLine>
   <LogLine Name="1282" Index="1282">
-    <LogItem Name="i844" Type="double" Alias="TDDLTE_MCS_UL_MCS"/>
+    <LogItem Name="i844_0" Type="double" Alias="TDDLTE_MCS_UL_MCS_0"/>
+    <LogItem Name="i844_1" Type="double" Alias="TDDLTE_MCS_UL_MCS_1"/>
+    <LogItem Name="i844_2" Type="double" Alias="TDDLTE_MCS_UL_MCS_2"/>
+    <LogItem Name="i844_3" Type="double" Alias="TDDLTE_MCS_UL_MCS_3"/>
+    <LogItem Name="i844_4" Type="double" Alias="TDDLTE_MCS_UL_MCS_4"/>
+    <LogItem Name="i844_5" Type="double" Alias="TDDLTE_MCS_UL_MCS_5"/>
+    <LogItem Name="i844_6" Type="double" Alias="TDDLTE_MCS_UL_MCS_6"/>
+    <LogItem Name="i844_7" Type="double" Alias="TDDLTE_MCS_UL_MCS_7"/>
+    <LogItem Name="i844_8" Type="double" Alias="TDDLTE_MCS_UL_MCS_8"/>
+    <LogItem Name="i844_9" Type="double" Alias="TDDLTE_MCS_UL_MCS_9"/>
+    <LogItem Name="i844_10" Type="double" Alias="TDDLTE_MCS_UL_MCS_10"/>
+    <LogItem Name="i844_11" Type="double" Alias="TDDLTE_MCS_UL_MCS_11"/>
+    <LogItem Name="i844_12" Type="double" Alias="TDDLTE_MCS_UL_MCS_12"/>
+    <LogItem Name="i844_13" Type="double" Alias="TDDLTE_MCS_UL_MCS_13"/>
+    <LogItem Name="i844_14" Type="double" Alias="TDDLTE_MCS_UL_MCS_14"/>
+    <LogItem Name="i844_15" Type="double" Alias="TDDLTE_MCS_UL_MCS_15"/>
+    <LogItem Name="i844_16" Type="double" Alias="TDDLTE_MCS_UL_MCS_16"/>
+    <LogItem Name="i844_17" Type="double" Alias="TDDLTE_MCS_UL_MCS_17"/>
+    <LogItem Name="i844_18" Type="double" Alias="TDDLTE_MCS_UL_MCS_18"/>
+    <LogItem Name="i844_19" Type="double" Alias="TDDLTE_MCS_UL_MCS_19"/>
+    <LogItem Name="i844_20" Type="double" Alias="TDDLTE_MCS_UL_MCS_20"/>
+    <LogItem Name="i844_21" Type="double" Alias="TDDLTE_MCS_UL_MCS_21"/>
+    <LogItem Name="i844_22" Type="double" Alias="TDDLTE_MCS_UL_MCS_22"/>
+    <LogItem Name="i844_23" Type="double" Alias="TDDLTE_MCS_UL_MCS_23"/>
+    <LogItem Name="i844_24" Type="double" Alias="TDDLTE_MCS_UL_MCS_24"/>
+    <LogItem Name="i844_25" Type="double" Alias="TDDLTE_MCS_UL_MCS_25"/>
+    <LogItem Name="i844_26" Type="double" Alias="TDDLTE_MCS_UL_MCS_26"/>
+    <LogItem Name="i844_27" Type="double" Alias="TDDLTE_MCS_UL_MCS_27"/>
+    <LogItem Name="i844_28" Type="double" Alias="TDDLTE_MCS_UL_MCS_28"/>
+    <LogItem Name="i844_29" Type="double" Alias="TDDLTE_MCS_UL_MCS_29"/>
+    <LogItem Name="i844_30" Type="double" Alias="TDDLTE_MCS_UL_MCS_30"/>
+    <LogItem Name="i844_31" Type="double" Alias="TDDLTE_MCS_UL_MCS_31"/>
   </LogLine>
   <LogLine Name="1283" Index="1283">
     <LogItem Name="i837" Type="double" Alias="TDDLTE_MCS_Average_DL_MCS"/>
-    <LogItem Name="i838_0" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_0"/>
-    <LogItem Name="i838_1" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_1"/>
-    <LogItem Name="i838_2" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_2"/>
-    <LogItem Name="i838_3" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_3"/>
-    <LogItem Name="i838_4" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_4"/>
-    <LogItem Name="i838_5" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_5"/>
-    <LogItem Name="i838_6" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_6"/>
-    <LogItem Name="i838_7" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_7"/>
-    <LogItem Name="i838_8" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_8"/>
-    <LogItem Name="i838_9" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_9"/>
-    <LogItem Name="i838_10" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_10"/>
-    <LogItem Name="i838_11" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_11"/>
-    <LogItem Name="i838_12" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_12"/>
-    <LogItem Name="i838_13" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_13"/>
-    <LogItem Name="i838_14" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_14"/>
-    <LogItem Name="i838_15" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_15"/>
-    <LogItem Name="i838_16" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_16"/>
-    <LogItem Name="i838_17" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_17"/>
-    <LogItem Name="i838_18" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_18"/>
-    <LogItem Name="i838_19" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_19"/>
-    <LogItem Name="i838_20" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_20"/>
-    <LogItem Name="i838_21" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_21"/>
-    <LogItem Name="i838_22" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_22"/>
-    <LogItem Name="i838_23" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_23"/>
-    <LogItem Name="i838_24" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_24"/>
-    <LogItem Name="i838_25" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_25"/>
-    <LogItem Name="i838_26" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_26"/>
-    <LogItem Name="i838_27" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_27"/>
-    <LogItem Name="i838_28" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_28"/>
-    <LogItem Name="i838_29" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_29"/>
-    <LogItem Name="i838_30" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_30"/>
-    <LogItem Name="i838_31" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS_31"/>
+    <LogItem Name="i838" Type="double" Alias="TDDLTE_MCS_Average_UL_MCS"/>
     <LogItem Name="i828" Type="double" Alias="TDDLTE_Schedul_Info_PUSCH_SRS_Rb_Num"/>
     <LogItem Name="i845" Type="double" Alias="TDDLTE_MCS_DL_Code0_QPSK_Count"/>
     <LogItem Name="i846" Type="double" Alias="TDDLTE_MCS_DL_Code0_16QAM_Count"/>
@@ -8963,81 +9118,9 @@
     <LogItem Name="i867_23" Type="double" Alias="TDDLTE_CQI_PMI_23"/>
     <LogItem Name="i867_24" Type="double" Alias="TDDLTE_CQI_PMI_24"/>
     <LogItem Name="i868" Type="double" Alias="TDDLTE_CQI_RI"/>
-    <LogItem Name="i869_0" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_0"/>
-    <LogItem Name="i869_1" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_1"/>
-    <LogItem Name="i869_2" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_2"/>
-    <LogItem Name="i869_3" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_3"/>
-    <LogItem Name="i869_4" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_4"/>
-    <LogItem Name="i869_5" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_5"/>
-    <LogItem Name="i869_6" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_6"/>
-    <LogItem Name="i869_7" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_7"/>
-    <LogItem Name="i869_8" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_8"/>
-    <LogItem Name="i869_9" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_9"/>
-    <LogItem Name="i869_10" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_10"/>
-    <LogItem Name="i869_11" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_11"/>
-    <LogItem Name="i869_12" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_12"/>
-    <LogItem Name="i869_13" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_13"/>
-    <LogItem Name="i869_14" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_14"/>
-    <LogItem Name="i869_15" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_15"/>
-    <LogItem Name="i869_16" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_16"/>
-    <LogItem Name="i869_17" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_17"/>
-    <LogItem Name="i869_18" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_18"/>
-    <LogItem Name="i869_19" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_19"/>
-    <LogItem Name="i869_20" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_20"/>
-    <LogItem Name="i869_21" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_21"/>
-    <LogItem Name="i869_22" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_22"/>
-    <LogItem Name="i869_23" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_23"/>
-    <LogItem Name="i869_24" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI_24"/>
-    <LogItem Name="i870_0" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_0"/>
-    <LogItem Name="i870_1" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_1"/>
-    <LogItem Name="i870_2" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_2"/>
-    <LogItem Name="i870_3" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_3"/>
-    <LogItem Name="i870_4" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_4"/>
-    <LogItem Name="i870_5" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_5"/>
-    <LogItem Name="i870_6" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_6"/>
-    <LogItem Name="i870_7" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_7"/>
-    <LogItem Name="i870_8" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_8"/>
-    <LogItem Name="i870_9" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_9"/>
-    <LogItem Name="i870_10" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_10"/>
-    <LogItem Name="i870_11" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_11"/>
-    <LogItem Name="i870_12" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_12"/>
-    <LogItem Name="i870_13" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_13"/>
-    <LogItem Name="i870_14" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_14"/>
-    <LogItem Name="i870_15" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_15"/>
-    <LogItem Name="i870_16" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_16"/>
-    <LogItem Name="i870_17" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_17"/>
-    <LogItem Name="i870_18" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_18"/>
-    <LogItem Name="i870_19" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_19"/>
-    <LogItem Name="i870_20" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_20"/>
-    <LogItem Name="i870_21" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_21"/>
-    <LogItem Name="i870_22" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_22"/>
-    <LogItem Name="i870_23" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_23"/>
-    <LogItem Name="i870_24" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI_24"/>
-    <LogItem Name="i871_0" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_0"/>
-    <LogItem Name="i871_1" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_1"/>
-    <LogItem Name="i871_2" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_2"/>
-    <LogItem Name="i871_3" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_3"/>
-    <LogItem Name="i871_4" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_4"/>
-    <LogItem Name="i871_5" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_5"/>
-    <LogItem Name="i871_6" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_6"/>
-    <LogItem Name="i871_7" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_7"/>
-    <LogItem Name="i871_8" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_8"/>
-    <LogItem Name="i871_9" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_9"/>
-    <LogItem Name="i871_10" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_10"/>
-    <LogItem Name="i871_11" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_11"/>
-    <LogItem Name="i871_12" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_12"/>
-    <LogItem Name="i871_13" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_13"/>
-    <LogItem Name="i871_14" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_14"/>
-    <LogItem Name="i871_15" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_15"/>
-    <LogItem Name="i871_16" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_16"/>
-    <LogItem Name="i871_17" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_17"/>
-    <LogItem Name="i871_18" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_18"/>
-    <LogItem Name="i871_19" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_19"/>
-    <LogItem Name="i871_20" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_20"/>
-    <LogItem Name="i871_21" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_21"/>
-    <LogItem Name="i871_22" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_22"/>
-    <LogItem Name="i871_23" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_23"/>
-    <LogItem Name="i871_24" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI_24"/>
+    <LogItem Name="i869" Type="double" Alias="TDDLTE_CQI_Subband_Code0_CQI"/>
+    <LogItem Name="i870" Type="double" Alias="TDDLTE_CQI_Subband_Code1_CQI"/>
+    <LogItem Name="i871" Type="double" Alias="TDDLTE_CQI_Wideband_Code0_CQI"/>
   </LogLine>
   <LogLine Name="1286" Index="1286">
     <LogItem Name="i878_0" Type="double" Alias="TDDLTE_CQI_Rank1_Band_CQI_0"/>
@@ -10513,38 +10596,7 @@
     <LogItem Name="i1016" Type="double" Alias="TDDLTE_Schedul_Info_DL_RB_Num"/>
     <LogItem Name="i1017" Type="double" Alias="TDDLTE_Schedul_Info_DL_RB_Start"/>
     <LogItem Name="i1018" Type="double" Alias="TDDLTE_MCS_Average_DL_Code0_MCS"/>
-    <LogItem Name="i1019_0" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_0"/>
-    <LogItem Name="i1019_1" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_1"/>
-    <LogItem Name="i1019_2" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_2"/>
-    <LogItem Name="i1019_3" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_3"/>
-    <LogItem Name="i1019_4" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_4"/>
-    <LogItem Name="i1019_5" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_5"/>
-    <LogItem Name="i1019_6" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_6"/>
-    <LogItem Name="i1019_7" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_7"/>
-    <LogItem Name="i1019_8" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_8"/>
-    <LogItem Name="i1019_9" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_9"/>
-    <LogItem Name="i1019_10" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_10"/>
-    <LogItem Name="i1019_11" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_11"/>
-    <LogItem Name="i1019_12" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_12"/>
-    <LogItem Name="i1019_13" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_13"/>
-    <LogItem Name="i1019_14" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_14"/>
-    <LogItem Name="i1019_15" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_15"/>
-    <LogItem Name="i1019_16" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_16"/>
-    <LogItem Name="i1019_17" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_17"/>
-    <LogItem Name="i1019_18" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_18"/>
-    <LogItem Name="i1019_19" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_19"/>
-    <LogItem Name="i1019_20" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_20"/>
-    <LogItem Name="i1019_21" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_21"/>
-    <LogItem Name="i1019_22" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_22"/>
-    <LogItem Name="i1019_23" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_23"/>
-    <LogItem Name="i1019_24" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_24"/>
-    <LogItem Name="i1019_25" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_25"/>
-    <LogItem Name="i1019_26" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_26"/>
-    <LogItem Name="i1019_27" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_27"/>
-    <LogItem Name="i1019_28" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_28"/>
-    <LogItem Name="i1019_29" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_29"/>
-    <LogItem Name="i1019_30" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_30"/>
-    <LogItem Name="i1019_31" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS_31"/>
+    <LogItem Name="i1019" Type="double" Alias="TDDLTE_MCS_Average_DL_Code1_MCS"/>
     <LogItem Name="i1020_0" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Modulation_0"/>
     <LogItem Name="i1020_1" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Modulation_1"/>
     <LogItem Name="i1020_2" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Modulation_2"/>
@@ -10577,7 +10629,38 @@
     <LogItem Name="i1020_29" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Modulation_29"/>
     <LogItem Name="i1020_30" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Modulation_30"/>
     <LogItem Name="i1020_31" Type="double" Alias="TDDLTE_MCS_DL_Code0_MCS_Modulation_31"/>
-    <LogItem Name="i1021" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation"/>
+    <LogItem Name="i1021_0" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_0"/>
+    <LogItem Name="i1021_1" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_1"/>
+    <LogItem Name="i1021_2" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_2"/>
+    <LogItem Name="i1021_3" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_3"/>
+    <LogItem Name="i1021_4" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_4"/>
+    <LogItem Name="i1021_5" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_5"/>
+    <LogItem Name="i1021_6" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_6"/>
+    <LogItem Name="i1021_7" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_7"/>
+    <LogItem Name="i1021_8" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_8"/>
+    <LogItem Name="i1021_9" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_9"/>
+    <LogItem Name="i1021_10" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_10"/>
+    <LogItem Name="i1021_11" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_11"/>
+    <LogItem Name="i1021_12" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_12"/>
+    <LogItem Name="i1021_13" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_13"/>
+    <LogItem Name="i1021_14" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_14"/>
+    <LogItem Name="i1021_15" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_15"/>
+    <LogItem Name="i1021_16" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_16"/>
+    <LogItem Name="i1021_17" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_17"/>
+    <LogItem Name="i1021_18" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_18"/>
+    <LogItem Name="i1021_19" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_19"/>
+    <LogItem Name="i1021_20" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_20"/>
+    <LogItem Name="i1021_21" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_21"/>
+    <LogItem Name="i1021_22" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_22"/>
+    <LogItem Name="i1021_23" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_23"/>
+    <LogItem Name="i1021_24" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_24"/>
+    <LogItem Name="i1021_25" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_25"/>
+    <LogItem Name="i1021_26" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_26"/>
+    <LogItem Name="i1021_27" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_27"/>
+    <LogItem Name="i1021_28" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_28"/>
+    <LogItem Name="i1021_29" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_29"/>
+    <LogItem Name="i1021_30" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_30"/>
+    <LogItem Name="i1021_31" Type="double" Alias="TDDLTE_MCS_DL_Code1_MCS_Modulation_31"/>
     <LogItem Name="i1022" Type="double" Alias="TDDLTE_MCS_UL_MCS_Modulation"/>
     <LogItem Name="i1023" Type="double" Alias="TDDLTE_MIMO_Antenna_correlation"/>
   </LogLine>
@@ -10611,31 +10694,7 @@
     <LogItem Name="i1025_23" Type="double" Alias="TDDLTE_CQI_R1_Wideband_PMI_23"/>
     <LogItem Name="i1025_24" Type="double" Alias="TDDLTE_CQI_R1_Wideband_PMI_24"/>
     <LogItem Name="i1027" Type="double" Alias="TDDLTE_CQI_R2_Wideband_PMI"/>
-    <LogItem Name="i1028_0" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_0"/>
-    <LogItem Name="i1028_1" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_1"/>
-    <LogItem Name="i1028_2" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_2"/>
-    <LogItem Name="i1028_3" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_3"/>
-    <LogItem Name="i1028_4" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_4"/>
-    <LogItem Name="i1028_5" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_5"/>
-    <LogItem Name="i1028_6" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_6"/>
-    <LogItem Name="i1028_7" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_7"/>
-    <LogItem Name="i1028_8" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_8"/>
-    <LogItem Name="i1028_9" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_9"/>
-    <LogItem Name="i1028_10" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_10"/>
-    <LogItem Name="i1028_11" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_11"/>
-    <LogItem Name="i1028_12" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_12"/>
-    <LogItem Name="i1028_13" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_13"/>
-    <LogItem Name="i1028_14" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_14"/>
-    <LogItem Name="i1028_15" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_15"/>
-    <LogItem Name="i1028_16" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_16"/>
-    <LogItem Name="i1028_17" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_17"/>
-    <LogItem Name="i1028_18" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_18"/>
-    <LogItem Name="i1028_19" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_19"/>
-    <LogItem Name="i1028_20" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_20"/>
-    <LogItem Name="i1028_21" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_21"/>
-    <LogItem Name="i1028_22" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_22"/>
-    <LogItem Name="i1028_23" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_23"/>
-    <LogItem Name="i1028_24" Type="double" Alias="TDDLTE_CQI_Wideband_CQI_24"/>
+    <LogItem Name="i1028" Type="double" Alias="TDDLTE_CQI_Wideband_CQI"/>
     <LogItem Name="i1030_0" Type="double" Alias="TDDLTE_CQI_R1_Wideband_SINR_0"/>
     <LogItem Name="i1030_1" Type="double" Alias="TDDLTE_CQI_R1_Wideband_SINR_1"/>
     <LogItem Name="i1030_2" Type="double" Alias="TDDLTE_CQI_R1_Wideband_SINR_2"/>
@@ -10696,31 +10755,7 @@
     <LogItem Name="i1026" Type="double" Alias="TDDLTE_CQI_R2_Subband_PMI"/>
   </LogLine>
   <LogLine Name="1337" Index="1337">
-    <LogItem Name="i1029_0" Type="double" Alias="TDDLTE_CQI_Subband_CQI_0"/>
-    <LogItem Name="i1029_1" Type="double" Alias="TDDLTE_CQI_Subband_CQI_1"/>
-    <LogItem Name="i1029_2" Type="double" Alias="TDDLTE_CQI_Subband_CQI_2"/>
-    <LogItem Name="i1029_3" Type="double" Alias="TDDLTE_CQI_Subband_CQI_3"/>
-    <LogItem Name="i1029_4" Type="double" Alias="TDDLTE_CQI_Subband_CQI_4"/>
-    <LogItem Name="i1029_5" Type="double" Alias="TDDLTE_CQI_Subband_CQI_5"/>
-    <LogItem Name="i1029_6" Type="double" Alias="TDDLTE_CQI_Subband_CQI_6"/>
-    <LogItem Name="i1029_7" Type="double" Alias="TDDLTE_CQI_Subband_CQI_7"/>
-    <LogItem Name="i1029_8" Type="double" Alias="TDDLTE_CQI_Subband_CQI_8"/>
-    <LogItem Name="i1029_9" Type="double" Alias="TDDLTE_CQI_Subband_CQI_9"/>
-    <LogItem Name="i1029_10" Type="double" Alias="TDDLTE_CQI_Subband_CQI_10"/>
-    <LogItem Name="i1029_11" Type="double" Alias="TDDLTE_CQI_Subband_CQI_11"/>
-    <LogItem Name="i1029_12" Type="double" Alias="TDDLTE_CQI_Subband_CQI_12"/>
-    <LogItem Name="i1029_13" Type="double" Alias="TDDLTE_CQI_Subband_CQI_13"/>
-    <LogItem Name="i1029_14" Type="double" Alias="TDDLTE_CQI_Subband_CQI_14"/>
-    <LogItem Name="i1029_15" Type="double" Alias="TDDLTE_CQI_Subband_CQI_15"/>
-    <LogItem Name="i1029_16" Type="double" Alias="TDDLTE_CQI_Subband_CQI_16"/>
-    <LogItem Name="i1029_17" Type="double" Alias="TDDLTE_CQI_Subband_CQI_17"/>
-    <LogItem Name="i1029_18" Type="double" Alias="TDDLTE_CQI_Subband_CQI_18"/>
-    <LogItem Name="i1029_19" Type="double" Alias="TDDLTE_CQI_Subband_CQI_19"/>
-    <LogItem Name="i1029_20" Type="double" Alias="TDDLTE_CQI_Subband_CQI_20"/>
-    <LogItem Name="i1029_21" Type="double" Alias="TDDLTE_CQI_Subband_CQI_21"/>
-    <LogItem Name="i1029_22" Type="double" Alias="TDDLTE_CQI_Subband_CQI_22"/>
-    <LogItem Name="i1029_23" Type="double" Alias="TDDLTE_CQI_Subband_CQI_23"/>
-    <LogItem Name="i1029_24" Type="double" Alias="TDDLTE_CQI_Subband_CQI_24"/>
+    <LogItem Name="i1029" Type="double" Alias="TDDLTE_CQI_Subband_CQI"/>
   </LogLine>
   <LogLine Name="1338" Index="1338">
     <LogItem Name="i1031" Type="double" Alias="TDDLTE_CQI_R1_Subband_SINR"/>
@@ -11650,14 +11685,4 @@
     <LogItem Name="i1229_30" Type="double" Alias="TDDLTE_Cell_Selection_Reselection_Ncell_Reselection_Info_AllowMeasBandwidth2_30"/>
     <LogItem Name="i1229_31" Type="double" Alias="TDDLTE_Cell_Selection_Reselection_Ncell_Reselection_Info_AllowMeasBandwidth2_31"/>
   </LogLine>
-  
-  <LogLine Name="DetailInfo" Index="20000">
-    <LogItem Name="i20000" Type="double" Alias="UEVersion"/>
-    <LogItem Name="i20001" Type="double" Alias="Ipconfig"/>
-  </LogLine>
-  
-  <LogLine Name="Dotting" Index="30000">
-    <LogItem Name="i30000" Type="string"/>
-  </LogLine>
-  
 </LogFormat>

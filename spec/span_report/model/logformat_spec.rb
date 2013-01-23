@@ -5,7 +5,7 @@ module SpanReport::Model
     
     let(:logformat) { Logformat.instance }
 
-    before(:each) do
+    before(:all) do
       logformat.load_xml("config/LogFormat_100.xml")
     end
 

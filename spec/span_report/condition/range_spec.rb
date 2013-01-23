@@ -5,7 +5,7 @@ module SpanReport::Condition
     context "range is [-10.5, 3]" do
       let(:range) { Range.new("ie1", "[-10.5, 3]") }
 
-      before(:each) do
+      before(:all) do
         range.parse
       end
 
@@ -31,7 +31,7 @@ module SpanReport::Condition
     context "range is (-10.5, 3)" do
       let(:range) { Range.new("ie1", "(-10.5, 3)") }
 
-      before(:each) do
+      before(:all) do
         range.parse
       end
 
@@ -45,7 +45,7 @@ module SpanReport::Condition
     context "range is [-10.5, 3)" do
       let(:range) { Range.new("ie1", "[-10.5, 3)") }
 
-      before(:each) do
+      before(:all) do
         range.parse
       end
 
@@ -59,7 +59,7 @@ module SpanReport::Condition
     context "range is (-10.5, 3]" do
       let(:range) { Range.new("ie1", "(-10.5, 3]") }
 
-      before(:each) do
+      before(:all) do
         range.parse
       end
 

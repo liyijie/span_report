@@ -12,16 +12,18 @@ module SpanReport::Logfile
   # 3. call back the process with perline data
   class FileReader
     
-    def initialize(filename)
-      @filename = filename
-      @unzip_path = ""
+    def initialize(files)
+      @files = files
+      @unzip_paths = []
     end
 
     def parse(processor)
-      filepath = unzip @filename, "./config"
-      logs = list_files(filepath, ["txt"])
-      logs.each do |logfile|
-        process(logfile, processor)
+      @files.each do |filename|
+        filepath = unzip filename, "./config"
+        logs = list_files(filepath, ["txt"])
+        logs.each do |logfile|
+          process(logfile, processor)
+        end
       end
     end
 
@@ -40,7 +42,7 @@ module SpanReport::Logfile
       unzip_dir = File.join dest_dir, zipfile_name
       Dir.mkdir(dest_dir) unless File.exist?(dest_dir)
       Dir.mkdir(unzip_dir) unless File.exist?(unzip_dir)
-      @unzip_path = unzip_dir
+      @unzip_paths << unzip_dir
 
       Zip::ZipFile.open zip_file do |zf|  
         zf.each do |e|
@@ -67,7 +69,9 @@ module SpanReport::Logfile
     end
 
     def clear_files
-      FileUtils.rm_rf @unzip_path
+      @unzip_paths.each do |unzip_path|
+        FileUtils.rm_rf unzip_path
+      end
     end
 
   end
