@@ -8,14 +8,14 @@ module SpanReport
     autoload :Section, "span_report/condition/section"
 
     def self.create(iename, relation, scope)
-      if type == 'range'
+      if relation == 'range'
         condition = Range.new(iename, scope)
-      elsif type == 'section'
+      elsif relation == 'section'
         condition = Section.new(iename, scope)
-      elsif type == 'equal'
+      elsif relation == 'equal'
         condition = Equal.new(iename, scope)
       else
-        condition = Base.new(iename, scope)
+        condition = Default.new(iename, scope)
       end
       condition.parse
       condition

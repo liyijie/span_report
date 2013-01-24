@@ -31,7 +31,7 @@ module SpanReport::Process
     #判断数据是否需要进行处理
     ############################################
     def data_needed? logdata
-      group_id = group_id = logdata.split(',', 3)[1].to_i
+      group_id = logdata.split(',', 3)[1].to_i
       @reg_groups.has_key? group_id
     end
 
