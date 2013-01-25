@@ -41,15 +41,19 @@ module SpanReport::Process
           counter_items.each do |counter_item|
             counter_name = counter_item.name
             counter_ievalue = contents[ie_index]
-            @kpi_caches[counter_name] = ReportValue.new unless @kpi_caches.has_key? counter_name
+            unless @kpi_caches.has_key? counter_name
+              @kpi_caches[counter_name] = SpanReport::Process::Value.create counter_item.count_mode
+            end
             report_value = @kpi_caches[counter_name]
             report_value.add_value counter_ievalue
           end
         end
       end
     end
+
     def reg_counter_item counter_item
       iename = counter_item.iename
+      #由于对于同一个ie可能会同时定义counter，因此这里使用数组
       @counter_item_map[iename] ||= []
       @counter_item_map[iename] << counter_item
       reg_iename iename, iename
@@ -71,67 +75,13 @@ module SpanReport::Process
     #3. kpiname[1]
     #4. kpiname[0][1]
     #########################################
-    def get_kpi_value(kpi_name, mode)
+    def get_kpi_value(kpi_name)
       reportvalue = @kpi_caches[kpi_name]
       if reportvalue
-        value = reportvalue.getvalue mode
+        value = reportvalue.getvalue
       end
       value ||= ""
     end
-  end
-
-  class ReportValue
-
-    attr_accessor :max, :min, :count, :sum, :recent
-
-    def initialize
-      @max = nil
-      @min = nil
-      @count = 0
-      @sum = 0.0
-      @recent = nil
-    end
-
-    def add_value ievalue
-      return if ievalue.nil? || ievalue.empty?
-      # max
-      @max = ievalue.to_f if @max.nil?
-      @max = ievalue.to_f if @max < ievalue.to_f
-      # min
-      @min = ievalue.to_f if @min.nil?
-      @min = ievalue.to_f if @min > ievalue.to_f
-      # count
-      @count += 1
-      # sum
-      @sum += ievalue.to_f
-      # recent
-      @recent = ievalue.to_f
-    end
-
-    def avg
-      if @count == 0
-        value = "N/A" 
-      else
-        value = @sum / @count
-      end
-    end
-
-    def getvalue mode
-      case mode
-      when "max"
-        value = max
-      when "min"
-        value = min
-      when "sum"
-        value = sum
-      when "avg"
-        value = avg
-      when "recent"
-        value = recent
-      end
-      value ||= ""
-    end
-    
   end
   
 end
