@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+require 'win32ole'
 module SpanReport::Process
 
   class Report < Base
@@ -39,6 +40,9 @@ module SpanReport::Process
         if @counter_item_map.has_key? ie_name
           counter_items = @counter_item_map[ie_name]
           counter_items.each do |counter_item|
+            #需要校验这条数据是否能满足counter item定义的条件
+            next unless counter_item.validate? @ie_caches
+
             counter_name = counter_item.name
             counter_ievalue = contents[ie_index]
             unless @kpi_caches.has_key? counter_name
@@ -82,6 +86,28 @@ module SpanReport::Process
       end
       value ||= ""
     end
+
+    class ReportExport
+      def initialize template_file
+        @template_file = template_file
+      end
+
+      def to_excel resultfile, kpi_caches
+        excel = WIN32OLE::new('excel.Application')
+        workbook = excel.Workbooks.Open @template_file
+        workbook.Worksheets.each do |worksheet|
+          worksheet.UsedRange.each do |cell|
+            if cell.Value =~ /^<.*>$/
+              kpiname = cell.Value
+              kpiname = kpiname.sub '<', ''
+              kpiname = kpiname.sub '>', ''
+              cell.Value = kpi_caches.get_kpi_value kpiname
+            end
+          end
+        end
+        workbook.SaveAs resultfile
+        workbook.close
+      end
+    end
   end
-  
 end

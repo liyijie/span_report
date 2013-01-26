@@ -15,5 +15,10 @@ module SpanReport::Condition
     def validate?(validate_datas)
       true
     end
+
+
+    def to_s
+      "{'#{@iename}','#{@relation}','#{@scope}'}"
+    end
   end
 end

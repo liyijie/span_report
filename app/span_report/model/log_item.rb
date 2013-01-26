@@ -15,5 +15,9 @@ module SpanReport::Model
       @type = type
     end
 
+    def equal? other
+      @name == other.name
+    end
+
   end
 end

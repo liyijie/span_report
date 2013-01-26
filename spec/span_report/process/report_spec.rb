@@ -10,8 +10,7 @@ module SpanReport::Process
       logformat.load_xml("config/LogFormat_100.xml")
     end
 
-    context "add one data" do
- 
+    context "add one data with no condition" do
 
       it "should be empty when the data is not relate" do
         report = Report.new
@@ -69,9 +68,12 @@ module SpanReport::Process
         logdata1 = "0,100,58095305:1,0,,3,;"
         logdata2 = "0,101,58095305:1,0,,3,;"
         config_datas = ["record", "", "count", "RecordId", "", ""]
+        config_datas_max = ["record_max", "", "max", "RecordId", "", ""]
         counter_item = SpanReport::Model::CounterItem.new config_datas
+        counter_item_max = SpanReport::Model::CounterItem.new config_datas_max
 
         report.reg_counter_item counter_item
+        report.reg_counter_item counter_item_max     
         report.add_logdata logdata
         report.get_kpi_value("record").should == 1
 
@@ -118,6 +120,30 @@ module SpanReport::Process
 
         report.add_logdata logdata2
         report.get_kpi_value("record").should == "1"
+      end
+    end
+
+    context "have self condition" do
+      it "should be the correct count value when the data is relate" do
+        report = Report.new
+        logdata = "0,100,58095305:0,0,,3,;"
+        logdata1 = "0,100,58095305:1,0,,3,;"
+        logdata2 = "0,101,58095305:1,0,,3,;"
+        config_datas = ["record", "", "count", "RecordId", "equal", "1"]
+        config_datas_max = ["record_max", "", "max", "RecordId", "", ""]
+        counter_item = SpanReport::Model::CounterItem.new config_datas
+        counter_item_max = SpanReport::Model::CounterItem.new config_datas_max
+
+        report.reg_counter_item counter_item
+        report.reg_counter_item counter_item_max     
+        report.add_logdata logdata
+        report.get_kpi_value("record").should == ""
+
+        report.add_logdata logdata1
+        report.get_kpi_value("record").should == 1
+
+        report.add_logdata logdata2
+        report.get_kpi_value("record").should == 1
       end
     end
   end

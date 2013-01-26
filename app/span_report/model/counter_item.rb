@@ -19,7 +19,6 @@ module SpanReport::Model
       @name = config_datas[0]
       @desc = config_datas[1]
       @count_mode = config_datas[2]
-
       @self_condition = SpanReport::Condition.create(config_datas[3], config_datas[4], config_datas[5])
 
       @iename = config_datas[3]
@@ -42,6 +41,16 @@ module SpanReport::Model
         return false if (!result)
       end
       return true
+    end
+
+    def to_s
+      display = "counter item is :'#{@name}'_'#{@desc}'_'#{@count_mode}':"
+      display << "self condition:#{self_condition}_"
+      display << "relation condition:"
+      @relate_conditions.each do |condition|
+        display << "#{condition}"
+      end
+      display
     end
 
   end

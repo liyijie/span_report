@@ -5,16 +5,21 @@ module SpanReport::Condition
 
     #scope的格式应该直接是一个数字，所以不用解析
     def parse
-      true
+      @scope = @scope.to_f
     end
 
     def validate?(validate_datas)
       result = false
       ievalue = validate_datas[@iename]
-      if ievalue == @scope
+      
+      if ievalue.to_f == @scope.to_f
         result = true
-        result
       end
+      result
+    end
+
+    def to_s
+      "{'#{@iename}','equal','#{@scope}'}"
     end
   end
 end

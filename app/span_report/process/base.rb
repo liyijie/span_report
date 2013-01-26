@@ -1,4 +1,5 @@
 # encoding: utf-8
+require "set"
 
 module SpanReport::Process
   class Base
@@ -18,7 +19,7 @@ module SpanReport::Process
     def reg_log_group iename
       logitem = SpanReport::Model::Logformat.instance.get_logitem(iename)
       if logitem
-        @reg_groups[logitem.group] ||= []
+        @reg_groups[logitem.group] ||= Set.new
         @reg_groups[logitem.group] << logitem
       end
     end

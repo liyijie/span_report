@@ -5,8 +5,8 @@ module SpanReport::Condition
 
     #[-1,0) (-1,0], (-1,0), [-1,0]"
     def parse
-      @scope = @scope.sub!(' ', '')
-
+      @scope = @scope.gsub(' ', '')
+      
       parse_result = false
       if @scope=~/^(\[|\().*,.*(\]|\))$/
         @low_mark = $1
@@ -16,6 +16,7 @@ module SpanReport::Condition
         @high_num = contents[2].to_f
         parse_result = true
       end
+      
       parse_result
     end
 
@@ -32,6 +33,10 @@ module SpanReport::Condition
         end
       end
       false
+    end
+
+    def to_s
+      "{'#{@iename}','range','#{@scope}'}"
     end
   end
 end

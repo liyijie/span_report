@@ -20,6 +20,5 @@ module SpanReport
       condition.parse
       condition
     end
-        
   end
 end
