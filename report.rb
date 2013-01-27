@@ -37,6 +37,12 @@ File.foreach("config/config.ini") do |line|
 end
 
 ###########################
+#读入报表模板
+###########################
+templatefile = "#{path}/config/OuterData.xlsx"
+excel_export = SpanReport::Process::ReportExport.new(templatefile)
+
+###########################
 #读取日志，处理日志
 ###########################
 SpanReport::Model::Logformat.instance.load_xml "config/LogFormat_100.xml"
@@ -53,34 +59,35 @@ if config_map["combine"] == "true"
   begin
     filereader = SpanReport::Logfile::FileReader.new logfiles
     filereader.parse(report)
-    resultfile = "#{path}/log/combine.xlsx"
-    templatefile = "#{path}/config/OuterData.xlsx"
-    excel_export = SpanReport::Process::Report::ReportExport.new(templatefile)
+    resultfile = "#{path}/log/combine.report.xlsx"
     excel_export.to_excel resultfile, report
+
+    report.clear
   rescue Exception => e
     puts e
   ensure
     filereader.clear_files
   end
-#日志分别导出
-# else
-#   logfiles.each do |logfile|
-#     begin
-#       filereader = SpanReport::Logfile::FileReader.new [logfile]
-#       filereader.parse(export)
-#       resultfile = logfile.sub('lgl', 'csv')
-#       export.write_result(resultfile)
-#     rescue Exception => e
-#       puts e.message
-#     ensure
-#       filereader.clear_files
-#     end
-#   end
-end
+# 日志分别导出
+else
+  logfiles.each do |logfile|
+    begin
+      filereader = SpanReport::Logfile::FileReader.new [logfile]
+      filereader.parse(report)
+      resultfile = "#{path}/#{logfile}"
+      resultfile = resultfile.sub('lgl', 'report.xlsx')
+      SpanReport.logger.debug "resultfile is: #{resultfile}"
 
-###########################
-#读入报表模板
-###########################
+      excel_export.to_excel resultfile, report
+      
+      report.clear
+    rescue Exception => e
+      next
+    ensure
+      filereader.clear_files
+    end
+  end
+end
 
 ###########################
 #生成报表结果文件

@@ -3,9 +3,14 @@
 module SpanReport::Condition
   class Default
 
+    attr_reader :iename, :scope
     def initialize(iename="", scope="")
       @iename = iename
       @scope = scope
+    end
+
+    def type
+      "default"
     end
 
     def parse

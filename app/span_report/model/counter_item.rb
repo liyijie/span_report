@@ -15,7 +15,7 @@ module SpanReport::Model
     #10-12.关联条件2
     #13-15.关联条件3
     ##################################
-    def initialize(config_datas)
+    def initialize(config_datas=[])
       @name = config_datas[0]
       @desc = config_datas[1]
       @count_mode = config_datas[2]
@@ -37,7 +37,7 @@ module SpanReport::Model
       result = self_condition.validate?(validate_datas)
       return false if (!result)
       relate_conditions.each do |relate_condition|
-        result = relate_condition.validate(validate_datas)
+        result = relate_condition.validate?(validate_datas)
         return false if (!result)
       end
       return true
@@ -48,9 +48,21 @@ module SpanReport::Model
       display << "self condition:#{self_condition}_"
       display << "relation condition:"
       @relate_conditions.each do |condition|
-        display << "#{condition}"
+        display << "#{condition}_"
       end
       display
+    end
+
+    def clone
+      item = CounterItem.new
+      item.name = @name
+      item.desc = @desc
+      item.count_mode = @count_mode
+      item.self_condition = @self_condition.clone
+
+      item.iename = @iename
+      item.relate_conditions = @relate_conditions.clone
+      item
     end
 
   end

@@ -6,19 +6,23 @@ module SpanReport
     autoload :Equal, "span_report/condition/equal"
     autoload :Range, "span_report/condition/range"
     autoload :Section, "span_report/condition/section"
+    autoload :ArrayCondition, "span_report/condition/array"
 
     def self.create(iename, relation, scope)
       if relation == 'range'
         condition = Range.new(iename, scope)
-      elsif relation == 'section'
-        condition = Section.new(iename, scope)
       elsif relation == 'equal'
         condition = Equal.new(iename, scope)
+      elsif relation == 'section'
+        condition = Section.new(iename, scope)
+      elsif relation == 'array'
+        condition = ArrayCondition.new(iename, scope)
       else
         condition = Default.new(iename, scope)
       end
       condition.parse
       condition
     end
+        
   end
 end

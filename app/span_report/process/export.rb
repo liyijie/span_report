@@ -78,5 +78,9 @@ module SpanReport::Process
       end
     end
 
+    def clear
+      @export_datas = []
+    end
+
   end
 end

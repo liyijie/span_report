@@ -25,7 +25,7 @@ def export(log_path)
 
   logfiles = list_files(log_path, ["lgl"])
 
-  File.foreach("config/export.ini") do |line|
+  File.foreach("config/map.ini") do |line|
     line.chop!
     contents = line.split ':'
     export.reg_iename contents[0], contents[1]
@@ -57,7 +57,7 @@ def export(log_path)
       begin
         filereader = SpanReport::Logfile::FileReader.new [logfile]
         filereader.parse(export)
-        resultfile = logfile.sub('lgl', 'csv')
+        resultfile = logfile.sub('lgl', 'map')
         export.write_result(resultfile)
         export.clear
       rescue Exception => e

@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-require 'win32ole'
 module SpanReport::Process
 
   class Report < Base
@@ -66,7 +65,7 @@ module SpanReport::Process
       relate_conditions = counter_item.relate_conditions
       relate_conditions.each do |condition|
         condition_iename = condition.iename
-        reg_iename condition_iename condition_iename
+        reg_iename condition_iename, condition_iename
       end
     end
 
@@ -87,27 +86,9 @@ module SpanReport::Process
       value ||= ""
     end
 
-    class ReportExport
-      def initialize template_file
-        @template_file = template_file
-      end
-
-      def to_excel resultfile, kpi_caches
-        excel = WIN32OLE::new('excel.Application')
-        workbook = excel.Workbooks.Open @template_file
-        workbook.Worksheets.each do |worksheet|
-          worksheet.UsedRange.each do |cell|
-            if cell.Value =~ /^<.*>$/
-              kpiname = cell.Value
-              kpiname = kpiname.sub '<', ''
-              kpiname = kpiname.sub '>', ''
-              cell.Value = kpi_caches.get_kpi_value kpiname
-            end
-          end
-        end
-        workbook.SaveAs resultfile
-        workbook.close
-      end
+    def clear
+      @ie_caches = {}
+      @kpi_caches = {}
     end
   end
 end

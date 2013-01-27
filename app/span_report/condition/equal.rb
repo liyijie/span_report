@@ -8,10 +8,14 @@ module SpanReport::Condition
       @scope = @scope.to_f
     end
 
+    def type
+      "equal"
+    end
+
     def validate?(validate_datas)
       result = false
       ievalue = validate_datas[@iename]
-      
+
       if ievalue.to_f == @scope.to_f
         result = true
       end

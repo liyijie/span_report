@@ -20,6 +20,10 @@ module SpanReport::Condition
       parse_result
     end
 
+    def type
+      "range"
+    end
+
     def validate?(validate_datas)
       ievalue = validate_datas[@iename]
       if ievalue

@@ -22,7 +22,11 @@ module SpanReport::Logfile
         filepath = unzip filename, "./config"
         logs = list_files(filepath, ["txt"])
         logs.each do |logfile|
-          process(logfile, processor)
+          begin
+            process(logfile, processor)
+          rescue Exception => e
+            next
+          end
         end
       end
     end
