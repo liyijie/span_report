@@ -17,6 +17,7 @@ module SpanReport::Process
       @counter_item_map = {} #key is iename, value ie counter_item list
       @ie_caches = {}
       @kpi_caches = {}
+      @kpi_items = []
     end
 
     ########################################
@@ -69,6 +70,10 @@ module SpanReport::Process
       end
     end
 
+    def reg_kpi_item kpi_item
+      @kpi_items << kpi_item
+    end
+
     ########################################
     #根据报表模板中的KPI获取相关的值
     #这里需要注意的是，这里的名称是可以进行扩展的
@@ -84,6 +89,12 @@ module SpanReport::Process
         value = reportvalue.getvalue
       end
       value ||= ""
+    end
+
+    def count_kpi_value
+      @kpi_items.each do |kpi_item|
+        kpi_item.eval_value! @kpi_caches
+      end
     end
 
     def clear

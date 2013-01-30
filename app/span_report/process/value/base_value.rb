@@ -12,11 +12,11 @@ module SpanReport::Process::Value
     end
 
     def add_value ievalue
-      process ievalue unless (ievalue.nil? || ievalue.empty?)
+      process ievalue unless (ievalue.nil? || ievalue == "")
     end
 
     def process ievalue
-      
+      @value = ievalue
     end
   end
 end

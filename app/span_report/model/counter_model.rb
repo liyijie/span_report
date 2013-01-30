@@ -5,10 +5,11 @@ module SpanReport::Model
 
   class CounterModel
 
-    attr_reader :counter_items
+    attr_reader :counter_items, :kpi_items
 
     def initialize
       @counter_items = []
+      @kpi_items = []
     end
     
     def parse model_file
@@ -70,6 +71,20 @@ module SpanReport::Model
         @counter_items.each do |item|
           SpanReport.logger.debug item
         end
+
+        worksheet_kpi = workbook.Worksheets('KPI定义')
+        row_count = worksheet_kpi.UsedRange.Rows.count
+
+        worksheet_kpi.Range("a2:c#{row_count}").Rows.each do |row|
+          config_datas = row.Value[0]
+          next if config_datas[0].nil?
+          kpi_item = KpiItem.new config_datas
+          @kpi_items << kpi_item
+        end
+        @kpi_items.each do |item|
+          SpanReport.logger.debug item
+        end
+
       rescue Exception => e
         SpanReport.logger.error e
       ensure

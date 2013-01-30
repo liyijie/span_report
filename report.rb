@@ -19,7 +19,10 @@ def list_files(file_path, file_types)
   files
 end
 
-path = Pathname.new(File.dirname(__FILE__)).realpath
+# Dir.chdir File.dirname __FILE__
+# path = Pathname.new(File.dirname(__FILE__)).realpath
+path = Dir.getwd
+puts "working path is: #{path}"
 ###########################
 #读取counter model
 ###########################
@@ -52,6 +55,10 @@ counter_model.counter_items.each do |counter_item|
   report.reg_counter_item counter_item
 end
 
+counter_model.kpi_items.each do |kpi_item|
+  report.reg_kpi_item kpi_item
+end
+
 logfiles = list_files("./log", ["lgl"])
 
 #多个日志合并导出
@@ -59,6 +66,7 @@ if config_map["combine"] == "true"
   begin
     filereader = SpanReport::Logfile::FileReader.new logfiles
     filereader.parse(report)
+    report.count_kpi_value
     resultfile = "#{path}/log/combine.report.xlsx"
     excel_export.to_excel resultfile, report
 
@@ -74,6 +82,7 @@ else
     begin
       filereader = SpanReport::Logfile::FileReader.new [logfile]
       filereader.parse(report)
+      report.count_kpi_value
       resultfile = "#{path}/#{logfile}"
       resultfile = resultfile.sub('lgl', 'report.xlsx')
       SpanReport.logger.debug "resultfile is: #{resultfile}"
