@@ -10,7 +10,7 @@ module SpanReport::Process
       @export_datas = []
     end
 
-    def process_data logdata
+    def process_data logdata, file_group=""
       contents = logdata.split(/,|:/)
       group_id = contents[1].to_i
       needed_ies = get_needed_ies group_id

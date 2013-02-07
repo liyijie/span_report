@@ -27,11 +27,11 @@ module SpanReport::Process
     #2. 如果是counter相关的数据，则计算相关的counter值
     #
     #########################################
-    def process_data logdata
+    def process_data logdata, file_group=""
       contents = logdata.split(/,|:/)
       group_id = contents[1].to_i
       needed_ies = get_needed_ies group_id
-      
+
       needed_ies.each do |logitem|
         ie_name = logitem.name
         ie_index = logitem.index + 3
@@ -45,15 +45,28 @@ module SpanReport::Process
 
             counter_name = counter_item.name
             counter_ievalue = contents[ie_index]
+            count_mode = counter_item.count_mode
 
-            unless @kpi_caches.has_key? counter_name
-              @kpi_caches[counter_name] = SpanReport::Process::Value.create counter_item.count_mode
+            #对不带file_group进行全局统计
+            add_counter_cache counter_name, counter_ievalue, count_mode
+
+            #如果file_group不为空，则需要再对file_group进行统计
+            unless file_group.empty?
+              group_counter_name = "#{file_group}##{counter_name}"
+              add_counter_cache group_counter_name, counter_ievalue, count_mode
             end
-            report_value = @kpi_caches[counter_name]
-            report_value.add_value counter_ievalue
           end
         end
       end
+    end
+
+    def add_counter_cache counter_name, counter_ievalue, count_mode
+      unless @kpi_caches.has_key? counter_name
+        @kpi_caches[counter_name] = SpanReport::Process::Value.create count_mode
+      end
+      
+      report_value = @kpi_caches[counter_name]
+      report_value.add_value counter_ievalue
     end
 
     def reg_counter_item counter_item

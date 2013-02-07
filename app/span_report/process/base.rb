@@ -37,11 +37,11 @@ module SpanReport::Process
     end
 
     ########################################
-    #增加一条log数据
+    #增加一条log数据，这里可以根据日志进行分组统计
     #先判断这条数据是否是报表相关的，如果不是需要的，这条数据可以直接舍弃
     ########################################
-    def add_logdata logdata
-      process_data logdata if data_needed? logdata
+    def add_logdata logdata, file_group=""
+      process_data(logdata, file_group) if data_needed? logdata
     end
 
   end

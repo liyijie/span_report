@@ -33,8 +33,9 @@ module SpanReport::Logfile
 
     def process(logfile, processor)
       puts "process #{logfile} ......"
+      file_group = get_file_group logfile
       File.foreach(logfile) do |line|
-        processor.add_logdata line
+        processor.add_logdata line, file_group
       end
     end
 
@@ -42,7 +43,7 @@ module SpanReport::Logfile
     #返回解压后的目录
     def unzip zip_file, dest_dir
       puts "unzip log #{zip_file}"
-      zipfile_name = File.split(zip_file)[1]
+      zipfile_name = File.split(zip_file)[-1]
       unzip_dir = File.join dest_dir, zipfile_name
       Dir.mkdir(dest_dir) unless File.exist?(dest_dir)
       Dir.mkdir(unzip_dir) unless File.exist?(unzip_dir)
@@ -76,6 +77,17 @@ module SpanReport::Logfile
       @unzip_paths.each do |unzip_path|
         FileUtils.rm_rf unzip_path
       end
+    end
+
+    ##这里传入的file是带路径的
+    def get_file_group file
+      filename = File.split(file)[-1]
+      contents = filename.split '.'
+      file_group = ""
+      if contents.size > 2
+        file_group = contents[-2]
+      end
+      file_group
     end
 
   end

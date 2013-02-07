@@ -176,17 +176,49 @@ module SpanReport::Process
 
         report.add_logdata logdata_rsrp_90
         report.add_logdata logdata_mcs
-        report.get_kpi_value("MCS_UL_0[0]").should == "1"
+        report.get_kpi_value("MCS_UL_0[0]").should == 1
         report.get_kpi_value("MCS_UL_0[1]").should == ""
-        report.get_kpi_value("MCS_UL_1[0]").should == "2"
+        report.get_kpi_value("MCS_UL_1[0]").should == 2
         report.get_kpi_value("MCS_UL_1[1]").should == ""
 
         report.add_logdata logdata_rsrp_100
         report.add_logdata logdata_mcs
-        report.get_kpi_value("MCS_UL_0[0]").should == "1"
-        report.get_kpi_value("MCS_UL_0[1]").should == "1"
-        report.get_kpi_value("MCS_UL_1[0]").should == "2"
-        report.get_kpi_value("MCS_UL_1[1]").should == "2"
+        report.get_kpi_value("MCS_UL_0[0]").should == 1
+        report.get_kpi_value("MCS_UL_0[1]").should == 1
+        report.get_kpi_value("MCS_UL_1[0]").should == 2
+        report.get_kpi_value("MCS_UL_1[1]").should == 2
+      end
+    end
+
+    context "test the file group static" do
+      it "should be static both with file group or not" do
+        report = Report.new
+        logdata = "0,100,58095305:0,0,,3,;"
+        logdata1 = "0,100,58095305:1,0,,3,;"
+        logdata2 = "0,100,58095305:2,0,,3,;"
+        config_datas = ["record", "", "sum", "RecordId", "", ""]
+        counter_item = SpanReport::Model::CounterItem.new config_datas
+
+        report.reg_counter_item counter_item
+        report.add_logdata logdata, "cell1-1"
+        report.get_kpi_value("record").should == 0
+        report.get_kpi_value("cell1-1#record").should == 0
+        report.get_kpi_value("cell1-2#record").should == ""
+
+        report.add_logdata logdata1
+        report.get_kpi_value("record").should == 1
+        report.get_kpi_value("cell1-1#record").should == 0
+        report.get_kpi_value("cell1-2#record").should == ""
+
+        report.add_logdata logdata2, "cell1-2"
+        report.get_kpi_value("record").should == 3
+        report.get_kpi_value("cell1-1#record").should == 0
+        report.get_kpi_value("cell1-2#record").should == 2
+
+        report.add_logdata logdata2, "cell1-2"
+        report.get_kpi_value("record").should == 5
+        report.get_kpi_value("cell1-1#record").should == 0
+        report.get_kpi_value("cell1-2#record").should == 4
       end
     end
   end

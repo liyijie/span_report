@@ -16,7 +16,7 @@ module SpanReport::Process::Value
     def getvalue
       value = ""
       if @count == 0
-        value = "N/A"
+        value = ""
       else
         value = @sum/@count
       end
