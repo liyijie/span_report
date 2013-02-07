@@ -146,5 +146,48 @@ module SpanReport::Process
         report.get_kpi_value("record").should == 1
       end
     end
+
+    context "have array and section condition" do
+      it "has the mcs data the log id is 1277, condition is rsrp the log id is 1189" do
+        report = Report.new
+
+        logdata_mcs = "0,1277,58095305:1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,
+        22,23,24,25,26,27,28,29,30,31,32,33,34"
+
+        logdata_rsrp_90 = "0,1189,58095306:,,,,,,90,,,"
+        logdata_rsrp_100= "0,1189,58095306:,,,,,,100,,,"
+
+        mcs_condition1_1 = ["MCS_UL_0[0]", "", "sum", "TDDLTE_MCS_DL_Code0_MCS_Count_0", "", "", 
+                 "TDDLTE_L1_measurement_Serving_Cell_Measurement_RSRP", "range", "[90,100)"]
+        mcs_condition1_2 = ["MCS_UL_0[1]", "", "sum", "TDDLTE_MCS_DL_Code0_MCS_Count_0", "", "", 
+                 "TDDLTE_L1_measurement_Serving_Cell_Measurement_RSRP", "range", "[100,110)"]
+        report.reg_counter_item SpanReport::Model::CounterItem.new mcs_condition1_1
+        report.reg_counter_item SpanReport::Model::CounterItem.new mcs_condition1_2
+        mcs_condition2_1 = ["MCS_UL_1[0]", "", "sum", "TDDLTE_MCS_DL_Code0_MCS_Count_1", "", "", 
+                 "TDDLTE_L1_measurement_Serving_Cell_Measurement_RSRP", "range", "[90,100)"]
+        mcs_condition2_2 = ["MCS_UL_1[1]", "", "sum", "TDDLTE_MCS_DL_Code0_MCS_Count_1", "", "", 
+         "TDDLTE_L1_measurement_Serving_Cell_Measurement_RSRP", "range", "[100,110)"]
+
+        report.reg_counter_item SpanReport::Model::CounterItem.new mcs_condition2_1
+        report.reg_counter_item SpanReport::Model::CounterItem.new mcs_condition2_2
+
+        report.add_logdata logdata_mcs
+        report.get_kpi_value("MCS_UL_0[0]").should == ""
+
+        report.add_logdata logdata_rsrp_90
+        report.add_logdata logdata_mcs
+        report.get_kpi_value("MCS_UL_0[0]").should == "1"
+        report.get_kpi_value("MCS_UL_0[1]").should == ""
+        report.get_kpi_value("MCS_UL_1[0]").should == "2"
+        report.get_kpi_value("MCS_UL_1[1]").should == ""
+
+        report.add_logdata logdata_rsrp_100
+        report.add_logdata logdata_mcs
+        report.get_kpi_value("MCS_UL_0[0]").should == "1"
+        report.get_kpi_value("MCS_UL_0[1]").should == "1"
+        report.get_kpi_value("MCS_UL_1[0]").should == "2"
+        report.get_kpi_value("MCS_UL_1[1]").should == "2"
+      end
+    end
   end
 end

@@ -14,7 +14,8 @@ module SpanReport
   autoload :Logfile, "span_report/logfile"
   autoload :Process, "span_report/process"
 
-  @@logger = Logger.new("log.txt")
+  file = open('log.txt', File::WRONLY | File::CREAT)  
+  @@logger = Logger.new(file)
 
   def self.logger
     @@logger

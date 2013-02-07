@@ -20,7 +20,7 @@ module SpanReport::Model
       SpanReport.logger.debug "kpi_eval is:#{@kpi_eval}"
       return if @kpi_eval.nil? || @kpi_eval.empty?
       eval_string = @kpi_eval
-      eval_string = eval_string.gsub(/<\w*>/) do |match|
+      eval_string = eval_string.gsub(/<[\w\[\]]*>/) do |match|
         match = match.sub '<', ''
         match = match.sub '>', ''
         SpanReport.logger.debug "match is:#{match}"
@@ -35,11 +35,12 @@ module SpanReport::Model
       end
       begin
         value = eval eval_string
-        SpanReport.logger.debug "eval_string is:#{eval_string}"
-        SpanReport.logger.debug "eval value is:#{value}"
       rescue Exception => e
-        value = "N/A"
+        value = ""
       end
+      SpanReport.logger.debug "eval_string is:#{eval_string}"
+      SpanReport.logger.debug "eval value is:#{value}"
+      
       kpi_value = SpanReport::Process::Value.create ""
       kpi_value.add_value value
       kpi_caches[@name] = kpi_value
