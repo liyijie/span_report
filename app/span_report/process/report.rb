@@ -51,8 +51,10 @@ module SpanReport::Process
             add_counter_cache counter_name, counter_ievalue, count_mode
 
             #如果file_group不为空，则需要再对file_group进行统计
+            SpanReport.logger.debug "file_group is: #{file_group}"
             unless file_group.empty?
               group_counter_name = "#{file_group}##{counter_name}"
+              SpanReport.logger.debug "group_counter_name is: #{group_counter_name}"
               add_counter_cache group_counter_name, counter_ievalue, count_mode
             end
           end

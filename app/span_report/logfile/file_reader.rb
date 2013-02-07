@@ -20,10 +20,11 @@ module SpanReport::Logfile
     def parse(processor)
       @files.each do |filename|
         filepath = unzip filename, "./config"
+        file_group = get_file_group filename
         logs = list_files(filepath, ["txt"])
         logs.each do |logfile|
           begin
-            process(logfile, processor)
+            process(logfile, processor, file_group)
           rescue Exception => e
             next
           end
@@ -31,9 +32,8 @@ module SpanReport::Logfile
       end
     end
 
-    def process(logfile, processor)
-      puts "process #{logfile} ......"
-      file_group = get_file_group logfile
+    def process(logfile, processor, file_group)
+      puts "process #{logfile}, file_group is:#{file_group} ......"
       File.foreach(logfile) do |line|
         processor.add_logdata line, file_group
       end
