@@ -53,16 +53,9 @@ module SpanReport::Model
       display
     end
 
-    def clone
-      item = CounterItem.new
-      item.name = @name
-      item.desc = @desc
-      item.count_mode = @count_mode
-      item.self_condition = @self_condition.clone
-
-      item.iename = @iename
-      item.relate_conditions = @relate_conditions.clone
-      item
+    def initialize_copy(orig)
+      @self_condition = @self_condition.dup
+      @relate_conditions = @relate_conditions.dup
     end
 
   end

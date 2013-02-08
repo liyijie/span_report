@@ -93,9 +93,10 @@ module SpanReport::Process
     #这里需要注意的是，这里的名称是可以进行扩展的
     #基本的格式如下：
     #1. kpiname
-    #2. logkey.kpiname
+    #2. loggroup#kpiname
     #3. kpiname[1]
     #4. kpiname[0][1]
+    #5. kpiname_1[0][1]
     #########################################
     def get_kpi_value(kpi_name)
       reportvalue = @kpi_caches[kpi_name]
