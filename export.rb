@@ -23,7 +23,7 @@ def export(log_path)
   SpanReport::Model::Logformat.instance.load_xml "config/LogFormat_100.xml"
   export = SpanReport::Process::Export.new
 
-  logfiles = list_files(log_path, ["lgl"])
+  logfiles = SpanReport.list_files(log_path, ["lgl"])
 
   File.foreach("config/export.ini") do |line|
     line.chop!
