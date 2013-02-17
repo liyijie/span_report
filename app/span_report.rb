@@ -21,4 +21,51 @@ module SpanReport
     @@logger
   end
 
+  #递归遍历文件夹下指定类型的文件,只会遍历一层文件夹
+  def self.list_files(file_path, file_types)
+    files = []
+
+    Dir.foreach file_path do |file|
+      next if file == "." or file == ".."
+
+      #文件夹，展开，里面的日志是分组日志
+      filename = "#{file_path}/#{file}"
+      if File.directory? filename
+        group = file
+        Dir.foreach(filename) do |logfile|
+          next if logfile == "." or logfile == ".."
+          file_types.each do |file_type|
+            if logfile=~/.#{file_type}$/
+              fileinfo = FileInfo.new "#{filename}/#{logfile}", group
+              files << fileinfo
+            end
+          end
+        end
+      else
+        file_types.each do |file_type|
+          if filename=~/.#{file_type}$/
+            fileinfo = FileInfo.new filename, ""
+            files << fileinfo
+          end
+        end
+      end
+    end
+
+    files
+  end
+
+
+  class FileInfo
+
+    attr_accessor :filename, :filegroup
+    def initialize filename, filegroup
+      @filename = filename
+      @filegroup = filegroup
+    end
+
+    def to_s
+      "filename is:#{filename}, filegroup is:#{filegroup}"
+    end
+  end
+
 end

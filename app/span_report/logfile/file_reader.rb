@@ -18,9 +18,11 @@ module SpanReport::Logfile
     end
 
     def parse(processor)
-      @files.each do |filename|
+      @files.each do |fileinfo|
+        filename = fileinfo.filename
         filepath = unzip filename, "./config"
-        file_group = get_file_group filename
+        # file_group = get_file_group filename
+        file_group = fileinfo.filegroup
         logs = list_files(filepath, ["txt"])
         logs.each do |logfile|
           begin

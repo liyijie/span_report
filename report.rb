@@ -5,19 +5,19 @@ require_relative "app/span_report"
 
 
 #遍历文件夹下指定类型的文件
-def list_files(file_path, file_types)
-  files = []
-  if (File.directory? file_path)
-    Dir.foreach(file_path) do |file|
-      file_types.each do |file_type|
-        if file=~/.#{file_type}$/
-          files << "#{file_path}/#{file}"
-        end
-      end
-    end
-  end
-  files
-end
+# def list_files(file_path, file_types)
+#   files = []
+#   if (File.directory? file_path)
+#     Dir.foreach(file_path) do |file|
+#       file_types.each do |file_type|
+#         if file=~/.#{file_type}$/
+#           files << "#{file_path}/#{file}"
+#         end
+#       end
+#     end
+#   end
+#   files
+# end
 
 # Dir.chdir File.dirname __FILE__
 # path = Pathname.new(File.dirname(__FILE__)).realpath
@@ -59,7 +59,7 @@ counter_model.kpi_items.each do |kpi_item|
   report.reg_kpi_item kpi_item
 end
 
-logfiles = list_files("./log", ["lgl"])
+logfiles = SpanReport.list_files("./log", ["lgl"])
 
 #多个日志合并导出
 if config_map["combine"] == "true"
