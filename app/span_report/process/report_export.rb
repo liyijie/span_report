@@ -2,7 +2,7 @@
 require 'win32ole'
 
 module SpanReport::Process
-  # class Report
+
     class ReportExport
       def initialize template_file
         @template_file = template_file
@@ -30,5 +30,5 @@ module SpanReport::Process
         end
       end
     end
-  # end
+
 end

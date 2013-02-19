@@ -7,6 +7,7 @@ module SpanReport
     autoload :Range, "span_report/condition/range"
     autoload :Section, "span_report/condition/section"
     autoload :ArrayCondition, "span_report/condition/array"
+    autoload :StringCondition, "span_report/condition/string"
 
     def self.create(iename, relation, scope)
       if relation == 'range'
@@ -17,6 +18,8 @@ module SpanReport
         condition = Section.new(iename, scope)
       elsif relation == 'array'
         condition = ArrayCondition.new(iename, scope)
+      elsif relation == 'string'
+        condition = StringCondition.new(iename, scope)  
       else
         condition = Default.new(iename, scope)
       end

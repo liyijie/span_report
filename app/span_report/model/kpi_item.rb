@@ -20,7 +20,7 @@ module SpanReport::Model
       SpanReport.logger.debug "kpi_eval is:#{@kpi_eval}"
       return if @kpi_eval.nil? || @kpi_eval.empty?
       eval_string = @kpi_eval
-      eval_string = eval_string.gsub(/<[\w\[\]]*>/) do |match|
+      eval_string = eval_string.gsub(/<[\w\[\]\$\#]*>/) do |match|
         match = match.sub '<', ''
         match = match.sub '>', ''
         SpanReport.logger.debug "match is:#{match}"
