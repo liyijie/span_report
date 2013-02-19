@@ -18,10 +18,11 @@ module SpanReport::Process
         workbook.Worksheets.each do |worksheet|
           worksheet.UsedRange.each do |cell|
             kpiname = cell.Value.to_s
+            kpiname = kpiname.encode "utf-8"
             if kpiname =~ /^<.*>$/
-              kpiname = cell.Value.to_s
-              if kpiname =~ /<[\w\[\]]*\$/
-                kpiname = kpiname.gsub(/<[\w\[\]]*\$/) do |match|
+              if kpiname =~ /<[^\$<>]*\$/
+                # kpiname = kpiname.gsub(/<[\w\[\]]*\$/) do |match|
+                kpiname = kpiname.gsub(/<[^\$<>]*\$/) do |match|
                   info_name = match
                   info_name = info_name.sub '<', ''
                   info_name = info_name.sub '$', ''

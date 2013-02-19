@@ -35,8 +35,6 @@ module SpanReport::Process
         cell_counter_name = "#{cell_name}$#{counter_name}"
         super nodeb_counter_name, counter_ievalue, count_mode
         super cell_counter_name, counter_ievalue, count_mode
-        SpanReport.logger.debug "nodeb_counter_name is:#{nodeb_counter_name}"
-        SpanReport.logger.debug "cell_counter_name is:#{cell_counter_name}"
       end
     end
 

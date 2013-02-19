@@ -11,8 +11,7 @@ module SpanReport::Process
 
     it "should be reg pci and freq" do
       report.add_nodeb_cell_info(Array.new)
-      report.get_needed_ies(1188).should be_include("TDDLTE_Scell_Radio_Parameters_Scell_PCI")
-      report.get_needed_ies(1188).should be_include("TDDLTE_Scell_Radio_Parameters_Frequency_DL")
+      report.get_needed_ies(1188).size.should == 2
     end
   end
 end

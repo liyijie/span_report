@@ -50,7 +50,9 @@ module SpanReport
         end
       end
     end
-
+    files.each do |fileinfo|
+      SpanReport.logger.debug fileinfo
+    end
     files
   end
 
@@ -59,8 +61,8 @@ module SpanReport
 
     attr_accessor :filename, :filegroup
     def initialize filename, filegroup
-      @filename = filename
-      @filegroup = filegroup
+      @filename = filename.encode "utf-8"
+      @filegroup = filegroup.encode "utf-8"
     end
 
     def to_s

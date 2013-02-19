@@ -19,11 +19,12 @@ module SpanReport::Condition
       if ievalue.strip == @scope
         result = true
       end
+      SpanReport.logger.debug "string condition value is:#{@scope}, ievalue is:#{ievalue.strip}, string result is:#{result}"
       result
     end
 
     def to_s
-      "{'#{@iename}','equal','#{@scope}'}"
+      "{'#{@iename}','string','#{@scope}'}"
     end
   end
 end

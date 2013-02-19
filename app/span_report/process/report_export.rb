@@ -15,7 +15,8 @@ module SpanReport::Process
           workbook.Worksheets.each do |worksheet|
             worksheet.UsedRange.each do |cell|
               if cell.Value =~ /^<.*>$/
-                kpiname = cell.Value
+                kpiname = cell.Value.to_s
+                kpiname = kpiname.encode 'utf-8'
                 kpiname = kpiname.sub '<', ''
                 kpiname = kpiname.sub '>', ''
                 cell.Value = kpi_caches.get_kpi_value kpiname
