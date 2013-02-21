@@ -4,6 +4,7 @@ module SpanReport::Process
 
   class Report < Base
 
+    attr_accessor :kpi_caches
     ########################################
     #缓存中保存的key都是长IE的名称，方便进行访问
     #通过log组号和IE所在的相关位置

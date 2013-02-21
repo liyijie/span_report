@@ -36,24 +36,35 @@ module SpanReport::Process
               else
                 cell.Value = kpi_caches.get_kpi_value kpiname
               end
+            elsif kpiname =~ /^{.*}$/
+              #this is eval kpi
+              kpiname = kpiname.gsub(/<[^\$<>]*\$/) do |match|
+                info_name = match
+                info_name = info_name.sub '<', ''
+                info_name = info_name.sub '$', ''
+                match = match.sub info_name, nodeb_cell_info[info_name].to_s
+              end
+              kpiname = kpiname.sub '{', ''
+              kpiname = kpiname.sub '}', ''
+              kpi_item = SpanReport::Model::KpiItem.new(["", "", kpiname])
+              value = kpi_item.eval_value kpi_caches.kpi_caches
+              cell.Value = value
             end
           end
         end
+        workbook.SaveAs resultfile
       rescue Exception => e
         SpanReport.logger.error e
         puts e.backtrace.join("\n")
       ensure
-        workbook.SaveAs resultfile
         workbook.close
       end
     end
 
     def to_excels result_path, kpi_caches
       nodeb_info_map = trans_to_nodeb_info_map @cell_infos
-      # puts "nodeb_info_map is: #{nodeb_info_map.inspect}"
       nodeb_info_map.each do |nodeb_name, cell_infos|
         resultfile = "#{result_path}/#{nodeb_name}_单站验证报告.xlsx"
-        puts "result file is:#{resultfile}"
         nodeb_cell_info = {}
         nodeb_cell_info["nodeb"] = nodeb_name
         cell_infos.each_with_index do |cell_info, index|
