@@ -9,6 +9,7 @@ module SpanReport::Process
       end
 
       def to_excel resultfile, kpi_caches
+        puts "result file:#{resultfile}"
         excel = WIN32OLE::new('excel.Application')
         workbook = excel.Workbooks.Open @template_file
         begin

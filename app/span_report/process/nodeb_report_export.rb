@@ -95,6 +95,7 @@ module SpanReport::Process
         end
       rescue Exception => e
         SpanReport.logger.error e
+        puts e
       ensure
         workbook.close
       end

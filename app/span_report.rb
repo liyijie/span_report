@@ -13,6 +13,7 @@ module SpanReport
   autoload :Model, "span_report/model"
   autoload :Logfile, "span_report/logfile"
   autoload :Process, "span_report/process"
+  autoload :Context, "span_report/context"
 
   file = open('log.txt', File::WRONLY | File::CREAT)  
   @@logger = Logger.new(file)

@@ -59,6 +59,7 @@ module SpanReport::Process
     end
 
     def write_result result_file
+      puts "export file is:#{result_file}"
       File.open(result_file, "w") do |file|
         head = "Time,PCTime,UEid"
         @reg_ies.each do |iename|
