@@ -11,6 +11,7 @@ module SpanReport::Process
     end
 
     def to_excel resultfile, kpi_caches, nodeb_cell_info
+      resultfile = resultfile.gsub(/\//, "\\\\")
       puts "save file:#{resultfile}"
       excel = WIN32OLE::new('excel.Application')
       workbook = excel.Workbooks.Open @template_file
@@ -63,7 +64,11 @@ module SpanReport::Process
 
     def to_excels result_path, kpi_caches
       nodeb_info_map = trans_to_nodeb_info_map @cell_infos
-      nodeb_info_map.each do |nodeb_name, cell_infos|
+      relate_nodebs = kpi_caches.relate_nodebs
+
+      relate_nodebs.each do |nodeb_name|
+        cell_infos = nodeb_info_map[nodeb_name]
+        cell_infos ||= []
         resultfile = "#{result_path}/#{nodeb_name}_单站验证报告.xlsx"
         nodeb_cell_info = {}
         nodeb_cell_info["nodeb"] = nodeb_name
@@ -82,7 +87,7 @@ module SpanReport::Process
         worksheet = workbook.Worksheets('cell_info')
         row_count = worksheet.UsedRange.Rows.count
 
-        worksheet.Range("a2:d#{row_count}").Rows.each do |row|
+        worksheet.Range("a2:f#{row_count}").Rows.each do |row|
           config_datas = row.Value[0]
           next if config_datas[0].nil?
           cell_info = CellInfo.new
@@ -91,6 +96,8 @@ module SpanReport::Process
           cell_info.cell_name = config_datas[1].to_s.encode("utf-8")
           cell_info.pci = config_datas[2].to_s.encode("utf-8")
           cell_info.freq = config_datas[3].to_s.encode("utf-8")
+          cell_info.lat = config_datas[4].to_s.encode("utf-8")
+          cell_info.lon = config_datas[5].to_s.encode("utf-8")
           @cell_infos << cell_info
         end
       rescue Exception => e
@@ -116,7 +123,7 @@ module SpanReport::Process
     end
 
     class CellInfo
-      attr_accessor :nodeb_name, :cell_name, :pci, :freq
+      attr_accessor :nodeb_name, :cell_name, :pci, :freq, :lat, :lon
 
       def initialize
         

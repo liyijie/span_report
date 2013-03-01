@@ -6,7 +6,7 @@ module SpanReport::Context
 
     it "should load relate" do
       context.load_config
-      context.
+      context.cell_info
 
     end
   end
