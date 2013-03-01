@@ -28,6 +28,8 @@ module SpanReport
 
     Dir.foreach file_path do |file|
       next if file == "." or file == ".."
+      file = file.encode 'utf-8'
+      file_path = file_path.encode 'utf-8'
 
       #文件夹，展开，里面的日志是分组日志
       filename = "#{file_path}/#{file}"
@@ -35,6 +37,7 @@ module SpanReport
         group = file
         Dir.foreach(filename) do |logfile|
           next if logfile == "." or logfile == ".."
+          logfile = logfile.encode 'utf-8'
           file_types.each do |file_type|
             if logfile=~/.#{file_type}$/
               fileinfo = FileInfo.new "#{filename}/#{logfile}", group
