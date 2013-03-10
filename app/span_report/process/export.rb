@@ -8,6 +8,7 @@ module SpanReport::Process
     def initialize
       super
       @export_datas = []
+      @file = nil
     end
 
     def process_data logdata, file_group=""
@@ -15,13 +16,12 @@ module SpanReport::Process
       group_id = contents[1].to_i
       needed_ies = get_needed_ies group_id
 
-      #last data
       last_data = @export_datas[-1]
       last_data ||= []
-      is_lastdata = false
-      if contents[2] == last_data[1] && contents[0] == last_data[2] 
+      #如果是和上一条一样时间的数据，如果值不为空，则进行覆盖
+      if contents[2] == last_data[1] && contents[0] == last_data[2]
         export_data = last_data
-        is_lastdata = true
+      #如果是和上一条不一样的时间，如果值不为空，则创建一条，加入到队列中
       else
         export_data = []
         #time
@@ -32,18 +32,20 @@ module SpanReport::Process
         export_data[2] = contents[0]
       end
 
-      #ievalues
-      is_value = false
       needed_ies.each do |logitem|
         ie_index = logitem.index + 3
         ie_name = logitem.name
         data_index = get_data_index ie_name
 
-        export_data[data_index] = contents[ie_index] if data_index
-        is_value = true if data_index && !contents[ie_index].nil? && !is_lastdata
+        if data_index && contents[ie_index] && !contents[ie_index].empty?
+          export_data[data_index] = contents[ie_index]
+        end
       end
 
-      @export_datas << export_data if is_value
+      if export_data.size > 3
+        @export_datas << export_data 
+        write_result
+      end
     end
 
     def get_data_index iename
@@ -58,15 +60,18 @@ module SpanReport::Process
       dis_time = "#{time.hour}:#{time.min}:#{format("%.3f", time.sec+time.subsec)}"
     end
 
-    def write_result result_file
+    def config_export_file result_file
       puts "export file is:#{result_file}"
-      File.open(result_file, "w") do |file|
-        head = "Time,PCTime,UEid"
-        @reg_ies.each do |iename|
-          head << ",#{@alis_map[iename]}"
-        end
-        file.puts head
+      @file = File.new(result_file, "w")
+      head = "Time,PCTime,UEid"
+      @reg_ies.each do |iename|
+        head << ",#{@alis_map[iename]}"
+      end
+      @file.puts head
+    end
 
+    def write_result   
+      if @export_datas.size > 100
         @export_datas.each do |datas|
           data_string = ""
           datas.each_with_index do |data, index|
@@ -74,8 +79,9 @@ module SpanReport::Process
             data_string << data
             data_string << "," if index != datas.length-1
           end
-          file.puts data_string
+          @file.puts data_string
         end
+        @export_datas.clear
       end
     end
 

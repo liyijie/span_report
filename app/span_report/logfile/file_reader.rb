@@ -40,9 +40,11 @@ module SpanReport::Logfile
     def process(logfile, processor, file_group)
       # puts "process #{logfile}, file_group is:#{file_group} ......"
       putc "."
+      processor.before_process if processor.respond_to? :before_process
       File.foreach(logfile) do |line|
         processor.add_logdata line, file_group
       end
+      processor.before_process if processor.respond_to? :after_process
     end
 
     #解压文件到临时目录中，为每个日志都解压到当前的文件夹中

@@ -15,7 +15,7 @@ module SpanReport
   autoload :Process, "span_report/process"
   autoload :Context, "span_report/context"
 
-  file = open('log.txt', File::WRONLY | File::CREAT)  
+  file = open('log.txt', File::WRONLY | File::CREAT | File::TRUNC)  
   @@logger = Logger.new(file)
 
   def self.logger

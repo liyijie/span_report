@@ -29,11 +29,12 @@ module SpanReport::Context
       #多个日志合并导出
       if @combine == "true"
         begin
+          resultfile = "#{@output_log}/combine.export.csv"
+          export.config_export_file resultfile
           filereader = SpanReport::Logfile::FileReader.new logfiles
           filereader.parse(export)
-          resultfile = "#{@output_log}/combine.export.csv"
 
-          export.write_result(resultfile)
+          # export.write_result(resultfile)
           export.clear
         rescue Exception => e
           puts e
@@ -44,11 +45,14 @@ module SpanReport::Context
       else
         logfiles.each do |logfile|
           begin
-            filereader = SpanReport::Logfile::FileReader.new [logfile]
-            filereader.parse(export)
             resultfile = File.basename logfile.filename
             resultfile = resultfile.sub('lgl', 'export.csv')
-            resultfile = "#{output_log}/resultfile"
+            resultfile = "#{output_log}/#{resultfile}"
+            export.config_export_file resultfile
+
+            filereader = SpanReport::Logfile::FileReader.new [logfile]
+            filereader.parse(export)
+            
             SpanReport.logger.debug "resultfile is: #{resultfile}"
 
             export.write_result(resultfile)

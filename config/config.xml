@@ -1,35 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <context>
   <common>
-    <input_log type="folder">D:/ruby/span_report/log</input_log>
-    <output_log type="folder">D:/ruby/span_report/log</output_log>
-    <function></function>
+    <input_log type="folder">./log_nodeb</input_log>
+    <output_log type="folder">./log_nodeb</output_log>
+    <function>export</function>
   </common>
 
   <report>
-    <counter_def>D:/ruby/span_report/config/IE模板.xlsx</counter_def>
-    <outer_def>D:/ruby/span_report/config/报表模板.xlsx</outer_def>
+    <counter_def>D:/span_report/template/IE模板.xlsx</counter_def>
+    <outer_def>D:/span_report/template/片区报表模板.xlsx</outer_def>
     <combine>false</combine>
   </report>
 
   <nodeb_report>
-    <cell_info>D:/ruby/span_report/config/cell_info.xlsx</cell_info>
-    <counter_def>D:/ruby/span_report/config/IE模板.xlsx</counter_def>
-    <outer_def>D:/ruby/span_report/config/报表模板.xlsx</outer_def>
+    <cell_info>D:/span_report/template/cell_info.xlsx</cell_info>
+    <counter_def>D:/span_report/template/IE模板.xlsx</counter_def>
+    <outer_def>D:/span_report/template/单站报表模板.xlsx</outer_def>
   </nodeb_report>
 
   <export>
     <combine>false</combine>
     <ieconfig>
-      <ie name="TDDLTE_MCS_DL_Code0_MCS_0" alias="MCS0"></ie>
-      <ie name="TDDLTE_MCS_DL_Code0_MCS_1" alias="MCS1"></ie>
-      <ie name="TDDLTE_MCS_DL_Code0_MCS_2" alias="MCS2"></ie>
-      <ie name="TDDLTE_MCS_DL_Code0_MCS_3" alias="MCS3"></ie>
-      <ie name="TDDLTE_MCS_DL_Code0_MCS_4" alias="MCS4"></ie>
-      <ie name="TDDLTE_MCS_DL_Code0_MCS_5" alias="MCS5"></ie>
-      <ie name="TDDLTE_MCS_DL_Code0_MCS_6" alias="MCS6"></ie>
-      <ie name="TDDLTE_MCS_DL_Code0_MCS_7" alias="MCS7"></ie>
-      <ie name="TDDLTE_MCS_DL_Code0_MCS_8" alias="MCS8"></ie>
+      <ie name="Longitude" alias="dbLon"></ie>
+      <ie name="Latitude" alias="dbLat"></ie>
+      <ie name="TDDLTE_Scell_Radio_Parameters_Scell_PCI" alias="i624"></ie>
+      <ie name="TDDLTE_Scell_Radio_Parameters_Frequency_DL" alias="i627"></ie>
+      <ie name="TDDLTE_L1_measurement_Serving_Cell_Measurement_RSRP" alias="i637"></ie>
+<!--       <ie name="TDDLTE_L1_measurement_Serving_Cell_Measurement_SINR" alias="i642"></ie>
+      <ie name="TDDLTE_Throughput_APP_Throughput_DL" alias="i945"></ie>
+      <ie name="TDDLTE_Throughput_APP_Throughput_UL" alias="i946"></ie> -->
+      <ie name="TDDLTE_L1_measurement_Neighbour_Cell_Measurement_RSRP_0" alias="Nei_RSRP_0"></ie>
+      <ie name="TDDLTE_L1_measurement_Neighbour_Cell_Measurement_RSRP_1" alias="Nei_RSRP_1"></ie>
     </ieconfig>
   </export>
+
+  <nodeb_export>
+    <cell_info>D:/span_report/template/cell_info.xlsx</cell_info>
+    <ieconfig>
+      <ie name="Longitude" alias="dbLon"></ie>
+      <ie name="Latitude" alias="dbLat"></ie>
+      <ie name="TDDLTE_Scell_Radio_Parameters_Scell_PCI" alias="i624"></ie>
+      <ie name="TDDLTE_Scell_Radio_Parameters_Frequency_DL" alias="i627"></ie>
+      <ie name="TDDLTE_L1_measurement_Serving_Cell_Measurement_RSRP" alias="i637"></ie>
+      <ie name="TDDLTE_L1_measurement_Serving_Cell_Measurement_SINR" alias="i642"></ie>
+      <ie name="TDDLTE_Throughput_APP_Throughput_DL" alias="i945"></ie>
+      <ie name="TDDLTE_Throughput_APP_Throughput_UL" alias="i946"></ie>
+    </ieconfig>
+  </nodeb_export>
+
 </context>
