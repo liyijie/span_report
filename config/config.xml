@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <context>
   <common>
-    <input_log type="folder">./log_nodeb</input_log>
-    <output_log type="folder">./log_nodeb</output_log>
+    <input_log type="folder">./log</input_log>
+    <output_log type="folder">./log</output_log>
     <function>export</function>
   </common>
 
@@ -19,18 +19,18 @@
   </nodeb_report>
 
   <export>
-    <combine>false</combine>
+    <combine>true</combine>
     <ieconfig>
       <ie name="Longitude" alias="dbLon"></ie>
       <ie name="Latitude" alias="dbLat"></ie>
       <ie name="TDDLTE_Scell_Radio_Parameters_Scell_PCI" alias="i624"></ie>
       <ie name="TDDLTE_Scell_Radio_Parameters_Frequency_DL" alias="i627"></ie>
       <ie name="TDDLTE_L1_measurement_Serving_Cell_Measurement_RSRP" alias="i637"></ie>
-<!--       <ie name="TDDLTE_L1_measurement_Serving_Cell_Measurement_SINR" alias="i642"></ie>
+      <ie name="TDDLTE_L1_measurement_Serving_Cell_Measurement_SINR" alias="i642"></ie>
       <ie name="TDDLTE_Throughput_APP_Throughput_DL" alias="i945"></ie>
-      <ie name="TDDLTE_Throughput_APP_Throughput_UL" alias="i946"></ie> -->
-      <ie name="TDDLTE_L1_measurement_Neighbour_Cell_Measurement_RSRP_0" alias="Nei_RSRP_0"></ie>
-      <ie name="TDDLTE_L1_measurement_Neighbour_Cell_Measurement_RSRP_1" alias="Nei_RSRP_1"></ie>
+      <ie name="TDDLTE_Throughput_APP_Throughput_UL" alias="i946"></ie>
+      <!-- <ie name="TDDLTE_L1_measurement_Neighbour_Cell_Measurement_RSRP_0" alias="Nei_RSRP_0"></ie>
+      <ie name="TDDLTE_L1_measurement_Neighbour_Cell_Measurement_RSRP_1" alias="Nei_RSRP_1"></ie> -->
     </ieconfig>
   </export>
 
