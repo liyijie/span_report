@@ -14,6 +14,7 @@ module SpanReport
   autoload :Logfile, "span_report/logfile"
   autoload :Process, "span_report/process"
   autoload :Context, "span_report/context"
+  autoload :Simulate, "span_report/simulate"
 
   file = open('log.txt', File::WRONLY | File::CREAT | File::TRUNC)  
   @@logger = Logger.new(file)

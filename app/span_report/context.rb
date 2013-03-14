@@ -6,6 +6,7 @@ module SpanReport
     autoload :NodebReportContext, "span_report/context/nodeb_report_context"
     autoload :ReportContext, "span_report/context/report_context"
     autoload :ExportContext, "span_report/context/export_context"
+    autoload :SimulateContext, "span_report/context/simulate_context"
 
     CONFIG_FILE = "config/config.xml"
 

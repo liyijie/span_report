@@ -18,9 +18,12 @@ module SpanReport::Process
 
       last_data = @export_datas[-1]
       last_data ||= []
+      export_data = []
+      is_lastdata = false
       #如果是和上一条一样时间的数据，如果值不为空，则进行覆盖
       if contents[2] == last_data[1] && contents[0] == last_data[2]
         export_data = last_data
+        is_lastdata = true
       #如果是和上一条不一样的时间，如果值不为空，则创建一条，加入到队列中
       else
         export_data = []
@@ -42,7 +45,7 @@ module SpanReport::Process
         end
       end
 
-      if export_data.size > 3
+      if export_data.size > 3 && !is_lastdata
         @export_datas << export_data 
         write_result
       end

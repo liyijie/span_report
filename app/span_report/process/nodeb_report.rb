@@ -115,19 +115,6 @@ module SpanReport::Process
         @lon = lon.to_f
       end
 
-      # def distance point
-      #   begin
-      #     c = Math.sin(@lat) * Math.sin(point.lat) * Math.cos(@lon-point.lon)
-      #       + Math.cos(@lat) * Math.cos(point.lat)
-      #     dis = Math.acos c
-
-      #     puts "c is:#{c}, dis is:#{dis}"
-      #   rescue Exception => e
-      #     puts e
-      #   end
-      #   dis
-      # end
-
       def distance point
          lng1 = @lon
          lat1 = @lat
