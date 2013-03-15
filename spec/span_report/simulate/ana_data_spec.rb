@@ -72,15 +72,18 @@ module SpanReport::Simulate
       data_map = {}
       data_map[LAT] = 5
       data_map[LON] = 6
+      data_map[SCELL_SINR] = 7
       point_data = PointData.new(1,1,data_map)
       point_data.serve_cell.should be_nil
 
       holdlast_data = HoldlastData.new
       holdlast_data.lat = 6
       holdlast_data.pci = 9
+      holdlast_data.sinr = 10
       point_data.fill holdlast_data
       point_data.lat.should == 6
       point_data.serve_cell.pci.should == 9
+      point_data.serve_cell.sinr.should == 10
       point_data.serve_cell.freq.should be_nil
     end
 

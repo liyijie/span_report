@@ -58,11 +58,6 @@ module SpanReport::Process
       index
     end
 
-    def convert_time pctime
-      time = Time.new(2000,1,1) + pctime.to_f/1000
-      dis_time = "#{time.hour}:#{time.min}:#{format("%.3f", time.sec+time.subsec)}"
-    end
-
     def config_export_file result_file
       puts "export file is:#{result_file}"
       @file = File.new(result_file, "w")

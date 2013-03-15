@@ -6,5 +6,6 @@ module SpanReport
     autoload :HoldlastData, "span_report/simulate/ana_data"
     autoload :PointData, "span_report/simulate/ana_data"
     autoload :CellInfos, "span_report/simulate/cell_infos"
+    autoload :SimulateProcess, "span_report/simulate/simulate_process"
   end
 end

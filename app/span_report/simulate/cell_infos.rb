@@ -1,4 +1,5 @@
 #encoding: utf-8
+require 'win32ole'
 
 module SpanReport::Simulate
   class CellInfos
@@ -39,14 +40,16 @@ module SpanReport::Simulate
     end
 
     def get_cellinfos pci, freq
-      cell_key = "#{pci}_#{freq}"
+      cell_key = "#{pci.to_i}_#{freq.to_i}"
+      SpanReport.logger.debug "get cell key is:#{cell_key}"
       cell_infos = @cell_infos_map[cell_key]
       cell_infos ||= []
     end
 
     def add_cellinfo cellinfo
       if cellinfo
-        cell_key = "#{cellinfo.pci}_#{cellinfo.freq}"
+        cell_key = "#{cellinfo.pci.to_i}_#{cellinfo.freq.to_i}"
+        SpanReport.logger.debug "add cell key is:#{cell_key}"
         @cell_infos_map[cell_key] ||= []
         @cell_infos_map[cell_key] << cellinfo
       end

@@ -55,7 +55,7 @@ module SpanReport::Simulate
 
     def add_logdata_map time, ue, data_map
       point_data = PointData.new time, ue, data_map
-      @last_point_data ||= point_data
+      @last_point_data = point_data unless @last_point_data
       if @last_point_data.merge? point_data
         @last_point_data.merge! point_data
       else
@@ -66,23 +66,58 @@ module SpanReport::Simulate
         # 再从holdlast data中填充GPS和主服务小区的数据
         if @last_point_data.valid?
           @last_point_data.fill @holdlast_data
+          @last_point_data.fill_extra @cell_infos
+          @last_point_data.sort_cells
           @point_datas << @last_point_data
         end
         @last_point_data = point_data
+      end
+    end
+
+    def to_file
+      File.open("simulate.csv", "w") do |file|
+        file.write 'EF BB BF'.split(' ').map{|a|a.hex.chr}.join()
+        headstring = "time,ue,lat,lon,scell.pci,scell.freq,scell.rsrp,scell.sinr,scell.name,scell.distance"
+        (0..ANA_NCELL_NUM-1).each do |i|
+          headstring = "#{headstring},ncell.pci#{i},ncell.freq#{i},ncell.rsrp#{i},ncell.name#{i},ncell.distance#{i}"
+        end
+        file.puts headstring
+        @point_datas.each do |point_data|
+          rowdata_string = ""
+          rowdata_string <<  "#{point_data.time.to_s},"
+          rowdata_string <<  "#{point_data.ue.to_s},"
+          rowdata_string <<  "#{point_data.lat.to_s},"
+          rowdata_string <<  "#{point_data.lon.to_s},"
+          rowdata_string <<  "#{point_data.serve_cell.pci.to_s},"
+          rowdata_string <<  "#{point_data.serve_cell.freq.to_s},"
+          rowdata_string <<  "#{point_data.serve_cell.rsrp.to_s},"
+          rowdata_string <<  "#{point_data.serve_cell.sinr.to_s},"
+          rowdata_string <<  "#{point_data.serve_cell.cell_name.to_s},"
+          rowdata_string <<  "#{point_data.serve_cell.distance.to_s},"
+          point_data.nei_cells.each do |ncell|
+            rowdata_string <<  "#{ncell.pci.to_s},"
+            rowdata_string <<  "#{ncell.freq.to_s},"
+            rowdata_string <<  "#{ncell.rsrp.to_s},"
+            rowdata_string <<  "#{ncell.cell_name.to_s},"
+            rowdata_string <<  "#{ncell.distance.to_s},"
+          end
+          file.puts rowdata_string
+        end
       end
     end
     
   end
 
   class HoldlastData
-    attr_accessor :lat, :lon, :pci, :rsrp, :sinr
+    attr_accessor :lat, :lon, :pci, :freq, :rsrp, :sinr
 
     def fill point_data
       @lat = point_data.lat if point_data.lat
       @lon = point_data.lon if point_data.lon
-      @pci = point_data.serve_cell.pci if point_data.serve_cell
-      @rsrp = point_data.serve_cell.rsrp if point_data.serve_cell
-      @sinr = point_data.serve_cell.sinr if point_data.serve_cell
+      @pci = point_data.serve_cell.pci if point_data.serve_cell && point_data.serve_cell.pci
+      @freq = point_data.serve_cell.freq if point_data.serve_cell && point_data.serve_cell.freq
+      @rsrp = point_data.serve_cell.rsrp if point_data.serve_cell && point_data.serve_cell.rsrp
+      @sinr = point_data.serve_cell.sinr if point_data.serve_cell && point_data.serve_cell.sinr
     end 
   end
 
@@ -112,6 +147,10 @@ module SpanReport::Simulate
         @serve_cell ||= CellData.new
         @serve_cell.pci = holdlast_data.pci
       end
+      if (@serve_cell.nil? || @serve_cell.freq.nil?) && holdlast_data.freq
+        @serve_cell ||= CellData.new
+        @serve_cell.freq = holdlast_data.freq
+      end
       if (@serve_cell.nil? || @serve_cell.rsrp.nil?) && holdlast_data.rsrp
         @serve_cell ||= CellData.new
         @serve_cell.rsrp = holdlast_data.rsrp
@@ -122,9 +161,20 @@ module SpanReport::Simulate
       end
     end
 
+    def fill_extra cell_infos
+      gps_point = Point.new @lat, @lon
+      @serve_cell.fill_cell_extra gps_point, cell_infos
+
+      @nei_cells.each do |nei_cell|
+        nei_cell.fill_cell_extra gps_point, cell_infos
+      end
+
+    end
+
     def expand_data
       @lat = @data_map[LAT]
       @lon = @data_map[LON]
+      @serve_cell = CellData.new
       if @data_map[SCELL_PCI]
         @serve_cell = CellData.new(@data_map[SCELL_PCI], @data_map[SCELL_FREQ])
         @serve_cell.rsrp = @data_map[SCELL_RSRP]
@@ -148,7 +198,7 @@ module SpanReport::Simulate
     # 根据场强，重新进行邻区排列
     def sort_cells
       cell_datas = []
-      cell_datas << @serve_cell if @serve_cell
+      cell_datas << @serve_cell if @serve_cell && @serve_cell.rsrp
 
       if @nei_cells
         @nei_cells.each do |celldata|
@@ -192,8 +242,21 @@ module SpanReport::Simulate
                 :distance, :rsrp, :sinr
 
     def initialize pci=nil, freq=nil
-      @pci = pci
-      @freq = freq
+      @pci = pci.to_i if pci
+      # @freq = freq
+      if (freq.to_i == 38350)
+        @freq = 1890
+      else
+        @freq = freq.to_i if freq
+      end
+    end
+
+    def freq= freq
+      if (freq.to_i == 38350)
+        @freq = 1890
+      else
+        @freq = freq.to_i
+      end
     end
 
     # 提供根据小区基站信息，查找pci和freq相同，距离最近的小区
@@ -204,6 +267,7 @@ module SpanReport::Simulate
       # 查找pci和freq相同中，最近的小区
       min_dis = nil
       near_cell_info = nil
+      # puts "pci is:#{pci}, freq is:#{freq}, relate_cell_infos size is:#{relate_cell_infos.size}"
       relate_cell_infos.each do |cell_info|
         cell_point = Point.new cell_info.lat, cell_info.lon
         dis = data_point.distance cell_point
@@ -231,22 +295,25 @@ module SpanReport::Simulate
     end
 
     def distance point
-       lng1 = @lon
-       lat1 = @lat
-       lng2 = point.lon
-       lat2 = point.lat
-       rad = Math::PI / 180.0
-       earth_radius = 6378.137 * 1000 #地球半径
-       radLat1 = lat1 * rad
-       radLat2 = lat2 * rad
-       a = radLat1 - radLat2
-       b = (lng1 - lng2) * rad
-       s = 2 * Math.asin(Math.sqrt( (Math.sin(a/2)**2) + Math.cos(radLat1) * Math.cos(radLat2)* (Math.sin(b/2)**2) ))
-       s = s * earth_radius
-       s = (s * 10000).round / 10000
-       s
+      begin
+        lng1 = @lon
+        lat1 = @lat
+        lng2 = point.lon
+        lat2 = point.lat
+        rad = Math::PI / 180.0
+        earth_radius = 6378.137 * 1000 #地球半径
+        radLat1 = lat1 * rad
+        radLat2 = lat2 * rad
+        a = radLat1 - radLat2
+        b = (lng1 - lng2) * rad
+        s = 2 * Math.asin(Math.sqrt( (Math.sin(a/2)**2) + Math.cos(radLat1) * Math.cos(radLat2)* (Math.sin(b/2)**2) ))
+        s = s * earth_radius
+        s = (s * 10000).round / 10000
+      rescue Exception => e
+        s = 99999999
+      end
+      s
     end
-
   end
 
 end

@@ -11,7 +11,25 @@ module SpanReport::Context
 
     def process
       SpanReport::Model::Logformat.instance.load_xml "config/LogFormat_100.xml"
-      cell_infos = SpanReport::Simulate::CellInfo
+      cell_infos = SpanReport::Simulate::CellInfos.new
+      puts "cellconfig file is #{@cell_info}"
+      cell_infos.load_from_xls @cell_info
+
+      simulate_process = SpanReport::Simulate::SimulateProcess.new
+      simulate_process.reg_needed_ies
+      simulate_process.set_cellinfos cell_infos
+
+      logfiles = SpanReport.list_files(@input_log, ["lgl"])
+      begin
+        filereader = SpanReport::Logfile::FileReader.new logfiles
+        filereader.parse(simulate_process)
+
+        simulate_process.to_file
+      rescue Exception => e
+        puts e
+      ensure
+        filereader.clear_files
+      end
     end
   end
   

@@ -23,6 +23,8 @@ module SpanReport
         context = ReportContext.new path          
       elsif @function == "export"
         context = ExportContext.new path 
+      elsif @function == "simulate"
+        context = SimulateContext.new path
       else
         context = BaseContext.new path
       end
