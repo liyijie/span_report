@@ -1,4 +1,5 @@
 # encoding: utf-8
+# encoding: utf-8
 
 require 'fileutils'  
 require 'zip/zip'  
@@ -51,7 +52,9 @@ module SpanReport::Logfile
     #返回解压后的目录
     def unzip zip_file, dest_dir
       puts "unzip log #{zip_file}"
-      zipfile_name = File.split(zip_file)[-1]
+      zipfile_name = zip_file.split(/\\|\//)[-1]
+      puts "zipfile_name is:#{zipfile_name}"
+      # File.split(zip_file)[-1]
       unzip_dir = File.join dest_dir, zipfile_name
       Dir.mkdir(dest_dir) unless File.exist?(dest_dir)
       Dir.mkdir(unzip_dir) unless File.exist?(unzip_dir)

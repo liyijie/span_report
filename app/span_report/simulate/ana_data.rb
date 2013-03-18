@@ -18,9 +18,13 @@ module SpanReport::Simulate
   SCELL_FREQ = "scell_freq"
   SCELL_RSRP = "scell_rsrp"
   SCELL_SINR = "scell_sinr"
+  SCELL_NAME = "scell_name"
+  SCELL_DISTANCE = "scell_distance"
   NCELL_PCI = "ncell_pci"
   NCELL_FREQ = "ncell_freq"
   NCELL_RSRP = "ncell_rsrp"
+  NCELL_NAME = "ncell_name"
+  NCELL_DISTANCE = "ncell_distance"
 
   # 分析需要的数据，时间，UE，主服务小区和邻区信息
   # 这里主服务小区和邻区是没有本质上的区别，数据信息也是一样的
@@ -77,9 +81,9 @@ module SpanReport::Simulate
     def to_file
       File.open("simulate.csv", "w") do |file|
         file.write 'EF BB BF'.split(' ').map{|a|a.hex.chr}.join()
-        headstring = "time,ue,lat,lon,scell.pci,scell.freq,scell.rsrp,scell.sinr,scell.name,scell.distance"
+        headstring = "time,ue,#{LAT},#{LON},#{SCELL_PCI},#{SCELL_FREQ},#{SCELL_RSRP},#{SCELL_SINR},#{SCELL_NAME},#{SCELL_DISTANCE}"
         (0..ANA_NCELL_NUM-1).each do |i|
-          headstring = "#{headstring},ncell.pci#{i},ncell.freq#{i},ncell.rsrp#{i},ncell.name#{i},ncell.distance#{i}"
+          headstring = "#{headstring},#{NCELL_PCI}_#{i},#{NCELL_FREQ}_#{i},#{NCELL_RSRP}_#{i},#{NCELL_NAME}_#{i},#{NCELL_DISTANCE}_#{i}"
         end
         file.puts headstring
         @point_datas.each do |point_data|

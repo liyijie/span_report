@@ -8,11 +8,10 @@ module SpanReport::Context
         @cell_info = get_content relate, "cell_info"
       end
     end
-
+    
     def process
       SpanReport::Model::Logformat.instance.load_xml "config/LogFormat_100.xml"
       cell_infos = SpanReport::Simulate::CellInfos.new
-      puts "cellconfig file is #{@cell_info}"
       cell_infos.load_from_xls @cell_info
 
       simulate_process = SpanReport::Simulate::SimulateProcess.new

@@ -38,7 +38,7 @@ module SpanReport::Context
           filereader = SpanReport::Logfile::FileReader.new logfiles
           filereader.parse(report)
           report.count_kpi_value
-          resultfile = "#{@output_log}/combine.report.xlsx"
+          resultfile = File.join @output_log, "combine.report.xlsx"
           excel_export.to_excel resultfile, report
 
           report.clear
@@ -54,9 +54,10 @@ module SpanReport::Context
             filereader = SpanReport::Logfile::FileReader.new [logfile]
             filereader.parse(report)
             report.count_kpi_value
-            resultfile = File.basename logfile.filename
+            puts "logfile.filename is:#{logfile.filename}"
+            resultfile = logfile.filename.split(/\\|\//)[-1]
             resultfile = resultfile.sub('lgl', 'report.xlsx')
-            resultfile = "#{output_log}/resultfile"
+            resultfile = File.join @output_log, resultfile
             SpanReport.logger.debug "resultfile is: #{resultfile}"
 
             excel_export.to_excel resultfile, report

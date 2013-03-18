@@ -10,6 +10,7 @@ module SpanReport::Process
 
       def to_excel resultfile, kpi_caches
         resultfile = resultfile.gsub(/\//, "\\\\")
+
         puts "result file:#{resultfile}"
         excel = WIN32OLE::new('excel.Application')
         workbook = excel.Workbooks.Open @template_file
