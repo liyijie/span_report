@@ -7,6 +7,7 @@ module SpanReport
     autoload :ReportContext, "span_report/context/report_context"
     autoload :ExportContext, "span_report/context/export_context"
     autoload :SimulateContext, "span_report/context/simulate_context"
+    autoload :LglconvertContext, "span_report/context/lglconvert_context"
 
     CONFIG_FILE = "config/config.xml"
 
@@ -25,6 +26,8 @@ module SpanReport
         context = ExportContext.new path 
       elsif @function == "simulate"
         context = SimulateContext.new path
+      elsif @function == "lglconvert"
+        context = LglconvertContext.new path
       else
         context = BaseContext.new path
       end
