@@ -14,7 +14,11 @@ module SpanReport::Lglconvert
     def reg_needed_ies
       reg_iename "UEVersion", "UEVersion" 
       reg_iename "Event", "Event" 
-      @file = File.new("event", "w")
+    end
+
+    def open_file tempfile_path
+      Dir.mkdir(tempfile_path) unless File.exist?(tempfile_path)
+      @file = File.new("#{tempfile_path}/event.txt", "w")
     end
 
     def covert_data tempdata

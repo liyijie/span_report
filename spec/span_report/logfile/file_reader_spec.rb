@@ -7,7 +7,7 @@ module SpanReport::Logfile
     let(:filereader) { FileReader.new "log/1.lgl" }
 
     it "should be correct unzip" do
-      filereader.unzip "log/1.lgl", "config"
+      filereader.unzip "log/新建文件夹/1.lgl", "config"
       filereader.clear_files
     end
 

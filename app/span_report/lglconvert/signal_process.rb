@@ -16,7 +16,11 @@ module SpanReport::Lglconvert
       reg_iename "Signals", "Signals" 
       reg_iename "UuSignalId", "UuSignalId" 
       reg_iename "HEXstr", "HEXstr"
-      @file = File.new("signal", "w")
+    end
+
+    def open_file tempfile_path
+      Dir.mkdir(tempfile_path) unless File.exist?(tempfile_path)
+      @file = File.new("#{tempfile_path}/signal.txt", "w")
     end
 
     def process_data logdata, file_group=""

@@ -82,9 +82,9 @@ module SpanReport::Logfile
       Dir.mkdir(unzip_dir) unless File.exist?(unzip_dir)
       @unzip_paths << unzip_dir
 
-      Zip::ZipFile.open zip_file do |zf|  
+      Zip::ZipFile.open zip_file do |zf|
         zf.each do |e|
-          path = File.join unzip_dir, "#{e.name}.txt"  
+          path = File.join unzip_dir,"#{e.name}.txt"  
           zf.extract(e, path) { true }  
         end  
       end
