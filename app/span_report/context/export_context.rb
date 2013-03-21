@@ -32,7 +32,7 @@ module SpanReport::Context
           resultfile = File.join @output_log, "combine.export.csv"
           export.config_export_file resultfile
           filereader = SpanReport::Logfile::FileReader.new logfiles
-          filereader.parse(export)
+          filereader.parse_many([export])
 
           # export.write_result(resultfile)
           export.clear

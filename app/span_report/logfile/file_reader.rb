@@ -38,6 +38,28 @@ module SpanReport::Logfile
       end
     end
 
+    def parse_many(processors)
+      @files.each do |fileinfo|
+        filename = fileinfo.filename
+        puts "process log #{filename} "
+        
+        filepath = unzip filename, "./config"
+        # file_group = get_file_group filename
+        file_group = fileinfo.filegroup
+        logs = list_files(filepath, ["txt"])
+        logs.each do |logfile|
+          processors.each do |processor|
+            begin
+              process(logfile, processor, file_group)
+            rescue Exception => e
+              next
+            end
+          end
+        end
+        puts ""
+      end
+    end
+
     def process(logfile, processor, file_group)
       # puts "process #{logfile}, file_group is:#{file_group} ......"
       putc "."
