@@ -69,7 +69,7 @@ module SpanReport::Process
       relate_nodebs.each do |nodeb_name|
         cell_infos = nodeb_info_map[nodeb_name]
         cell_infos ||= []
-        resultfile = "#{result_path}/#{nodeb_name}_单站验证报告.xlsx"
+        resultfile = File.join result_path, "#{nodeb_name}_单站验证报告.xlsx"
         nodeb_cell_info = {}
         nodeb_cell_info["nodeb"] = nodeb_name
         cell_infos.each_with_index do |cell_info, index|

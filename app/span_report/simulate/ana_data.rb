@@ -78,8 +78,8 @@ module SpanReport::Simulate
       end
     end
 
-    def to_file
-      File.open("simulate.csv", "w") do |file|
+    def to_file resultfile
+      File.open(resultfile, "w") do |file|
         file.write 'EF BB BF'.split(' ').map{|a|a.hex.chr}.join()
         headstring = "time,ue,#{LAT},#{LON},#{SCELL_PCI},#{SCELL_FREQ},#{SCELL_RSRP},#{SCELL_SINR},#{SCELL_NAME},#{SCELL_DISTANCE}"
         (0..ANA_NCELL_NUM-1).each do |i|
@@ -165,6 +165,9 @@ module SpanReport::Simulate
       end
     end
 
+    ###########################################
+    # 填充小区的友好名和距离等信息
+    ###########################################
     def fill_extra cell_infos
       gps_point = Point.new @lat, @lon
       @serve_cell.fill_cell_extra gps_point, cell_infos
@@ -175,6 +178,9 @@ module SpanReport::Simulate
 
     end
 
+    ###########################################
+    # 把map里的内容展开，然后放到相应的属性中
+    ###########################################
     def expand_data
       @lat = @data_map[LAT]
       @lon = @data_map[LON]
@@ -247,21 +253,35 @@ module SpanReport::Simulate
 
     def initialize pci=nil, freq=nil
       @pci = pci.to_i if pci
-      # @freq = freq
-      if (freq.to_i == 38350)
-        @freq = 1890
-      else
-        @freq = freq.to_i if freq
-      end
+      @freq = convert_freq freq
     end
 
     def freq= freq
-      if (freq.to_i == 38350)
-        @freq = 1890
-      else
-        @freq = freq.to_i
-      end
+      @freq = convert_freq freq
     end
+
+    def convert_freq freq
+
+      ifreq = freq.to_i
+      if (ifreq >= 27750 && ifreq <= 38249)
+        flow = 2570
+        offset = 27750
+      elsif (ifreq >= 38250 && ifreq <= 38649)
+        flow = 1880
+        offset = 38250
+      elsif (ifreq >= 38650 && ifreq <= 39649)
+        flow = 2300
+        offset = 38650
+      end
+
+      if flow
+        freq_rlt = flow + (ifreq - offset) / 10
+      else
+        freq_rlt = ifreq if freq
+      end
+      freq_rlt
+    end
+
 
     # 提供根据小区基站信息，查找pci和freq相同，距离最近的小区
     # 把相关的信息增加在cell data里

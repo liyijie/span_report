@@ -70,17 +70,21 @@ module SpanReport::Process
 
     def write_result   
       if @export_datas.size > 100
-        @export_datas.each do |datas|
-          data_string = ""
-          datas.each_with_index do |data, index|
-            data ||= ""
-            data_string << data
-            data_string << "," if index != datas.length-1
-          end
-          @file.puts data_string
-        end
-        @export_datas.clear
+        flush
       end
+    end
+
+    def flush
+      @export_datas.each do |datas|
+        data_string = ""
+        datas.each_with_index do |data, index|
+          data ||= ""
+          data_string << data
+          data_string << "," if index != datas.length-1
+        end
+        @file.puts data_string
+      end
+      @export_datas.clear
     end
 
     def clear

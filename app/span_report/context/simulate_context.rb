@@ -23,7 +23,8 @@ module SpanReport::Context
         filereader = SpanReport::Logfile::FileReader.new logfiles
         filereader.parse(simulate_process)
 
-        simulate_process.to_file
+        resultfile = File.join @output_log, "simulate.csv"
+        simulate_process.to_file resultfile
       rescue Exception => e
         puts e
       ensure

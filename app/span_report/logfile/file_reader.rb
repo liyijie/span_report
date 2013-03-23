@@ -1,5 +1,4 @@
 # encoding: utf-8
-# encoding: utf-8
 
 require 'fileutils'  
 require 'zip/zip'  
@@ -13,6 +12,9 @@ module SpanReport::Logfile
   # 3. call back the process with perline data
   class FileReader
     
+    ###################################################
+    # 这里传入的files并不是普通的文件名，而是封装的结构
+    ##################################################
     def initialize(files)
       @files = files
       @unzip_paths = []

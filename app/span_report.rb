@@ -30,6 +30,7 @@ module SpanReport
 
     Dir.foreach file_path do |file|
       next if file == "." or file == ".."
+      next if file == "signal" or file == "event" or file == "map.csv"
       file = file.encode 'utf-8'
       file_path = file_path.encode 'utf-8'
 
