@@ -3,6 +3,8 @@
 module SpanReport::Context
   class MapContext < BaseContext
 
+    attr_reader :cell_infos
+
     def load_relate
       doc = Nokogiri::XML(open(CONFIG_FILE))
       doc.search(@function).each do |relate|
@@ -12,7 +14,9 @@ module SpanReport::Context
 
     def process
       SpanReport::Model::Logformat.instance.load_xml "config/LogFormat_100.xml"
-
+      @cell_infos = SpanReport::Simulate::CellInfos.new
+      @cell_infos.load_from_xls @cell_info
+      
       # 如果是lgl，先在目录下转换成我们需要使用的中间文件
       logfiles = SpanReport.list_files(@input_log, ["lgl"])
       csv_file = convert_lgl_to_csv logfiles if !logfiles.empty?
@@ -27,6 +31,7 @@ module SpanReport::Context
 
       cell_map_process = SpanReport::Map::CellMapProcess.new
       cell_map_process.result_path = @output_log
+      cell_map_process.cell_infos = @cell_infos
       processers << cell_map_process
 
       csv_reader.parse processers
@@ -35,16 +40,15 @@ module SpanReport::Context
     end
 
     def convert_lgl_to_csv logfiles
-      cell_infos = SpanReport::Simulate::CellInfos.new
-      cell_infos.load_from_xls @cell_info
 
       convert_file_process = SpanReport::Simulate::ConvertFileProcess.new
-      convert_file_process.set_cellinfos cell_infos
+      convert_file_process.set_cellinfos @cell_infos
 
       filereader = SpanReport::Logfile::FileReader.new logfiles
       filereader.parse convert_file_process
       csv_file = File.join @input_log, "combine.csv"
       convert_file_process.to_file csv_file
+      filereader.clear_files
 
       csv_file
     end

@@ -198,8 +198,10 @@ module SpanReport::Simulate
     # 填充小区的友好名和距离等信息
     ###########################################
     def fill_extra cell_infos
+      return unless @cell_name.to_s.empty?
       gps_point = Point.new @lat, @lon
       @serve_cell.fill_cell_extra gps_point, cell_infos
+      @cell_name = @serve_cell.cell_name
 
       @nei_cells.each do |nei_cell|
         nei_cell.fill_cell_extra gps_point, cell_infos

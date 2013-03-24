@@ -4,7 +4,7 @@ module SpanReport::Map
 
   class CellMapProcess < MapProcess
 
-    attr_accessor :result_path
+    attr_accessor :result_path, :cell_infos
      
     def initialize
       super
@@ -13,7 +13,7 @@ module SpanReport::Map
 
     def flush
       @export_datas.each do |raw_pointdata|
-
+        raw_pointdata.fill_extra @cell_infos
         cell_pointdatas = raw_pointdata.expand_celldatas
         cell_pointdatas.each do |pointdata|
           cell_name = pointdata.cell_name
