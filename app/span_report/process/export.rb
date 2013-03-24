@@ -61,11 +61,15 @@ module SpanReport::Process
     def config_export_file result_file
       puts "export file is:#{result_file}"
       @file = File.new(result_file, "w")
+      @file.puts head_string
+    end
+
+    def head_string
       head = "Time,PCTime,UEid"
       @reg_ies.each do |iename|
         head << ",#{@alis_map[iename]}"
       end
-      @file.puts head
+      head
     end
 
     def write_result   

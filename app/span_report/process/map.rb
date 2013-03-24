@@ -3,6 +3,13 @@
 
 module SpanReport::Process
   
+  LON = "lontitute"
+  LAT = "latitude"
+  PCI = "pci"
+  FREQ = "freq"
+  RSRP = "rsrp"
+  SINR = "sinr"
+
   class Map < Export
     def merge
       merge_datas = []

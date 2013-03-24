@@ -68,19 +68,21 @@ module SpanReport::Simulate
         @holdlast_data.fill @last_point_data
         #保存最新的值到hold last中
         # 再从holdlast data中填充GPS和主服务小区的数据
-        if @last_point_data.valid?
+        # 
+        # if @last_point_data.valid?
           @last_point_data.fill @holdlast_data
           @last_point_data.fill_extra @cell_infos
-          @last_point_data.sort_cells
+          # @last_point_data.sort_cells
           @point_datas << @last_point_data
-        end
+        # end
+        # 
         @last_point_data = point_data
       end
     end
 
     def to_file resultfile
       File.open(resultfile, "w") do |file|
-        file.write 'EF BB BF'.split(' ').map{|a|a.hex.chr}.join()
+        # file.write 'EF BB BF'.split(' ').map{|a|a.hex.chr}.join()
         headstring = "time,ue,#{LAT},#{LON},#{SCELL_PCI},#{SCELL_FREQ},#{SCELL_RSRP},#{SCELL_SINR},#{SCELL_NAME},#{SCELL_DISTANCE}"
         (0..ANA_NCELL_NUM-1).each do |i|
           headstring = "#{headstring},#{NCELL_PCI}_#{i},#{NCELL_FREQ}_#{i},#{NCELL_RSRP}_#{i},#{NCELL_NAME}_#{i},#{NCELL_DISTANCE}_#{i}"
@@ -134,6 +136,22 @@ module SpanReport::Simulate
       @ue = ue
       @data_map = data_map
       @data_map ||= {}
+    end
+
+    def pci
+      @serve_cell.pci if @serve_cell
+    end
+
+    def freq
+      @serve_cell.freq if @serve_cell
+    end
+
+    def rsrp
+      @serve_cell.rsrp if @serve_cell
+    end
+
+    def sinr
+      @serve_cell.sinr if @serve_cell
     end
 
     def merge? other_data
@@ -252,8 +270,8 @@ module SpanReport::Simulate
                 :distance, :rsrp, :sinr
 
     def initialize pci=nil, freq=nil
-      @pci = pci.to_i if pci
-      @freq = convert_freq freq
+      @pci = pci.to_i if pci && !pci.empty?
+      @freq = convert_freq freq if freq && !freq.empty?
     end
 
     def freq= freq

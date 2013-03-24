@@ -2,10 +2,11 @@
 
 module SpanReport::Simulate
 
-  class SimulateProcess < SpanReport::Process::Base
+  class ConvertFileProcess < SpanReport::Process::Base
     def initialize
       super
       @ana_data = AnaData.new
+      reg_needed_ies
     end
 
     def process_data logdata, file_group=""
@@ -27,20 +28,11 @@ module SpanReport::Simulate
       @ana_data.add_logdata_map time, ue, data_map
     end
 
-    def process_csv_data data_map
-      ue = data_map["ue"]
-      time = data_map["time"]
-      data_map.delete["ue"]
-      data_map.delete["time"]
-
-      @ana_data.add_logdata_map time, ue, data_map
-    end
-
     def set_cellinfos cell_infos
       @ana_data.cell_infos = cell_infos
     end
 
-    def to_file resultfile
+    def to_file resultfile 
       @ana_data.to_file resultfile
     end
 
