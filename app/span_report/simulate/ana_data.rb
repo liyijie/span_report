@@ -128,7 +128,7 @@ module SpanReport::Simulate
   end
 
   class PointData
-    attr_accessor :time, :ue, :lat, :lon, :serve_cell, :nei_cells
+    attr_accessor :time, :ue, :lat, :lon, :pci, :freq, :rsrp, :sinr, :cell_name, :serve_cell, :nei_cells
     attr_reader :data_map
 
     def initialize(time, ue, data_map={})
@@ -138,28 +138,39 @@ module SpanReport::Simulate
       @data_map ||= {}
     end
 
-    def pci
-      @serve_cell.pci if @serve_cell
-    end
-
-    def freq
-      @serve_cell.freq if @serve_cell
-    end
-
-    def rsrp
-      @serve_cell.rsrp if @serve_cell
-    end
-
-    def sinr
-      @serve_cell.sinr if @serve_cell
-    end
-
     def merge? other_data
       @time == other_data.time && @ue == other_data.ue
     end
 
     def merge! other_data
       @data_map.merge! other_data.data_map
+    end
+
+    def expand_celldatas
+      celldatas = []
+
+      scell_data = PointData.new(@time, @ue)
+      scell_data.lat = lat
+      scell_data.lon = lon
+      scell_data.pci = pci
+      scell_data.freq = freq
+      scell_data.rsrp = rsrp
+      scell_data.sinr = sinr
+      scell_data.cell_name = cell_name
+      celldatas << scell_data
+
+      @nei_cells.each do |nei_cell|
+        nei_celldata = PointData.new(@time, @ue)
+        nei_celldata.lat = lat
+        nei_celldata.lon = lon
+        nei_celldata.pci = nei_cell.pci
+        nei_celldata.freq = nei_cell.freq
+        nei_celldata.rsrp = nei_cell.rsrp
+        nei_celldata.cell_name = nei_cell.cell_name
+        celldatas << nei_celldata
+      end
+
+      celldatas
     end
 
     def fill holdlast_data
@@ -207,6 +218,12 @@ module SpanReport::Simulate
         @serve_cell = CellData.new(@data_map[SCELL_PCI], @data_map[SCELL_FREQ])
         @serve_cell.rsrp = @data_map[SCELL_RSRP]
         @serve_cell.sinr = @data_map[SCELL_SINR]
+        @serve_cell.cell_name = @data_map[SCELL_NAME]
+        @pci = @data_map[SCELL_PCI]
+        @freq = @data_map[SCELL_FREQ]
+        @rsrp = @data_map[SCELL_RSRP]
+        @sinr = @data_map[SCELL_SINR]
+        @cell_name = @data_map[SCELL_NAME]
       end
 
       @nei_cells = []
@@ -216,6 +233,7 @@ module SpanReport::Simulate
           freq = @data_map["#{NCELL_FREQ}_#{i}"]
           nei_cell =  CellData.new(pci, freq)
           nei_cell.rsrp = @data_map["#{NCELL_RSRP}_#{i}"]
+          nei_cell.cell_name = @data_map["#{NCELL_NAME}_#{i}"]
           @nei_cells << nei_cell
         end
       end
@@ -270,8 +288,8 @@ module SpanReport::Simulate
                 :distance, :rsrp, :sinr
 
     def initialize pci=nil, freq=nil
-      @pci = pci.to_i if pci && !pci.empty?
-      @freq = convert_freq freq if freq && !freq.empty?
+      @pci = pci.to_i if !pci.to_s.empty?
+      @freq = convert_freq freq if !freq.to_s.empty?
     end
 
     def freq= freq

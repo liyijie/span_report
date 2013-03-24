@@ -22,11 +22,16 @@ module SpanReport::Context
 
       processers = []
       map_process = SpanReport::Map::MapProcess.new
-      map_process.config_export_file(File.join(@output_log, "combine.map.csv"))
+      map_process.config_export_file(File.join(@output_log, "全部轨迹.csv"))
       processers << map_process
+
+      cell_map_process = SpanReport::Map::CellMapProcess.new
+      cell_map_process.result_path = @output_log
+      processers << cell_map_process
+
       csv_reader.parse processers
       map_process.flush
-
+      cell_map_process.flush
     end
 
     def convert_lgl_to_csv logfiles

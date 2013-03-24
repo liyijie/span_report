@@ -5,40 +5,38 @@ module SpanReport::Map
   # 外部调用，需要先config_export_file，否则不会输出
   class MapProcess < SpanReport::Process::Export
     
-    def initilize
+    def initialize
       super
-      reg_needed_ies
+      # reg_needed_ies
     end
 
-    def reg_needed_ies
-      reg_ie_name "dbLon" ,"Longitude"
-      reg_ie_name "dbLat" ,"Latitude"
-      reg_ie_name "TDDLTE_Scell_Radio_Parameters_Scell_PCI" ,"i624"
-      reg_ie_name "TDDLTE_Scell_Radio_Parameters_Frequency_DL" ,"i627"
-      reg_ie_name "TDDLTE_L1_measurement_Serving_Cell_Measurement_RSRP" ,"i637"
-      reg_ie_name "TDDLTE_L1_measurement_Serving_Cell_Measurement_SINR" ,"i642"
-      reg_ie_name "TDDLTE_Throughput_APP_Throughput_DL" ,"i945"
-      reg_ie_name "TDDLTE_Throughput_APP_Throughput_UL" ,"i946" 
-    end
+    # def reg_needed_ies
+    #   reg_ie_name "dbLon" ,"Longitude"
+    #   reg_ie_name "dbLat" ,"Latitude"
+    #   reg_ie_name "TDDLTE_Scell_Radio_Parameters_Scell_PCI" ,"i624"
+    #   reg_ie_name "TDDLTE_Scell_Radio_Parameters_Frequency_DL" ,"i627"
+    #   reg_ie_name "TDDLTE_L1_measurement_Serving_Cell_Measurement_RSRP" ,"i637"
+    #   reg_ie_name "TDDLTE_L1_measurement_Serving_Cell_Measurement_SINR" ,"i642"
+    #   reg_ie_name "TDDLTE_Throughput_APP_Throughput_DL" ,"i945"
+    #   reg_ie_name "TDDLTE_Throughput_APP_Throughput_UL" ,"i946" 
+    # end
 
     def process_csv_data data_map
 
       ue = data_map["ue"]
       time = data_map["time"]
-      data_map.delete "ue"
-      data_map.delete "time"
 
       pointdata = SpanReport::Simulate::PointData.new(time, ue, data_map)
       pointdata.expand_data
-      mapdata = pointdata_to_mapdata pointdata
 
-      @export_datas << mapdata
+      @export_datas << pointdata
       write_result
     end
 
     def flush
-      @export_datas.each do |data_string|
-        @file.puts data_string
+      @export_datas.each do |pointdata|
+        mapdata = pointdata_to_mapdata pointdata
+        @file.puts mapdata
       end
       @export_datas.clear
     end

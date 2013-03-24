@@ -31,7 +31,7 @@ module SpanReport::Logfile
         else
           data_map = {}
           contents.each_with_index do |item, i|
-            data_map[head_info[i].to_s] = item  
+            data_map[head_info[i].to_s] = item
           end
           # 调用每个处理器处理数据
           processors.each do |process|

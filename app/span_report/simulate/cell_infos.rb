@@ -23,8 +23,8 @@ module SpanReport::Simulate
           next if config_datas[0].nil?
           cell_info = CellInfo.new
 
-          cell_info.nodeb_name = config_datas[0].to_s.encode("utf-8")
-          cell_info.cell_name = config_datas[1].to_s.encode("utf-8")
+          cell_info.nodeb_name = config_datas[0].to_s
+          cell_info.cell_name = config_datas[1].to_s
           cell_info.pci = config_datas[2].to_s.encode("utf-8")
           cell_info.freq = config_datas[3].to_s.encode("utf-8")
           cell_info.lat = config_datas[4].to_s.encode("utf-8")
