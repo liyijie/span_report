@@ -81,6 +81,10 @@ module SpanReport::Lglconvert
      end
      @datacaches.clear
    end
+
+   def close_file
+     @file.close if @file
+   end
  end
  
  class Signal

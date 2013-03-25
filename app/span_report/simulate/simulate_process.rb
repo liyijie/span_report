@@ -30,8 +30,6 @@ module SpanReport::Simulate
     def process_csv_data data_map
       ue = data_map["ue"]
       time = data_map["time"]
-      data_map.delete["ue"]
-      data_map.delete["time"]
 
       @ana_data.add_logdata_map time, ue, data_map
     end

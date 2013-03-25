@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <context>
   <common>
-    <input_log type="folder">./log_simulate</input_log>
-    <output_log type="folder">./map_output/单站轨迹</output_log>
-    <function>map</function>
+    <input_log type="folder">./log_convert</input_log>
+    <output_log type="folder">./log_convert</output_log>
+    <function>lglconvert</function>
   </common>
 
   <map>
-    <cell_info>D:/ruby/span_report/template/cell_info.xlsx</cell_info>
+    <cell_info>D:/span_report/template/cell_info.xlsx</cell_info>
   </map>
 
   <lglconvert>
@@ -24,19 +24,19 @@
   </lglconvert>
 
   <report>
-    <counter_def>D:/ruby/span_report/template/IE模板.xlsx</counter_def>
-    <outer_def>D:/ruby/span_report/template/片区报表模板.xlsx</outer_def>
-    <combine>false</combine>
+    <counter_def>D:/ruby/span_report/log_report/IE模板.xlsx</counter_def>
+    <outer_def>D:/ruby/span_report/log_report/福州片区报表模板.xlsx</outer_def>
+    <combine>true</combine>
   </report>
 
   <nodeb_report>
-    <cell_info>D:/ruby/span_report/template/cell_info.xlsx</cell_info>
-    <counter_def>D:/ruby/span_report/template/IE模板.xlsx</counter_def>
-    <outer_def>D:/ruby/span_report/template/单站报表模板.xlsx</outer_def>
+    <cell_info>D:/span_report/template/cell_info.xlsx</cell_info>
+    <counter_def>D:/span_report/template/IE模板.xlsx</counter_def>
+    <outer_def>D:/span_report/template/单站报表模板.xlsx</outer_def>
   </nodeb_report>
 
   <simulate>
-    <cell_info>D:/ruby/span_report/template/cell_info.xlsx</cell_info>
+    <cell_info>D:/span_report/template/cell_info.xlsx</cell_info>
   </simulate>
 
   <export>
@@ -56,7 +56,7 @@
   </export>
 
   <nodeb_export>
-    <cell_info>D:/ruby/span_report/template/cell_info.xlsx</cell_info>
+    <cell_info>D:/span_report/template/cell_info.xlsx</cell_info>
     <ieconfig>
       <ie name="Longitude" alias="dbLon"></ie>
       <ie name="Latitude" alias="dbLat"></ie>

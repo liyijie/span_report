@@ -91,6 +91,10 @@ module SpanReport::Process
       @export_datas.clear
     end
 
+    def close_file
+      @file.close if @file
+    end
+
     def clear
       @export_datas = []
     end

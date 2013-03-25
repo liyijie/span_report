@@ -33,7 +33,7 @@ module SpanReport::Logfile
           begin
             process(logfile, processor, file_group)
           rescue Exception => e
-            next
+            puts e
           end
         end
         puts ""

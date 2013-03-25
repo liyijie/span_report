@@ -54,6 +54,9 @@ module SpanReport::Context
           event_process.flush
           export.write_result
           export.clear
+          signal_process.close_file
+          event_process.close_file
+          export.close_file
 
           # zip new lgl
           new_lglfile_name = logfile_name.sub ".lgl", ".new.lgl"
