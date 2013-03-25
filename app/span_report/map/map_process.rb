@@ -41,6 +41,11 @@ module SpanReport::Map
       @export_datas.clear
     end
 
+    def close_file
+      flush
+      @file.close if @file
+    end
+
     def head_string
       "Time,PCTime,UEid,Longitude,Latitude,i624,i627,i637,i642,i945,i946"
     end

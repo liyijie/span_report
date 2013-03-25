@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <context>
   <common>
-    <input_log type="folder">./log_convert</input_log>
-    <output_log type="folder">./log_convert</output_log>
-    <function>lglconvert</function>
+    <input_log type="folder">./log_map</input_log>
+    <output_log type="folder">./log_map</output_log>
+    <function>map</function>
   </common>
 
   <map>
-    <cell_info>D:/span_report/template/cell_info.xlsx</cell_info>
+    <cell_info>D:/ruby/span_report/template/cell_info.xlsx</cell_info>
   </map>
 
   <lglconvert>

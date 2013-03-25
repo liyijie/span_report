@@ -50,10 +50,6 @@ module SpanReport::Context
 
           filereader.parse_many(processors)
 
-          signal_process.flush
-          event_process.flush
-          export.write_result
-          export.clear
           signal_process.close_file
           event_process.close_file
           export.close_file

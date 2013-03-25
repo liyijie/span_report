@@ -34,6 +34,13 @@ module SpanReport::Map
       @export_datas.clear
     end
 
+    def close_file
+      flush
+      @mapfile_map.values do |file|
+        file.close if file
+      end
+    end
+
   end
   
 end

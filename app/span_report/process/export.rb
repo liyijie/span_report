@@ -92,6 +92,7 @@ module SpanReport::Process
     end
 
     def close_file
+      flush
       @file.close if @file
     end
 

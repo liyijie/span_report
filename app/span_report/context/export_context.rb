@@ -34,8 +34,7 @@ module SpanReport::Context
           filereader = SpanReport::Logfile::FileReader.new logfiles
           filereader.parse_many([export])
 
-          # export.write_result(resultfile)
-          export.clear
+          export.close_file
         rescue Exception => e
           puts e
         ensure
@@ -55,8 +54,7 @@ module SpanReport::Context
             
             SpanReport.logger.debug "resultfile is: #{resultfile}"
 
-            export.write_result(resultfile)
-            export.clear
+            export.close_file
           rescue Exception => e
             next
           ensure

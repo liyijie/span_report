@@ -35,8 +35,8 @@ module SpanReport::Context
       processers << cell_map_process
 
       csv_reader.parse processers
-      map_process.flush
-      cell_map_process.flush
+      map_process.close_file
+      cell_map_process.close_file
     end
 
     def convert_lgl_to_csv logfiles

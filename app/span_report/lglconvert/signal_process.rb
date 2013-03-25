@@ -83,7 +83,8 @@ module SpanReport::Lglconvert
    end
 
    def close_file
-     @file.close if @file
+    flush
+    @file.close if @file
    end
  end
  
