@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <context>
   <common>
-    <input_log type="folder">./log_map</input_log>
-    <output_log type="folder">./log_map</output_log>
-    <function>map</function>
+    <input_log type="folder">./log_convert</input_log>
+    <output_log type="folder">./log_convert</output_log>
+    <function>lglconvert</function>
   </common>
 
   <map>
@@ -37,6 +37,25 @@
 
   <simulate>
     <cell_info>D:/span_report/template/cell_info.xlsx</cell_info>
+    <threshold_config>
+      <!-- 邻区干扰阈值（dB） -->
+      <threshold name="disturb" value="-10"></threshold>
+      <!-- 邻区干扰强度阈值 -->
+      <threshold name="disturb_strength" value="30"></threshold>
+      <!-- TDS模拟TDL补偿值 -->
+      <threshold name="tds_tdl_delta" value="18"></threshold>
+      <!-- 弱覆盖阈值（dBm） -->
+      <threshold name="tds_weak_cover" value="-95"></threshold>
+      <threshold name="tdl_weak_cover" value="-100"></threshold>
+      <!-- 重叠覆盖小区数阈值 -->
+      <threshold name="overlap_cover" value="3"></threshold>
+      <!-- 邻区有效性阈值（dBm） -->
+      <threshold name="ncell_valid" value="-105"></threshold>
+      <!-- 过覆盖阈值（%）,这里采用小数 -->
+      <threshold name="over_cover_ratio" value="0.5"></threshold>
+      <!-- 高干扰阈值（dB） -->
+      <threshold name="high_disturb" value="6"></threshold>
+    </threshold_config>
   </simulate>
 
   <export>

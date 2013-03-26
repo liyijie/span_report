@@ -6,7 +6,14 @@ module SpanReport::Context
       doc = Nokogiri::XML(open(CONFIG_FILE))
       doc.search(@function).each do |relate|
         @cell_info = get_content relate, "cell_info"
+        @config_map = {}
+        relate.search("threshold").each do |threshold|
+          threshold_name = threshold.get_attribute("name")
+          threshold_value = threshold.get_attribute("value")
+          @config_map[threshold_name] = threshold_value
+        end
       end
+
     end
     
     def process
