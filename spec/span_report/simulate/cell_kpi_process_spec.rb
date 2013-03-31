@@ -15,8 +15,8 @@ module SpanReport::Simulate
 
   describe CellKpiProcess do
 
-    it "should correct cal cell kpi" do
-      cellkpi_process = CellKpiProcess.new @@config_map
+    before(:each) do
+      @cellkpi_process = CellKpiProcess.new @@config_map
       time = "1000"
       ue = "1"
 
@@ -34,7 +34,7 @@ module SpanReport::Simulate
       pointdata = PointData.new time, ue, data_map
       pointdata.expand_data
       PointKpiProcess.process_pointdata pointdata, @@config_map
-      cellkpi_process.process_pointdata pointdata
+      @cellkpi_process.process_pointdata pointdata
 
       #N(a)=-40, E(a)=-116, CellC
       data_map = {}
@@ -50,7 +50,7 @@ module SpanReport::Simulate
       pointdata = PointData.new time, ue, data_map
       pointdata.expand_data
       PointKpiProcess.process_pointdata pointdata, @@config_map
-      cellkpi_process.process_pointdata pointdata
+      @cellkpi_process.process_pointdata pointdata
 
       #N(a)=-8, E(a)=-103, CellC
       data_map = {}
@@ -66,7 +66,7 @@ module SpanReport::Simulate
       pointdata = PointData.new time, ue, data_map
       pointdata.expand_data
       PointKpiProcess.process_pointdata pointdata, @@config_map
-      cellkpi_process.process_pointdata pointdata
+      @cellkpi_process.process_pointdata pointdata
 
       #N(a)=-15, E(a)=-95, CellB
       data_map = {}
@@ -82,7 +82,7 @@ module SpanReport::Simulate
       pointdata = PointData.new time, ue, data_map
       pointdata.expand_data
       PointKpiProcess.process_pointdata pointdata, @@config_map
-      cellkpi_process.process_pointdata pointdata
+      @cellkpi_process.process_pointdata pointdata
 
       #N(a)=-7, E(a)=-87, CellB
       data_map = {}
@@ -98,7 +98,7 @@ module SpanReport::Simulate
       pointdata = PointData.new time, ue, data_map
       pointdata.expand_data
       PointKpiProcess.process_pointdata pointdata, @@config_map
-      cellkpi_process.process_pointdata pointdata
+      @cellkpi_process.process_pointdata pointdata
 
       #N(a)=-9, E(a)=-75, CellB
       data_map = {}
@@ -114,7 +114,7 @@ module SpanReport::Simulate
       pointdata = PointData.new time, ue, data_map
       pointdata.expand_data
       PointKpiProcess.process_pointdata pointdata, @@config_map
-      cellkpi_process.process_pointdata pointdata
+      @cellkpi_process.process_pointdata pointdata
 
       #N(a)=-7, E(a)=-78, CellD
       data_map = {}
@@ -130,7 +130,7 @@ module SpanReport::Simulate
       pointdata = PointData.new time, ue, data_map
       pointdata.expand_data
       PointKpiProcess.process_pointdata pointdata, @@config_map
-      cellkpi_process.process_pointdata pointdata
+      @cellkpi_process.process_pointdata pointdata
 
       #N(a)=-7, E(a)=-86, CellD
       data_map = {}
@@ -146,7 +146,7 @@ module SpanReport::Simulate
       pointdata = PointData.new time, ue, data_map
       pointdata.expand_data
       PointKpiProcess.process_pointdata pointdata, @@config_map
-      cellkpi_process.process_pointdata pointdata
+      @cellkpi_process.process_pointdata pointdata
 
       #N(a)=-8, E(a)=-65, CellD
       data_map = {}
@@ -162,7 +162,7 @@ module SpanReport::Simulate
       pointdata = PointData.new time, ue, data_map
       pointdata.expand_data
       PointKpiProcess.process_pointdata pointdata, @@config_map
-      cellkpi_process.process_pointdata pointdata
+      @cellkpi_process.process_pointdata pointdata
 
       #N(a)=-11, E(a)=-78, CellD
       data_map = {}
@@ -178,7 +178,7 @@ module SpanReport::Simulate
       pointdata = PointData.new time, ue, data_map
       pointdata.expand_data
       PointKpiProcess.process_pointdata pointdata, @@config_map
-      cellkpi_process.process_pointdata pointdata
+      @cellkpi_process.process_pointdata pointdata
 
       #N(a)=-12, E(a)=-71, CellD
       data_map = {}
@@ -194,7 +194,7 @@ module SpanReport::Simulate
       pointdata = PointData.new time, ue, data_map
       pointdata.expand_data
       PointKpiProcess.process_pointdata pointdata, @@config_map
-      cellkpi_process.process_pointdata pointdata
+      @cellkpi_process.process_pointdata pointdata
 
       #N(a)=-9, E(a)=-87, CellD
       data_map = {}
@@ -210,7 +210,7 @@ module SpanReport::Simulate
       pointdata = PointData.new time, ue, data_map
       pointdata.expand_data
       PointKpiProcess.process_pointdata pointdata, @@config_map
-      cellkpi_process.process_pointdata pointdata
+      @cellkpi_process.process_pointdata pointdata
 
       #N(a)=-11, E(a)=-81, CellD
       data_map = {}
@@ -226,13 +226,49 @@ module SpanReport::Simulate
       pointdata = PointData.new time, ue, data_map
       pointdata.expand_data
       PointKpiProcess.process_pointdata pointdata, @@config_map
-      cellkpi_process.process_pointdata pointdata
+      @cellkpi_process.process_pointdata pointdata
 
+      @cellkpi_process.cal_kpi_value
+    end
 
-      cellkpi_process.cal_kpi_value
-      cell_kpivalue_map = cellkpi_process.cell_kpivalue_map
+    # 弱覆盖系数
+    it "should correct cal WeakCoverRatioKpi" do
+      cell_kpivalue_map = @cellkpi_process.cell_kpivalue_map
+      weakcover_ratio_kpi = cell_kpivalue_map["小区b"].weakcover_ratio_kpi
+      weakcover_ratio_kpi.should == 0
+      weakcover_ratio_kpi = cell_kpivalue_map["小区c"].weakcover_ratio_kpi
+      weakcover_ratio_kpi.should == 0
+      weakcover_ratio_kpi = cell_kpivalue_map["小区d"].weakcover_ratio_kpi
+      weakcover_ratio_kpi.should == 0
+    end
+
+    it "should correct cal DisturbRatioKpi" do
+      cell_kpivalue_map = @cellkpi_process.cell_kpivalue_map
       disturb_ratio_kpi = cell_kpivalue_map["小区a"].disturb_ratio_kpi
-      disturb_ratio_kpi.to_f.round(4).should == 0.6364  
+      disturb_ratio_kpi.should == 7.0/11 
+    end
+
+    it "should correct cal DisturbRatioKpi detail" do
+      disturb_details = @cellkpi_process.disturb_details
+
+      disturb_details.size.should == 3
+      disturb_details[0].ncell_name.should == "小区a"
+      disturb_details[0].scell_name.should == "小区c"
+      disturb_details[0].distrub_ratio.should == 1.0/3
+
+      disturb_details[1].ncell_name.should == "小区a"
+      disturb_details[1].scell_name.should == "小区b"
+      disturb_details[1].distrub_ratio.should == 2.0/3
+      # 
+      disturb_details[2].ncell_name.should == "小区a"
+      disturb_details[2].scell_name.should == "小区d"
+      disturb_details[2].distrub_ratio.should == 4.0/7
+    end
+
+    it "should correct cal over cover kpi" do
+      cell_kpivalue_map = @cellkpi_process.cell_kpivalue_map
+      overlap_count_kpi = cell_kpivalue_map["小区a"].overlap_count_kpi
+      overlap_count_kpi.should == 2
     end
     
   end

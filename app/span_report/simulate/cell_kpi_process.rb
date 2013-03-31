@@ -4,7 +4,7 @@
 module SpanReport::Simulate
   class CellKpiProcess
 
-    attr_reader :cell_kpivalue_map
+    attr_reader :cell_kpivalue_map, :disturb_details
 
     def initialize config_map
       weak_cover_threshold = config_map[TDL_WEAK_COVER_THRESHOLD]
@@ -23,6 +23,7 @@ module SpanReport::Simulate
       @effectsinr_kpi = EffectSinrKpi.new
 
       @cell_kpivalue_map = {}
+      @disturb_details = []
     end
 
     def process_pointdata pointdata
@@ -55,6 +56,15 @@ module SpanReport::Simulate
         @cell_kpivalue_map[cell_name].disturb_ratio_kpi = kpivalue.ratio
       end
 
+      @disturb_ratio_kpi.each_detail do |ncell_name, scell_name, kpivalue|
+        @disturb_details << DisturbDetail.new(ncell_name, scell_name, kpivalue.ratio)
+      end
+
+      @disturb_ratio_kpi.each_overcover_kpi do |ncell_name, kpivalue|
+        @cell_kpivalue_map[ncell_name] ||= CellKpiValue.new ncell_name
+        @cell_kpivalue_map[ncell_name].overlap_count_kpi = kpivalue.valid_count
+      end
+
       @high_disturb_ratio_kpi.each do |cell_name, kpivalue|
         @cell_kpivalue_map[cell_name] ||= CellKpiValue.new cell_name
         @cell_kpivalue_map[cell_name].high_disturb_ratio_kpi = kpivalue.ratio
@@ -63,9 +73,19 @@ module SpanReport::Simulate
 
   end
 
+  class DisturbDetail
+    attr_accessor :ncell_name, :scell_name, :distrub_ratio
+
+    def initialize ncell_name, scell_name, distrub_ratio
+      @ncell_name = ncell_name
+      @scell_name = scell_name
+      @distrub_ratio = distrub_ratio
+    end
+  end
+
   class CellKpiValue
     attr_accessor :cell_name, :weakcover_ratio_kpi, :overlapcover_ratio_kpi, 
-                  :ncell_disturb_ratio_kpi, :disturb_ratio_kpi, :high_disturb_ratio_kpi
+                  :ncell_disturb_ratio_kpi, :disturb_ratio_kpi, :overlap_count_kpi, :high_disturb_ratio_kpi
 
     def initialize cell_name
       @cell_name = cell_name
@@ -241,19 +261,33 @@ module SpanReport::Simulate
           end
         end
       end
+    end
 
-      def each
-        @kpivalue_map.each do |ncell_name, kpivalue|
-          yield ncell_name, kpivalue
+    def each
+      @kpivalue_map.each do |ncell_name, kpivalue|
+        yield ncell_name, kpivalue
+      end
+    end
+
+    def each_detail
+      @kpivalue_detail_map.each do |ncell_name, scell_map|
+        scell_map.each do |scell_name, kpivalue|
+          yield ncell_name, scell_name, kpivalue
         end
       end
+    end
 
+    def each_overcover_kpi
+      cal_over_cover_kpi
+      @over_cover_kpi_map.each do |ncell_name, kpivalue|
+        yield ncell_name, kpivalue
+      end
     end
 
     # 小区过覆盖系数：某小区作为邻区时，与主服务小区之间“小区干扰系数”大于过覆盖阈值的主服务小区个数。
     def cal_over_cover_kpi
       @over_cover_kpi_map = {}
-      @kpivalue_map.each do |ncell_name, value_map|
+      @kpivalue_detail_map.each do |ncell_name, value_map|
         value_map.each do |scell_name, kpivalue|
           @over_cover_kpi_map[ncell_name] ||= KpiValue.new
           if 1.0 * kpivalue.valid_count / kpivalue.all_count > @over_cover_ratio_threshold
