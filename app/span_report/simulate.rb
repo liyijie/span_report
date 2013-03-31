@@ -8,6 +8,19 @@ module SpanReport
     autoload :CellInfos, "span_report/simulate/cell_infos"
     autoload :SimulateProcess, "span_report/simulate/simulate_process"
     autoload :ConvertFileProcess, "span_report/simulate/convert_file_process"
+    autoload :PointKpiProcess, "span_report/simulate/point_kpi_process.rb"
+    autoload :OverRangeCount, "span_report/simulate/point_kpi_process.rb"
+    autoload :NCellDisturbCount, "span_report/simulate/point_kpi_process.rb"
+
+    #cell kpi process
+    autoload :CellKpiProcess, "span_report/simulate/cell_kpi_process.rb"
+    autoload :WeakCoverRatioKpi, "span_report/simulate/cell_kpi_process.rb"
+    autoload :OverLapCoverRatioKpi, "span_report/simulate/cell_kpi_process.rb"
+    autoload :NCellDisturbRatioKpi, "span_report/simulate/cell_kpi_process.rb"
+    autoload :DisturbRatioKpi, "span_report/simulate/cell_kpi_process.rb"
+    autoload :HighDisturbRatioKpi, "span_report/simulate/cell_kpi_process.rb"
+    autoload :EffectSinrKpi, "span_report/simulate/cell_kpi_process.rb"
+
 
     # 邻区干扰阈值（dB）  邻小区电平值与主服务小区电平值之差大于该阈值，
     # 则认为邻小区对主服务小区会产生干扰。默认-10dB，可修改  -10

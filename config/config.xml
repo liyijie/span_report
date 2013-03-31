@@ -3,7 +3,7 @@
   <common>
     <input_log type="folder">./log_convert</input_log>
     <output_log type="folder">./log_convert</output_log>
-    <function>lglconvert</function>
+    <function></function>
   </common>
 
   <map>

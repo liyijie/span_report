@@ -129,6 +129,7 @@ module SpanReport::Simulate
 
   class PointData
     attr_accessor :time, :ue, :lat, :lon, :pci, :freq, :rsrp, :sinr, :cell_name, :serve_cell, :nei_cells
+    attr_accessor :over_range_count, :disturb, :effect_sinr
     attr_reader :data_map
 
     def initialize(time, ue, data_map={})
@@ -344,6 +345,10 @@ module SpanReport::Simulate
         @cell_name = near_cell_info.cell_name
         @distance = min_dis
       end
+    end
+
+    def fill_kpi_data config_map
+      PointKpiProcess.process_pointdata self, config_map
     end
 
   end

@@ -15,8 +15,8 @@ module SpanReport::Logfile
         filename = fileinfo.filename
         puts "process log #{filename}"
 
-        # parse_one_file filename,processors
-        parse_temp_file filename, processors
+        parse_one_file filename,processors
+        # parse_temp_file filename, processors
       end
     end
 
