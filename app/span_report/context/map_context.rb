@@ -40,14 +40,12 @@ module SpanReport::Context
     end
 
     def convert_lgl_to_csv logfiles
-
-      convert_file_process = SpanReport::Simulate::ConvertFileProcess.new
-      convert_file_process.set_cellinfos @cell_infos
-
+      csv_file = File.join @input_log, "combine.csv"
+      convert_file_process = SpanReport::Simulate::ConvertFileProcess.new csv_file, @cell_infos
+      
       filereader = SpanReport::Logfile::FileReader.new logfiles
       filereader.parse convert_file_process
-      csv_file = File.join @input_log, "combine.csv"
-      convert_file_process.to_file csv_file
+
       filereader.clear_files
 
       csv_file
