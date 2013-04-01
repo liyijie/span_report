@@ -30,101 +30,19 @@ module SpanReport::Simulate
   # 这里主服务小区和邻区是没有本质上的区别，数据信息也是一样的
   # 小区的数据信息是：小区PCI，Freq，名称，距离，RSRP，SINR
   class AnaData
-    attr_accessor :point_datas, :cell_infos, :ie_caches
+    attr_accessor :point_datas, :cell_infos
 
-    def initialize
+    def initialize cell_infos=nil
       @point_datas = []
       @last_point_data = nil
       @holdlast_data = HoldlastData.new
-      @cell_infos = nil
+      @cell_infos = cell_infos
     end
 
-    def get_reg_iemap
-      reg_iemap = {}
-      reg_iemap["dbLon"] = LON
-      reg_iemap["dbLat"] = LAT
-
-      reg_iemap["TDDLTE_Scell_Radio_Parameters_Scell_PCI"] = SCELL_PCI
-      reg_iemap["TDDLTE_Scell_Radio_Parameters_Frequency_DL"] = SCELL_FREQ
-      reg_iemap["TDDLTE_L1_measurement_Serving_Cell_Measurement_RSRP"] = SCELL_RSRP
-      reg_iemap["TDDLTE_L1_measurement_Serving_Cell_Measurement_SINR"] = SCELL_SINR
-
-      (0..ANA_NCELL_NUM-1).each do |i|
-        reg_iemap["TDDLTE_L1_measurement_Neighbour_Cell_Measurement_PCI_#{i}"] = "#{NCELL_PCI}_#{i}"
-        reg_iemap["TDDLTE_L1_measurement_Neighbour_Cell_Measurement_EARFCN_#{i}"] = "#{NCELL_FREQ}_#{i}"
-        reg_iemap["TDDLTE_L1_measurement_Neighbour_Cell_Measurement_RSRP_#{i}"] = "#{NCELL_RSRP}_#{i}"
-      end
-      reg_iemap
-    end
-
-    def add_logdata_map time, ue, data_map
-      point_data = PointData.new time, ue, data_map
-      @last_point_data = point_data unless @last_point_data
-      if @last_point_data.merge? point_data
-        @last_point_data.merge! point_data
-      else
-        # 这里说明来了一条新的时间数据
-        @last_point_data.expand_data
-        @holdlast_data.fill @last_point_data
-        #保存最新的值到hold last中
-        # 再从holdlast data中填充GPS和主服务小区的数据
-        # 
-        # if @last_point_data.valid?
-          @last_point_data.fill @holdlast_data
-          @last_point_data.fill_extra @cell_infos
-          # @last_point_data.sort_cells
-          @point_datas << @last_point_data
-        # end
-        # 
-        @last_point_data = point_data
-      end
-    end
-
-    def to_file resultfile
-      File.open(resultfile, "w") do |file|
-        # file.write 'EF BB BF'.split(' ').map{|a|a.hex.chr}.join()
-        headstring = "time,ue,#{LAT},#{LON},#{SCELL_PCI},#{SCELL_FREQ},#{SCELL_RSRP},#{SCELL_SINR},#{SCELL_NAME},#{SCELL_DISTANCE}"
-        (0..ANA_NCELL_NUM-1).each do |i|
-          headstring = "#{headstring},#{NCELL_PCI}_#{i},#{NCELL_FREQ}_#{i},#{NCELL_RSRP}_#{i},#{NCELL_NAME}_#{i},#{NCELL_DISTANCE}_#{i}"
-        end
-        file.puts headstring
-        @point_datas.each do |point_data|
-          rowdata_string = ""
-          rowdata_string <<  "#{point_data.time.to_s},"
-          rowdata_string <<  "#{point_data.ue.to_s},"
-          rowdata_string <<  "#{point_data.lat.to_s},"
-          rowdata_string <<  "#{point_data.lon.to_s},"
-          rowdata_string <<  "#{point_data.serve_cell.pci.to_s},"
-          rowdata_string <<  "#{point_data.serve_cell.freq.to_s},"
-          rowdata_string <<  "#{point_data.serve_cell.rsrp.to_s},"
-          rowdata_string <<  "#{point_data.serve_cell.sinr.to_s},"
-          rowdata_string <<  "#{point_data.serve_cell.cell_name.to_s},"
-          rowdata_string <<  "#{point_data.serve_cell.distance.to_s},"
-          point_data.nei_cells.each do |ncell|
-            rowdata_string <<  "#{ncell.pci.to_s},"
-            rowdata_string <<  "#{ncell.freq.to_s},"
-            rowdata_string <<  "#{ncell.rsrp.to_s},"
-            rowdata_string <<  "#{ncell.cell_name.to_s},"
-            rowdata_string <<  "#{ncell.distance.to_s},"
-          end
-          file.puts rowdata_string
-        end
-      end
-    end
     
-  end
 
-  class HoldlastData
-    attr_accessor :lat, :lon, :pci, :freq, :rsrp, :sinr
-
-    def fill point_data
-      @lat = point_data.lat if point_data.lat
-      @lon = point_data.lon if point_data.lon
-      @pci = point_data.serve_cell.pci if point_data.serve_cell && point_data.serve_cell.pci
-      @freq = point_data.serve_cell.freq if point_data.serve_cell && point_data.serve_cell.freq
-      @rsrp = point_data.serve_cell.rsrp if point_data.serve_cell && point_data.serve_cell.rsrp
-      @sinr = point_data.serve_cell.sinr if point_data.serve_cell && point_data.serve_cell.sinr
-    end 
+    
+    
   end
 
   class PointData
@@ -281,6 +199,29 @@ module SpanReport::Simulate
     def valid?
       @nei_cells && !@nei_cells.empty?
     end
+
+    def to_s
+      rowdata_string = ""
+      rowdata_string <<  "#{point_data.time.to_s},"
+      rowdata_string <<  "#{point_data.ue.to_s},"
+      rowdata_string <<  "#{point_data.lat.to_s},"
+      rowdata_string <<  "#{point_data.lon.to_s},"
+      rowdata_string <<  "#{point_data.serve_cell.pci.to_s},"
+      rowdata_string <<  "#{point_data.serve_cell.freq.to_s},"
+      rowdata_string <<  "#{point_data.serve_cell.rsrp.to_s},"
+      rowdata_string <<  "#{point_data.serve_cell.sinr.to_s},"
+      rowdata_string <<  "#{point_data.serve_cell.cell_name.to_s},"
+      rowdata_string <<  "#{point_data.serve_cell.distance.to_s},"
+      point_data.nei_cells.each do |ncell|
+        rowdata_string <<  "#{ncell.pci.to_s},"
+        rowdata_string <<  "#{ncell.freq.to_s},"
+        rowdata_string <<  "#{ncell.rsrp.to_s},"
+        rowdata_string <<  "#{ncell.cell_name.to_s},"
+        rowdata_string <<  "#{ncell.distance.to_s},"
+      end
+      rowdata_string
+    end
+
   end
   
 

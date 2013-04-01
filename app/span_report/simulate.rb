@@ -2,12 +2,11 @@
 
 module SpanReport
   module Simulate
-    autoload :AnaData, "span_report/simulate/ana_data"
-    autoload :HoldlastData, "span_report/simulate/ana_data"
     autoload :PointData, "span_report/simulate/ana_data"
     autoload :CellInfos, "span_report/simulate/cell_infos"
     autoload :SimulateProcess, "span_report/simulate/simulate_process"
     autoload :ConvertFileProcess, "span_report/simulate/convert_file_process"
+    autoload :HoldlastData, "span_report/simulate/convert_file_process"
     autoload :PointKpiProcess, "span_report/simulate/point_kpi_process.rb"
     autoload :OverRangeCount, "span_report/simulate/point_kpi_process.rb"
     autoload :NCellDisturbCount, "span_report/simulate/point_kpi_process.rb"

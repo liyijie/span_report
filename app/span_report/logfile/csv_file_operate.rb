@@ -20,6 +20,8 @@ module SpanReport::Logfile
       end
     end
 
+    private
+
     def parse_one_file filename, processors
       line_index = 0
       head_info = []
@@ -84,6 +86,56 @@ module SpanReport::Logfile
 
         line_index += 1
       end
+    end
+  end
+
+  class CsvWriter
+
+    def initailize resultfile
+      @export_data = []
+      open_file resultfile
+    end
+
+    def add_data pointdata
+      @export_data << pointdata
+    end
+
+    def << pointdata
+      add_data pointdata
+    end
+
+    def close_file
+      flush
+      @file.close if @file
+    end
+
+    private
+
+    def open_file result_file
+      puts "output csv file is:#{result_file}"
+      @file = File.new(result_file, "w")
+      @file.puts head_string
+    end
+
+    def write_result
+      if @export_datas.size > 100
+        flush
+      end
+    end
+
+    def flush
+      @export_datas.each do |pointdata|
+        @file.puts pointdata
+      end
+      @export_datas.clear
+    end
+
+    def head_string
+      headstring = "time,ue,#{LAT},#{LON},#{SCELL_PCI},#{SCELL_FREQ},#{SCELL_RSRP},#{SCELL_SINR},#{SCELL_NAME},#{SCELL_DISTANCE}"
+      (0..ANA_NCELL_NUM-1).each do |i|
+        headstring = "#{headstring},#{NCELL_PCI}_#{i},#{NCELL_FREQ}_#{i},#{NCELL_RSRP}_#{i},#{NCELL_NAME}_#{i},#{NCELL_DISTANCE}_#{i}"
+      end
+      headstring
     end
   end
 
