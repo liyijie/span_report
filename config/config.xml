@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <context>
   <common>
-    <input_log type="folder">./log_convert</input_log>
-    <output_log type="folder">./log_convert</output_log>
-    <function></function>
+    <input_log type="folder">./log_map</input_log>
+    <output_log type="folder">D:/ruby/span_report/log_map</output_log>
+    <function>simulate</function>
   </common>
 
   <map>
@@ -24,7 +24,7 @@
   </lglconvert>
 
   <report>
-    <counter_def>D:/ruby/span_report/log_report/IE模板.xlsx</counter_def>
+    <counter_def>D:/ruby/span_report/log_report/福州IE模板.xlsx</counter_def>
     <outer_def>D:/ruby/span_report/log_report/福州片区报表模板.xlsx</outer_def>
     <combine>true</combine>
   </report>
@@ -36,10 +36,10 @@
   </nodeb_report>
 
   <simulate>
-    <cell_info>D:/span_report/template/cell_info.xlsx</cell_info>
+    <cell_info>D:/ruby/span_report/template/cell_info.xlsx</cell_info>
     <threshold_config>
       <!-- 邻区干扰阈值（dB） -->
-      <threshold name="disturb" value="-10"></threshold>
+      <threshold name="disturb" value="-6"></threshold>
       <!-- 邻区干扰强度阈值 -->
       <threshold name="disturb_strength" value="30"></threshold>
       <!-- TDS模拟TDL补偿值 -->
@@ -50,11 +50,12 @@
       <!-- 重叠覆盖小区数阈值 -->
       <threshold name="overlap_cover" value="3"></threshold>
       <!-- 邻区有效性阈值（dBm） -->
-      <threshold name="ncell_valid" value="-105"></threshold>
+      <threshold name="ncell_valid" value="-140"></threshold>
       <!-- 过覆盖阈值（%）,这里采用小数 -->
       <threshold name="over_cover_ratio" value="0.5"></threshold>
       <!-- 高干扰阈值（dB） -->
       <threshold name="high_disturb" value="6"></threshold>
+      <threshold name="distance_filter" value="1500"></threshold>
     </threshold_config>
   </simulate>
 

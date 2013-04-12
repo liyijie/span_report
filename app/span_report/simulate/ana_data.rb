@@ -10,22 +10,6 @@
 
 module SpanReport::Simulate
 
-  ANA_NCELL_NUM = 8
-
-  LON = "lontitute"
-  LAT = "latitude"
-  SCELL_PCI = "scell_pci"
-  SCELL_FREQ = "scell_freq"
-  SCELL_RSRP = "scell_rsrp"
-  SCELL_SINR = "scell_sinr"
-  SCELL_NAME = "scell_name"
-  SCELL_DISTANCE = "scell_distance"
-  NCELL_PCI = "ncell_pci"
-  NCELL_FREQ = "ncell_freq"
-  NCELL_RSRP = "ncell_rsrp"
-  NCELL_NAME = "ncell_name"
-  NCELL_DISTANCE = "ncell_distance"
-
   # 分析需要的数据，时间，UE，主服务小区和邻区信息
   # 这里主服务小区和邻区是没有本质上的区别，数据信息也是一样的
   # 小区的数据信息是：小区PCI，Freq，名称，距离，RSRP，SINR
@@ -38,9 +22,6 @@ module SpanReport::Simulate
       @holdlast_data = HoldlastData.new
       @cell_infos = cell_infos
     end
-
-    
-
     
     
   end
@@ -98,18 +79,22 @@ module SpanReport::Simulate
       if (@serve_cell.nil? || @serve_cell.pci.nil?) && holdlast_data.pci
         @serve_cell ||= CellData.new
         @serve_cell.pci = holdlast_data.pci
+        @pci = holdlast_data.pci
       end
       if (@serve_cell.nil? || @serve_cell.freq.nil?) && holdlast_data.freq
         @serve_cell ||= CellData.new
         @serve_cell.freq = holdlast_data.freq
+        @freq = holdlast_data.freq
       end
       if (@serve_cell.nil? || @serve_cell.rsrp.nil?) && holdlast_data.rsrp
         @serve_cell ||= CellData.new
         @serve_cell.rsrp = holdlast_data.rsrp
+        @rsrp = holdlast_data.rsrp
       end
       if (@serve_cell.nil? || @serve_cell.sinr.nil?) && holdlast_data.sinr
         @serve_cell ||= CellData.new
         @serve_cell.sinr = holdlast_data.sinr
+        @sinr = holdlast_data.sinr
       end
     end
 
@@ -140,6 +125,7 @@ module SpanReport::Simulate
         @serve_cell.rsrp = @data_map[SCELL_RSRP]
         @serve_cell.sinr = @data_map[SCELL_SINR]
         @serve_cell.cell_name = @data_map[SCELL_NAME]
+        @serve_cell.distance = @data_map[SCELL_DISTANCE]
         @pci = @data_map[SCELL_PCI]
         @freq = @data_map[SCELL_FREQ]
         @rsrp = @data_map[SCELL_RSRP]
@@ -149,17 +135,49 @@ module SpanReport::Simulate
 
       @nei_cells = []
       (0..ANA_NCELL_NUM-1).each do |i|
-        if @data_map["#{NCELL_PCI}_#{i}"]
+        if @data_map["#{NCELL_PCI}_#{i}"] && @data_map["#{NCELL_PCI}_#{i}"].to_i > 0
           pci = @data_map["#{NCELL_PCI}_#{i}"]
           freq = @data_map["#{NCELL_FREQ}_#{i}"]
           nei_cell =  CellData.new(pci, freq)
           nei_cell.rsrp = @data_map["#{NCELL_RSRP}_#{i}"]
           nei_cell.cell_name = @data_map["#{NCELL_NAME}_#{i}"]
+          nei_cell.distance = @data_map["#{NCELL_DISTANCE}_#{i}"]
           @nei_cells << nei_cell
         end
       end
       # 清空内存
-      data_map = {}
+      @data_map = {}
+    end
+
+    def fill_kpi_data config_map
+      PointKpiProcess.process_pointdata self, config_map
+    end
+
+    def filter_distance config_map, filter_map={}
+
+      if @serve_cell.distance.to_f > config_map[DISTANCE_FILTER].to_f
+        @serve_cell.rsrp = -140
+        @rsrp = -140
+      end
+
+      if filter_map.has_key? @serve_cell.cell_name
+        if (@serve_cell.distance.to_f > filter_map[@serve_cell.cell_name].distance.to_f)
+          @serve_cell.rsrp = -140
+          @rsrp = -140
+        end
+      end
+
+      @nei_cells.each do |nei_cell|
+        if (nei_cell.distance.to_f > config_map[DISTANCE_FILTER].to_f)
+          nei_cell.rsrp = -140
+        end
+
+        if filter_map.has_key? nei_cell.cell_name
+          if (nei_cell.distance.to_f > filter_map[nei_cell.cell_name].distance.to_f)
+            nei_cell.rsrp = -140
+          end
+        end
+      end
     end
 
     # 根据场强，重新进行邻区排列
@@ -175,8 +193,16 @@ module SpanReport::Simulate
 
       bubble_sort cell_datas
 
+      @serve_cell = cell_datas[0]
+      if @serve_cell
+        @pci = cell_datas[0].pci
+        @freq = cell_datas[0].freq
+        @rsrp = cell_datas[0].rsrp
+        @sinr = cell_datas[0].sinr
+        @cell_name = cell_datas[0].cell_name
+      end
+
       unless cell_datas.empty?
-        @serve_cell = cell_datas[0]
         @nei_cells = []
         (1..cell_datas.size-1).each do |i|
           @nei_cells << cell_datas[i]
@@ -185,13 +211,19 @@ module SpanReport::Simulate
     end
 
     def bubble_sort(cell_datas)
+      return if cell_datas.empty?
+
+      # cell_datas = cell_datas.sort_by do |cell_data|
+      #   cell_data.rsrp.to_f * (-1)
+      # end
       (cell_datas.size-2).downto(0) do |i|
         (0..i).each do |j|  
           if cell_datas[j].rsrp.to_f < cell_datas[j+1].rsrp.to_f
             cell_datas[j], cell_datas[j+1] = cell_datas[j+1], cell_datas[j]
           end
         end
-      end  
+      end
+
       return cell_datas
     end
 
@@ -202,17 +234,17 @@ module SpanReport::Simulate
 
     def to_s
       rowdata_string = ""
-      rowdata_string <<  "#{point_data.time.to_s},"
-      rowdata_string <<  "#{point_data.ue.to_s},"
-      rowdata_string <<  "#{point_data.lat.to_s},"
-      rowdata_string <<  "#{point_data.lon.to_s},"
-      rowdata_string <<  "#{point_data.serve_cell.pci.to_s},"
-      rowdata_string <<  "#{point_data.serve_cell.freq.to_s},"
-      rowdata_string <<  "#{point_data.serve_cell.rsrp.to_s},"
-      rowdata_string <<  "#{point_data.serve_cell.sinr.to_s},"
-      rowdata_string <<  "#{point_data.serve_cell.cell_name.to_s},"
-      rowdata_string <<  "#{point_data.serve_cell.distance.to_s},"
-      point_data.nei_cells.each do |ncell|
+      rowdata_string <<  "#{@time.to_s},"
+      rowdata_string <<  "#{@ue.to_s},"
+      rowdata_string <<  "#{@lat.to_s},"
+      rowdata_string <<  "#{@lon.to_s},"
+      rowdata_string <<  "#{@serve_cell.pci.to_s},"
+      rowdata_string <<  "#{@serve_cell.freq.to_s},"
+      rowdata_string <<  "#{@serve_cell.rsrp.to_s},"
+      rowdata_string <<  "#{@serve_cell.sinr.to_s},"
+      rowdata_string <<  "#{@serve_cell.cell_name.to_s},"
+      rowdata_string <<  "#{@serve_cell.distance.to_s},"
+      @nei_cells.each do |ncell|
         rowdata_string <<  "#{ncell.pci.to_s},"
         rowdata_string <<  "#{ncell.freq.to_s},"
         rowdata_string <<  "#{ncell.rsrp.to_s},"
@@ -220,6 +252,14 @@ module SpanReport::Simulate
         rowdata_string <<  "#{ncell.distance.to_s},"
       end
       rowdata_string
+    end
+
+    def self.head_string
+      headstring = "time,ue,#{LAT},#{LON},#{SCELL_PCI},#{SCELL_FREQ},#{SCELL_RSRP},#{SCELL_SINR},#{SCELL_NAME},#{SCELL_DISTANCE}"
+      (0..ANA_NCELL_NUM-1).each do |i|
+        headstring = "#{headstring},#{NCELL_PCI}_#{i},#{NCELL_FREQ}_#{i},#{NCELL_RSRP}_#{i},#{NCELL_NAME}_#{i},#{NCELL_DISTANCE}_#{i}"
+      end
+      headstring
     end
 
   end
@@ -288,8 +328,8 @@ module SpanReport::Simulate
       end
     end
 
-    def fill_kpi_data config_map
-      PointKpiProcess.process_pointdata self, config_map
+    def to_s
+      "#{pci},#{freq},#{nodeb_name},#{cell_name},#{distance},#{rsrp},#{sinr}"
     end
 
   end

@@ -4,16 +4,16 @@
 module SpanReport::Simulate
   class CellKpiProcess
 
-    attr_reader :cell_kpivalue_map, :disturb_details
+    attr_reader :cell_kpivalue_map, :disturb_details, :effectsinr_kpi, :overrange_kpi
 
     def initialize config_map
-      weak_cover_threshold = config_map[TDL_WEAK_COVER_THRESHOLD]
-      disturb_threshold = config_map[DISTURB_THRESHOLD]
-      disturb_strength_threshold = config_map[DISTURB_STRENGTH_THRESHOLD]
-      over_range_count_threshold = config_map[OVERLAP_COVER_THRESHOLD]
-      ncell_valid_threshold = config_map[NCELL_VALID_THRESHOLD]
-      over_cover_ratio_threshold = config_map[OVER_COVER_RATIO_THRESHOLD]
-      high_disturb_threshold = config_map[HIGH_DISTURB_THRESHOLD]
+      weak_cover_threshold = config_map[TDL_WEAK_COVER_THRESHOLD].to_f
+      disturb_threshold = config_map[DISTURB_THRESHOLD].to_f
+      disturb_strength_threshold = config_map[DISTURB_STRENGTH_THRESHOLD].to_f
+      over_range_count_threshold = config_map[OVERLAP_COVER_THRESHOLD].to_f
+      ncell_valid_threshold = config_map[NCELL_VALID_THRESHOLD].to_f
+      over_cover_ratio_threshold = config_map[OVER_COVER_RATIO_THRESHOLD].to_f
+      high_disturb_threshold = config_map[HIGH_DISTURB_THRESHOLD].to_f
 
       @weakcover_ratio_kpi = WeakCoverRatioKpi.new weak_cover_threshold
       @overlapcover_ratio_kpi = OverLapCoverRatioKpi.new disturb_strength_threshold, over_range_count_threshold
@@ -21,6 +21,7 @@ module SpanReport::Simulate
       @disturb_ratio_kpi = DisturbRatioKpi.new disturb_threshold, ncell_valid_threshold, over_cover_ratio_threshold
       @high_disturb_ratio_kpi = HighDisturbRatioKpi.new high_disturb_threshold
       @effectsinr_kpi = EffectSinrKpi.new
+      @overrange_kpi = OverRangeKpi.new
 
       @cell_kpivalue_map = {}
       @disturb_details = []
@@ -33,6 +34,7 @@ module SpanReport::Simulate
       @disturb_ratio_kpi.static pointdata
       @high_disturb_ratio_kpi.static pointdata
       @effectsinr_kpi.static pointdata
+      @overrange_kpi.static pointdata
     end
 
     def cal_kpi_value
@@ -54,10 +56,18 @@ module SpanReport::Simulate
       @disturb_ratio_kpi.each do |cell_name, kpivalue|
         @cell_kpivalue_map[cell_name] ||= CellKpiValue.new cell_name
         @cell_kpivalue_map[cell_name].disturb_ratio_kpi = kpivalue.ratio
+        @cell_kpivalue_map[cell_name].disturb_strenth = kpivalue.sum_value
       end
 
       @disturb_ratio_kpi.each_detail do |ncell_name, scell_name, kpivalue|
-        @disturb_details << DisturbDetail.new(ncell_name, scell_name, kpivalue.ratio)
+        disturb_detail = DisturbDetail.new
+        disturb_detail.ncell_name = ncell_name
+        disturb_detail.scell_name = scell_name
+        disturb_detail.distrub_ratio = kpivalue.ratio
+        disturb_detail.distrub_count = kpivalue.valid_count
+        disturb_detail.all_count = kpivalue.all_count
+        disturb_detail.disturb_strenth = kpivalue.sum_value
+        @disturb_details << disturb_detail
       end
 
       @disturb_ratio_kpi.each_overcover_kpi do |ncell_name, kpivalue|
@@ -71,20 +81,59 @@ module SpanReport::Simulate
       end
     end
 
+    def worst_cell_name
+      worst_cell_name = ""
+      max_disturb = 0
+      @disturb_ratio_kpi.each do |cell_name, kpivalue|
+        if (cell_name != "" && kpivalue.sum_value > max_disturb)
+          max_disturb = kpivalue.sum_value
+          worst_cell_name = cell_name
+        end
+      end
+      worst_cell_name
+    end
+
+    def to_file resultfile
+      cal_kpi_value
+      File.open(resultfile, "w") do |file|
+        file.puts "等效SINR,#{@effectsinr_kpi.value}".encode('GBK')
+        file.puts "过覆盖数,#{@overrange_kpi.value}".encode('GBK')
+        file.puts "小区名,弱覆盖,重叠覆盖系数,邻区干扰,小区干扰,小区干扰强度,过覆盖数,高干扰".encode('GBK')
+        cell_kpivalues_sort = @cell_kpivalue_map.values.sort_by do |cell_kpivalue|
+          cell_kpivalue.disturb_strenth.to_f * -1
+        end
+        cell_kpivalues_sort.each do |cellkpivalue|
+          dis_str = ""
+          dis_str << "#{cellkpivalue.cell_name},#{cellkpivalue.weakcover_ratio_kpi},#{cellkpivalue.overlapcover_ratio_kpi},"
+          dis_str << "#{cellkpivalue.ncell_disturb_ratio_kpi},#{cellkpivalue.disturb_ratio_kpi},#{cellkpivalue.disturb_strenth},#{cellkpivalue.overlap_count_kpi},#{cellkpivalue.high_disturb_ratio_kpi}"
+          file.puts dis_str
+        end
+      end
+
+      detail_resultfile = resultfile.sub '.csv', '_detal.csv'
+      File.open("#{detail_resultfile}", "w") do |file|
+        file.puts "邻小区,源小区,干扰,干扰数,干扰强度,总数".encode('GBK')
+        disturb_details_sort = @disturb_details.sort_by do |disturb|
+          disturb.disturb_strenth * -1
+        end
+        disturb_details_sort.each do |disturb_detail|
+          dis_str = ""
+          dis_str << "#{disturb_detail.ncell_name},#{disturb_detail.scell_name},#{disturb_detail.distrub_ratio},#{disturb_detail.distrub_count},#{disturb_detail.disturb_strenth},#{disturb_detail.all_count}"
+          file.puts dis_str
+        end
+      end
+
+    end
+
   end
 
   class DisturbDetail
-    attr_accessor :ncell_name, :scell_name, :distrub_ratio
+    attr_accessor :ncell_name, :scell_name, :distrub_ratio, :distrub_count, :all_count, :disturb_strenth
 
-    def initialize ncell_name, scell_name, distrub_ratio
-      @ncell_name = ncell_name
-      @scell_name = scell_name
-      @distrub_ratio = distrub_ratio
-    end
   end
 
   class CellKpiValue
-    attr_accessor :cell_name, :weakcover_ratio_kpi, :overlapcover_ratio_kpi, 
+    attr_accessor :cell_name, :weakcover_ratio_kpi, :overlapcover_ratio_kpi, :disturb_strenth,
                   :ncell_disturb_ratio_kpi, :disturb_ratio_kpi, :overlap_count_kpi, :high_disturb_ratio_kpi
 
     def initialize cell_name
@@ -94,11 +143,12 @@ module SpanReport::Simulate
 
   class KpiValue
 
-    attr_reader :valid_count, :all_count, :sum_value
+    attr_reader :valid_count, :all_count, :sum_value, :sum_count
     def initialize
       @valid_count = 0
       @all_count = 0
       @sum_value = 0.0
+      @sum_count = 0
     end
 
     def add_valid
@@ -112,7 +162,7 @@ module SpanReport::Simulate
 
     def add_value value
       @sum_value += value.to_f
-      @all_count += 1
+      @sum_count += 1
     end
 
     def ratio
@@ -125,12 +175,14 @@ module SpanReport::Simulate
     end
 
     def avg
-      @sum_value / @all_count
+      @sum_value / @sum_count
     end
 
     def add_kpivalue kpivalue
       @valid_count += kpivalue.valid_count
       @all_count += kpivalue.all_count
+      @sum_value += kpivalue.sum_value
+      @sum_count += kpivalue.sum_count
     end
   end
 
@@ -171,6 +223,8 @@ module SpanReport::Simulate
     end
 
   end
+
+
 
   # 小区弱覆盖系数：小区覆盖系数是对小区覆盖情况的判断，采用“小区弱覆盖采样点数÷总采样点数”。 
   # 小区弱覆盖采样点数为小区RSCP（或RSRP）测量值低于弱覆盖阈值的采样点数。
@@ -260,6 +314,9 @@ module SpanReport::Simulate
             kpivalue.add_invalid
           end
         end
+        disturb_strenth = 10**(f_ncell_rsrp/10 - f_scell_rsrp/10)
+        scell_map[scell_name].add_value disturb_strenth
+        kpivalue.add_value disturb_strenth
       end
     end
 
@@ -324,6 +381,19 @@ module SpanReport::Simulate
     def static pointdata
       unless pointdata.effect_sinr.to_s.empty?
         @kpivalue.add_value pointdata.effect_sinr
+      end
+    end
+
+    def value
+      @kpivalue.avg
+    end
+  end
+
+  class OverRangeKpi < EffectSinrKpi
+    
+    def static pointdata
+      unless pointdata.over_range_count.to_s.empty?
+        @kpivalue.add_value pointdata.over_range_count
       end
     end
   end

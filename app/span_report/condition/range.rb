@@ -26,17 +26,20 @@ module SpanReport::Condition
 
     def validate?(validate_datas)
       ievalue = validate_datas[@iename]
+      
+      return_value = false
       if ievalue
         ievalue = ievalue.to_f
         if (ievalue > @low_num && ievalue < @high_num)
-          return true
+          return_value = true
         elsif @low_mark == '[' && ievalue == @low_num
-          return true
+          return_value = true
         elsif @high_mark == ']' && ievalue == @high_num
-          return true
+          return_value = true
         end
       end
-      false
+
+      return_value
     end
 
     def to_s

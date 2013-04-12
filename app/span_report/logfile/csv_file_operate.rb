@@ -6,17 +6,20 @@ module SpanReport::Logfile
     ###################################################
     # 这里传入的files并不是普通的文件名，而是封装的结构
     ##################################################
-    def initialize(files)
+    def initialize(files, is_temp=false)
       @files = files
+      @is_temp = is_temp
     end
 
     def parse(processors)
       @files.each do |fileinfo|
         filename = fileinfo.filename
         puts "process log #{filename}"
-
-        parse_one_file filename,processors
-        # parse_temp_file filename, processors
+        if @is_temp
+          parse_temp_file filename, processors
+        else
+          parse_one_file filename,processors
+        end
       end
     end
 
@@ -26,6 +29,7 @@ module SpanReport::Logfile
       line_index = 0
       head_info = []
       File.foreach(filename) do |line|
+        line = line.chop
         contents = line.split ','
         if line_index == 0
           contents.each do |item| 
@@ -34,12 +38,18 @@ module SpanReport::Logfile
         else
           data_map = {}
           contents.each_with_index do |item, i|
+            next if item.to_s.empty?
             data_map[head_info[i].to_s] = item
           end
+          time = data_map["time"]
+          ue = data_map["ue"]
+          point_data = SpanReport::Simulate::PointData.new time, ue, data_map
+          point_data.expand_data
+      
           # 调用每个处理器处理数据
           processors.each do |process|
             # begin
-              process.process_csv_data data_map
+              process.process_pointdata point_data
             # rescue Exception => e
             #   puts "process data error:#{e.backtrace}"
             #   next
@@ -57,6 +67,7 @@ module SpanReport::Logfile
           line_index += 1
           next
         end
+        line = line.chop
         contents = line.split ','
         data_map = {}
         data_map["time"] = contents[0]
@@ -73,11 +84,15 @@ module SpanReport::Logfile
           data_map["ncell_freq_#{i}"] = "1890"
           data_map["ncell_rsrp_#{i}"] = contents[8 + 2*i]
         end
+        time = data_map["time"]
+        ue = data_map["ue"]
+        point_data = SpanReport::Simulate::PointData.new time, ue, data_map
+        point_data.expand_data
 
         # 调用每个处理器处理数据
         processors.each do |process|
           # begin
-            process.process_csv_data data_map
+            process.process_pointdata point_data
           # rescue Exception => e
           #   puts "process data error:#{e.backtrace}"
           #   next
@@ -91,13 +106,14 @@ module SpanReport::Logfile
 
   class CsvWriter
 
-    def initailize resultfile
-      @export_data = []
+    def initialize resultfile
+      @export_datas = []
       open_file resultfile
     end
 
     def add_data pointdata
-      @export_data << pointdata
+      @export_datas << pointdata
+      write_result
     end
 
     def << pointdata
@@ -112,7 +128,7 @@ module SpanReport::Logfile
     private
 
     def open_file result_file
-      puts "output csv file is:#{result_file}"
+      # puts "output csv file is:#{result_file}"
       @file = File.new(result_file, "w")
       @file.puts head_string
     end
@@ -131,11 +147,7 @@ module SpanReport::Logfile
     end
 
     def head_string
-      headstring = "time,ue,#{LAT},#{LON},#{SCELL_PCI},#{SCELL_FREQ},#{SCELL_RSRP},#{SCELL_SINR},#{SCELL_NAME},#{SCELL_DISTANCE}"
-      (0..ANA_NCELL_NUM-1).each do |i|
-        headstring = "#{headstring},#{NCELL_PCI}_#{i},#{NCELL_FREQ}_#{i},#{NCELL_RSRP}_#{i},#{NCELL_NAME}_#{i},#{NCELL_DISTANCE}_#{i}"
-      end
-      headstring
+      SpanReport::Simulate::PointData.head_string
     end
   end
 

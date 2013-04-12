@@ -9,8 +9,12 @@ module SpanReport::Simulate
       @cell_infos = cell_infos
       @last_point_data = nil
       @holdlast_data = HoldlastData.new
+      @csv_writer = SpanReport::Logfile::CsvWriter.new csv_file
       reg_needed_ies
-      csv_writer = SpanReport::Logfile::CsvWriter.new csv_file
+    end
+
+    def process_pointdata point_data
+      @csv_writer << point_data
     end
 
     def process_data logdata, file_group=""
@@ -32,6 +36,10 @@ module SpanReport::Simulate
       add_logdata_map time, ue, data_map
     end
 
+    def close_file
+      @csv_writer.close_file if @csv_writer
+    end
+
     private
 
     def add_logdata_map time, ue, data_map
@@ -49,7 +57,7 @@ module SpanReport::Simulate
         if @last_point_data.valid?
           @last_point_data.fill @holdlast_data
           @last_point_data.fill_extra @cell_infos
-          csv_writer << @last_point_data
+          @csv_writer << @last_point_data
         end
         # 
         @last_point_data = point_data

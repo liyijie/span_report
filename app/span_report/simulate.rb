@@ -21,6 +21,22 @@ module SpanReport
     autoload :EffectSinrKpi, "span_report/simulate/cell_kpi_process.rb"
 
 
+    ANA_NCELL_NUM = 8
+
+    LON = "lontitute"
+    LAT = "latitude"
+    SCELL_PCI = "scell_pci"
+    SCELL_FREQ = "scell_freq"
+    SCELL_RSRP = "scell_rsrp"
+    SCELL_SINR = "scell_sinr"
+    SCELL_NAME = "scell_name"
+    SCELL_DISTANCE = "scell_distance"
+    NCELL_PCI = "ncell_pci"
+    NCELL_FREQ = "ncell_freq"
+    NCELL_RSRP = "ncell_rsrp"
+    NCELL_NAME = "ncell_name"
+    NCELL_DISTANCE = "ncell_distance"
+
     # 邻区干扰阈值（dB）  邻小区电平值与主服务小区电平值之差大于该阈值，
     # 则认为邻小区对主服务小区会产生干扰。默认-10dB，可修改  -10
     DISTURB_THRESHOLD = "disturb"
@@ -40,5 +56,7 @@ module SpanReport
     OVER_COVER_RATIO_THRESHOLD = "over_cover_ratio"
     # 高干扰阈值（dB） 定义SINR、等效SINR、C/I门限，默认6dB，可修改 6
     HIGH_DISTURB_THRESHOLD = "high_disturb"
+    # 需要过滤的距离
+    DISTANCE_FILTER = "distance_filter"
   end
 end

@@ -35,6 +35,7 @@ module SpanReport::Model
     #校验需要同时满足自身条件和关联条件，返回的结果才是true
     def validate?(validate_datas)
       result = self_condition.validate?(validate_datas)
+      
       return false if (!result)
       relate_conditions.each do |relate_condition|
         result = relate_condition.validate?(validate_datas)

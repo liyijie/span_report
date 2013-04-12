@@ -5,21 +5,17 @@ module SpanReport::Map
   # 外部调用，需要先config_export_file，否则不会输出
   class MapProcess < SpanReport::Process::Export
     
-    def initialize
-      super
-      # reg_needed_ies
+    def initialize result_path
+      super()
+      @result_path = result_path
     end
 
-    # def reg_needed_ies
-    #   reg_ie_name "dbLon" ,"Longitude"
-    #   reg_ie_name "dbLat" ,"Latitude"
-    #   reg_ie_name "TDDLTE_Scell_Radio_Parameters_Scell_PCI" ,"i624"
-    #   reg_ie_name "TDDLTE_Scell_Radio_Parameters_Frequency_DL" ,"i627"
-    #   reg_ie_name "TDDLTE_L1_measurement_Serving_Cell_Measurement_RSRP" ,"i637"
-    #   reg_ie_name "TDDLTE_L1_measurement_Serving_Cell_Measurement_SINR" ,"i642"
-    #   reg_ie_name "TDDLTE_Throughput_APP_Throughput_DL" ,"i945"
-    #   reg_ie_name "TDDLTE_Throughput_APP_Throughput_UL" ,"i946" 
-    # end
+
+    def open_file result_file
+      puts "export file is:#{result_file}"
+      @file = File.new(result_file, "w")
+      @file.puts head_string
+    end
 
     def process_csv_data data_map
 
@@ -33,7 +29,13 @@ module SpanReport::Map
       write_result
     end
 
+    def process_pointdata point_data
+      @export_datas << point_data
+      write_result
+    end
+
     def flush
+      open_file(File.join @result_path, "全部轨迹.csv") if @file.nil?
       @export_datas.each do |pointdata|
         mapdata = pointdata_to_mapdata pointdata
         @file.puts mapdata

@@ -4,10 +4,11 @@ module SpanReport::Map
 
   class CellMapProcess < MapProcess
 
-    attr_accessor :result_path, :cell_infos
+    attr_accessor :cell_infos
      
-    def initialize
-      super
+    def initialize result_path, cell_infos
+      super(result_path)
+      @cell_infos = cell_infos
       @mapfile_map = {}
     end
 
@@ -20,7 +21,7 @@ module SpanReport::Map
           next if cell_name.nil? || cell_name.empty?
           unless @mapfile_map.has_key? cell_name
             result_filename = File.join @result_path, "#{cell_name.encode('utf-8')}.csv"
-            puts "result_filename is:#{result_filename}"
+            # puts "result_filename is:#{result_filename}"
             @mapfile_map[cell_name] = File.new(result_filename, "w")  
             @mapfile_map[cell_name].puts head_string
           end

@@ -11,7 +11,6 @@ module SpanReport::Simulate
     end
   end
 
-
   #########################################
   # 过覆盖数统计，统计每个采样点
   # 与主服务小区电平值相差小于邻区干扰阈值的小区个数；
@@ -23,13 +22,14 @@ module SpanReport::Simulate
 
     def self.static pointdata, config_map
       over_range_count = 1
-      return over_range_count if pointdata.rsrp.to_s.empty?
-      f_rsrp = pointdata.rsrp.to_f
-      ncells = pointdata.nei_cells
-      ncells.each do |ncell|
-        next if ncell.rsrp.to_s.empty?
-        if ncell.rsrp.to_f - f_rsrp > config_map[DISTURB_THRESHOLD].to_f
-          over_range_count += 1
+      unless pointdata.rsrp.to_s.empty?
+        f_rsrp = pointdata.rsrp.to_f
+        ncells = pointdata.nei_cells
+        ncells.each do |ncell|
+          next if ncell.rsrp.to_s.empty?
+          if ncell.rsrp.to_f - f_rsrp > config_map[DISTURB_THRESHOLD].to_f
+            over_range_count += 1
+          end
         end
       end
       pointdata.over_range_count = over_range_count
@@ -86,10 +86,17 @@ module SpanReport::Simulate
           f_i += 10**(ncell.rsrp.to_f/10) unless ncell.rsrp.to_s.empty?
         end
         # f_n = 0
-        f_n = 10**(-108.0/10)
+        f_n = 10**(-127.0/10)
         effect_sinr = f_s/(f_i + f_n)
       end
-      pointdata.effect_sinr = 10 * Math.log10(effect_sinr)
+      effect_sinr = 10 * Math.log10(effect_sinr)
+      if (effect_sinr > 25.0)
+        effect_sinr = 25.0
+      elsif effect_sinr < -22.0
+        effect_sinr = -22.0
+      end
+          
+      pointdata.effect_sinr = effect_sinr
     end
   end
 end

@@ -21,8 +21,8 @@ module SpanReport::Simulate
       data1.merge! data2
       data1.expand_data
       data1.lat.should be_nil
-      data1.serve_cell.pci.should == 8
-      data1.serve_cell.freq.should == 9
+      data1.pci.should == 8
+      data1.freq.should == 9
       data1.nei_cells.size.should == 2
       data1.nei_cells[0].pci.should == 9
       data1.nei_cells[1].pci.should == 11
@@ -42,9 +42,9 @@ module SpanReport::Simulate
       holdlast_data.sinr = 10
       point_data.fill holdlast_data
       point_data.lat.should == 6
-      point_data.serve_cell.pci.should == 9
-      point_data.serve_cell.sinr.should == 10
-      point_data.serve_cell.freq.should be_nil
+      point_data.pci.should == 9
+      point_data.sinr.should == 10
+      point_data.freq.should be_nil
     end
 
     it "should be sort cells by rsrp" do
@@ -71,8 +71,8 @@ module SpanReport::Simulate
       point_data.expand_data
       point_data.sort_cells
 
-      point_data.serve_cell.pci.should == 6
-      point_data.serve_cell.rsrp.should == 6
+      point_data.pci.should == 6
+      point_data.rsrp.should == 6
       point_data.nei_cells.size.should == 5
       point_data.nei_cells[0].rsrp.should == 5
       point_data.nei_cells[1].rsrp.should == 3
