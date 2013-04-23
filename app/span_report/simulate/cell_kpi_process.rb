@@ -314,8 +314,12 @@ module SpanReport::Simulate
             kpivalue.add_invalid
           end
         end
-        disturb_strenth = 10**(f_ncell_rsrp/10 - f_scell_rsrp/10)
-        scell_map[scell_name].add_value disturb_strenth
+        # 只有在邻区干扰阈值内才会进行计算
+        disturb_strenth = 0.0
+        if f_ncell_rsrp - f_scell_rsrp > @disturb_threshold.to_f
+          disturb_strenth = 10**(f_ncell_rsrp/10 - f_scell_rsrp/10)
+        end
+        scell_map[scell_name].add_value disturb_strenth.to_f
         kpivalue.add_value disturb_strenth
       end
     end

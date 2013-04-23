@@ -9,6 +9,7 @@ module SpanReport
     autoload :SimulateContext, "span_report/context/simulate_context"
     autoload :LglconvertContext, "span_report/context/lglconvert_context"
     autoload :MapContext, "span_report/context/map_context"
+    autoload :LglmergeContext, "span_report/context/lglmerge_context"
 
     CONFIG_FILE = "config/config.xml"
 
@@ -31,6 +32,8 @@ module SpanReport
         context = LglconvertContext.new path
       elsif @function == "map"
         context = MapContext.new path
+      elsif @function == "lglmerge"
+        context = LglmergeContext.new path
       else
         context = BaseContext.new path
       end

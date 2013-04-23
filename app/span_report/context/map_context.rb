@@ -25,13 +25,11 @@ module SpanReport::Context
       csv_reader = SpanReport::Logfile::CsvReader.new csvfiles
 
       processers = []
-      map_process = SpanReport::Map::MapProcess.new
-      map_process.config_export_file(File.join(@output_log, "全部轨迹.csv"))
+      map_process = SpanReport::Map::MapProcess.new @output_log
+      # map_process.config_export_file(File.join(@output_log, "全部轨迹.csv"))
       processers << map_process
 
-      cell_map_process = SpanReport::Map::CellMapProcess.new
-      cell_map_process.result_path = @output_log
-      cell_map_process.cell_infos = @cell_infos
+      cell_map_process = SpanReport::Map::CellMapProcess.new @output_log, @cell_infos
       processers << cell_map_process
 
       csv_reader.parse processers

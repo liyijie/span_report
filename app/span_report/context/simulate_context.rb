@@ -35,10 +35,11 @@ module SpanReport::Context
       # lgl转csv文件
       # csv_file = lgl_to_csv
       csv_file = File.join @input_log, "data_lineno.csv"
+      is_temp = true
 
       folder = File.join @output_log, "第1次"
       Dir.mkdir(folder) unless File.exist?(folder)
-      kpiresult = simulate_csv csv_file, folder, true
+      kpiresult = simulate_csv csv_file, folder, is_temp
       worst_cellname = kpiresult.worst_cellname
       effectsinr = kpiresult.effectsinr.to_f
       overrange = kpiresult.overrange
@@ -51,7 +52,8 @@ module SpanReport::Context
       # 第1次 - 第n次
       #####################
       index = 1
-      file = File.new("#{@output_log}/result.txt", 'w')
+      result_file = File.join @output_log, "result.txt"
+      file = File.new(result_file, 'w')
       while effectsinr > @last_effectsinr
         @last_effectsinr = effectsinr
         @overrange = overrange
@@ -69,7 +71,7 @@ module SpanReport::Context
 
 
         file.puts "======================第#{index}次==========================================".encode('GBK')
-        file.puts "干扰强度最大小区: #{worst_cellname.encode('utf-8')}".encode('GBK')
+        file.puts "干扰强度最大小区: #{worst_cellname.to_s.encode('utf-8')}".encode('GBK')
         file.puts "调整后等效SINR是:#{effectsinr}, 调整前等效SINR是:#{@last_effectsinr}".encode('GBK')
         file.puts "调整后过覆盖系数是:#{overrange}, 调整前过覆盖系数是:#{@overrange}".encode('GBK')
         @filter_map.each do |cell_name, filterinfo|
@@ -187,7 +189,7 @@ module SpanReport::Context
     attr_accessor :cell_name, :high, :angle, :distance
 
     def caculate
-      @distance = @high.to_f * Math.tan(90-@angle) + 50
+      @distance = @high.to_f * Math.tan((90-@angle)*Math::PI/180) + 50
       # @distance = 0
     end
 

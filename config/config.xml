@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <context>
   <common>
-    <input_log type="folder">./log_map</input_log>
-    <output_log type="folder">D:/ruby/span_report/log_map</output_log>
-    <function>simulate</function>
+    <input_log type="folder">D:/ruby/span_report/log_merge</input_log>
+    <output_log type="folder">D:/ruby/span_report/log_merge</output_log>
+    <function></function>
   </common>
 
   <map>
@@ -24,8 +24,8 @@
   </lglconvert>
 
   <report>
-    <counter_def>D:/ruby/span_report/log_report/福州IE模板.xlsx</counter_def>
-    <outer_def>D:/ruby/span_report/log_report/福州片区报表模板.xlsx</outer_def>
+    <counter_def>D:/ruby/span_report/log_report/集团统计模板.xlsx</counter_def>
+    <outer_def>D:/ruby/span_report/log_report/集团LTE测试统计数据.xlsx</outer_def>
     <combine>true</combine>
   </report>
 

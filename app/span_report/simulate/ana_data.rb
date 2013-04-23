@@ -283,9 +283,9 @@ module SpanReport::Simulate
     def convert_freq freq
 
       ifreq = freq.to_i
-      if (ifreq >= 27750 && ifreq <= 38249)
+      if (ifreq >= 37750 && ifreq <= 38249)
         flow = 2570
-        offset = 27750
+        offset = 37750
       elsif (ifreq >= 38250 && ifreq <= 38649)
         flow = 1880
         offset = 38250
@@ -325,6 +325,8 @@ module SpanReport::Simulate
         @nodeb_name = near_cell_info.nodeb_name
         @cell_name = near_cell_info.cell_name
         @distance = min_dis
+      else
+        @cell_name = @pci.to_s
       end
     end
 
