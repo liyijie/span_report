@@ -3,12 +3,13 @@
 module SpanReport::Context
   class SimulateContext < BaseContext
 
+    SOURCE_CSV = "sourcedata.csv"
+
     def initialize path
       super
       @filter_map = {}
+      @is_temp = false
     end
-
-    SOURCE_CSV = "sourcedata.csv"
 
     def load_relate
       doc = Nokogiri::XML(open(CONFIG_FILE))
@@ -30,16 +31,18 @@ module SpanReport::Context
       SpanReport::Model::Logformat.instance.load_xml "config/LogFormat_100.xml"
 
       #####################
-      # 第0次
+      # 原始值
       #####################
       # lgl转csv文件
-      # csv_file = lgl_to_csv
-      csv_file = File.join @input_log, "data_lineno.csv"
-      is_temp = true
+      csv_file = lgl_to_csv
 
+
+      #####################
+      # 第1次
+      #####################    
       folder = File.join @output_log, "第1次"
       Dir.mkdir(folder) unless File.exist?(folder)
-      kpiresult = simulate_csv csv_file, folder, is_temp
+      kpiresult = simulate_csv csv_file, folder, @is_temp
       worst_cellname = kpiresult.worst_cellname
       effectsinr = kpiresult.effectsinr.to_f
       overrange = kpiresult.overrange
@@ -49,7 +52,7 @@ module SpanReport::Context
 
 
       #####################
-      # 第1次 - 第n次
+      # 第2次 - 第n次
       #####################
       index = 1
       result_file = File.join @output_log, "result.txt"
@@ -71,12 +74,12 @@ module SpanReport::Context
 
 
         file.puts "======================第#{index}次==========================================".encode('GBK')
-        file.puts "干扰强度最大小区: #{worst_cellname.to_s.encode('utf-8')}".encode('GBK')
-        file.puts "调整后等效SINR是:#{effectsinr}, 调整前等效SINR是:#{@last_effectsinr}".encode('GBK')
-        file.puts "调整后过覆盖系数是:#{overrange}, 调整前过覆盖系数是:#{@overrange}".encode('GBK')
         @filter_map.each do |cell_name, filterinfo|
           file.puts filterinfo.to_s.encode('GBK')
         end
+        file.puts "调整后等效SINR是:#{effectsinr}, 调整前等效SINR是:#{@last_effectsinr}".encode('GBK')
+        file.puts "调整后过覆盖系数是:#{overrange}, 调整前过覆盖系数是:#{@overrange}".encode('GBK')
+        file.puts "干扰强度最大小区: #{worst_cellname.to_s.encode('utf-8')}".encode('GBK')
         puts "============================================================================="
 
         index += 1
@@ -85,7 +88,7 @@ module SpanReport::Context
 
     end
 
-    private
+    protected
 
     # 先在filter map里查找
     # 如果找不到，再去小区信息里查找
@@ -114,10 +117,10 @@ module SpanReport::Context
     ###################################################
     def lgl_to_csv 
 
-      folder = File.join @output_log, "第0次"
+      folder = File.join @output_log, "原始值"
       Dir.mkdir(folder) unless File.exist?(folder)
       csv_file = File.join folder, SOURCE_CSV
-      convert_file_process = SpanReport::Simulate::ConvertFileProcess.new csv_file, @cell_infos
+      convert_file_process = SpanReport::Simulate::ConvertFileProcess.new csv_file, @config_map, @cell_infos
 
       logfiles = SpanReport.list_files(@input_log, ["lgl"])
       # begin
@@ -151,6 +154,7 @@ module SpanReport::Context
       simulate_process = SpanReport::Simulate::SimulateProcess.new @config_map, @filter_map
       processers << simulate_process
       cellkpi_process = SpanReport::Simulate::CellKpiProcess.new @config_map
+      # cellkpi_process = SpanReport::Simulate::CellKpiProcessByService.new @config_map
       processers << cellkpi_process
 
       map_output_folder = File.join output_folder, "map"
@@ -161,7 +165,7 @@ module SpanReport::Context
       processers << cellmap_process
 
       output_csv_file = File.join output_folder, SOURCE_CSV
-      convert_file_process = SpanReport::Simulate::ConvertFileProcess.new output_csv_file, @cell_infos
+      convert_file_process = SpanReport::Simulate::ConvertFileProcess.new output_csv_file, @config_map, @cell_infos
       processers << convert_file_process
 
       csv_reader.parse processers
@@ -171,6 +175,7 @@ module SpanReport::Context
       convert_file_process.close_file
 
       kpiresult = KpiResult.new
+      cellkpi_process.cal_kpi_value
       kpiresult.worst_cellname = cellkpi_process.worst_cell_name
       kpiresult.effectsinr = cellkpi_process.effectsinr_kpi.value
       kpiresult.overrange = cellkpi_process.overrange_kpi.value

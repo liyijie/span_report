@@ -46,11 +46,11 @@ module SpanReport::Process
     #先判断这条数据是否是报表相关的，如果不是需要的，这条数据可以直接舍弃
     ########################################
     def add_logdata logdata, file_group=""
-      begin
+      # begin
         process_data(logdata, file_group) if data_needed? logdata
-      rescue Exception => e
-        SpanReport.logger.debug "process data error:#{e}"
-      end
+      # rescue Exception => e
+        # SpanReport.logger.debug "process data error:#{e}"
+      # end
     end
 
   end

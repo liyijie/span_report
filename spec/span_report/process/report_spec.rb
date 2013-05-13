@@ -147,6 +147,24 @@ module SpanReport::Process
       end
     end
 
+    context "have cdf condition" do
+      it "should correct process the rsrp cdf" do
+        report = Report.new
+        rsrp_cdf_condition = ["rsrp_cdf", "", "cdf(-140,-40,1)", "TDDLTE_L1_measurement_Serving_Cell_Measurement_RSRP", "", "", "", "", ""]
+        logdata_rsrp_90 = "0,1189,58095306:,,,,,,-90,,,"
+        logdata_rsrp_100= "0,1189,58095306:,,,,,,-100,,," 
+        report.reg_counter_item SpanReport::Model::CounterItem.new rsrp_cdf_condition
+        report.add_logdata logdata_rsrp_90
+        report.add_logdata logdata_rsrp_100
+        report.get_kpi_value("rsrp_cdf(0)").should == 0
+        report.get_kpi_value("rsrp_cdf(40)").should == 0.5
+        report.get_kpi_value("rsrp_cdf(50)").should == 1
+        report.get_kpi_value("rsrp_cdf(70)").should == 1
+
+        report.get_kpi_value("rsrp_cdf(cdf, 0.5)").should == -100
+      end
+    end
+
     context "have array and section condition" do
       it "has the mcs data the log id is 1277, condition is rsrp the log id is 1189" do
         report = Report.new

@@ -1,0 +1,2 @@
+ruby static.rb
+pause

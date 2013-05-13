@@ -7,11 +7,15 @@ module SpanReport
     autoload :ReportContext, "span_report/context/report_context"
     autoload :ExportContext, "span_report/context/export_context"
     autoload :SimulateContext, "span_report/context/simulate_context"
+    autoload :CsvSimulateContext, "span_report/context/csv_simulate_context"
     autoload :LglconvertContext, "span_report/context/lglconvert_context"
     autoload :MapContext, "span_report/context/map_context"
     autoload :LglmergeContext, "span_report/context/lglmerge_context"
+    autoload :LogcombineContext, "span_report/context/logcombine_context"
+    autoload :LglsplitContext, "span_report/context/lglsplit_context"
 
     CONFIG_FILE = "config/config.xml"
+    # FILE_TYPES = ["signal", "event", "map.csv", "IndoorPointmap"]
 
 
     def self.create path
@@ -28,12 +32,18 @@ module SpanReport
         context = ExportContext.new path 
       elsif @function == "simulate"
         context = SimulateContext.new path
+      elsif @function == "csv_simulate"
+        context = CsvSimulateContext.new path
       elsif @function == "lglconvert"
         context = LglconvertContext.new path
       elsif @function == "map"
         context = MapContext.new path
       elsif @function == "lglmerge"
         context = LglmergeContext.new path
+      elsif @function == "logcombine"
+        context = LogcombineContext.new path
+      elsif @function == "lglsplit"
+        context = LglsplitContext.new path
       else
         context = BaseContext.new path
       end

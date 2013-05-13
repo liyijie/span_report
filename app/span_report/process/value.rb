@@ -9,6 +9,7 @@ module SpanReport::Process
     autoload :Min, "span_report/process/value/min"
     autoload :Recent, "span_report/process/value/recent"
     autoload :Sum, "span_report/process/value/sum"
+    autoload :Cdf, "span_report/process/value/cdf"
 
     def self.create mode
       if mode == 'avg'
@@ -23,6 +24,8 @@ module SpanReport::Process
         value = Recent.new
       elsif mode == 'sum'
         value = Sum.new
+      elsif mode =~ /^cdf/
+        value = Cdf.new mode
       else
         value = BaseValue.new
       end

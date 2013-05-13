@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <context>
   <common>
-    <input_log type="folder">D:/ruby/span_report/log_merge</input_log>
-    <output_log type="folder">D:/ruby/span_report/log_merge</output_log>
-    <function></function>
+    <input_log type="folder">./log_simulate</input_log>
+    <output_log type="folder">./log_simulate</output_log>
+    <function>simulate</function>
   </common>
+
+  <lglsplit>
+    <time start="53071274" end="53147366"></time>
+    <time start="52924343" end="52999656"></time>
+  </lglsplit>
 
   <map>
     <cell_info>D:/ruby/span_report/template/cell_info.xlsx</cell_info>
@@ -24,8 +29,8 @@
   </lglconvert>
 
   <report>
-    <counter_def>D:/ruby/span_report/log_report/集团统计模板.xlsx</counter_def>
-    <outer_def>D:/ruby/span_report/log_report/集团LTE测试统计数据.xlsx</outer_def>
+    <counter_def>D:/ruby/span_report/南京LTE优化/南京优化分析IE模版.xlsx</counter_def>
+    <outer_def>D:/ruby/span_report/南京LTE优化/南京优化分析报表模版.xlsx</outer_def>
     <combine>true</combine>
   </report>
 
@@ -36,7 +41,7 @@
   </nodeb_report>
 
   <simulate>
-    <cell_info>D:/ruby/span_report/template/cell_info.xlsx</cell_info>
+    <cell_info>D:/ruby/span_report/log_simulate/cell_info_f.xlsx</cell_info>
     <threshold_config>
       <!-- 邻区干扰阈值（dB） -->
       <threshold name="disturb" value="-6"></threshold>
@@ -59,19 +64,45 @@
     </threshold_config>
   </simulate>
 
+  <csv_simulate>
+    <cell_info>D:/ruby/span_report/log_simulate/cell_info.xlsx</cell_info>
+    <csv_file>D:/ruby/span_report/log_simulate/data.csv
+    </csv_file>
+    <threshold_config>
+      <!-- 邻区干扰阈值（dB） -->
+      <threshold name="disturb" value="-6"></threshold>
+      <!-- 邻区干扰强度阈值 -->
+      <threshold name="disturb_strength" value="30"></threshold>
+      <!-- TDS模拟TDL补偿值 -->
+      <threshold name="tds_tdl_delta" value="18"></threshold>
+      <!-- 弱覆盖阈值（dBm） -->
+      <threshold name="tds_weak_cover" value="-95"></threshold>
+      <threshold name="tdl_weak_cover" value="-100"></threshold>
+      <!-- 重叠覆盖小区数阈值 -->
+      <threshold name="overlap_cover" value="3"></threshold>
+      <!-- 邻区有效性阈值（dBm） -->
+      <threshold name="ncell_valid" value="-140"></threshold>
+      <!-- 过覆盖阈值（%）,这里采用小数 -->
+      <threshold name="over_cover_ratio" value="0.5"></threshold>
+      <!-- 高干扰阈值（dB） -->
+      <threshold name="high_disturb" value="6"></threshold>
+      <threshold name="distance_filter" value="1500"></threshold>
+    </threshold_config>
+  </csv_simulate>
+
   <export>
     <combine>true</combine>
     <ieconfig>
-      <ie name="dbLon" alias="Longitude"></ie>
+      <!-- <ie name="dbLon" alias="Longitude"></ie>
       <ie name="dbLat" alias="Latitude"></ie>
-      <ie name="TDDLTE_Scell_Radio_Parameters_Scell_PCI" alias="i624"></ie>
-      <ie name="TDDLTE_Scell_Radio_Parameters_Frequency_DL" alias="i627"></ie>
+      <ie name="TDDLTE_Scell_Radio_Parameters_Scell_PCI" alias="i624"></ie> -->
+      <!-- <ie name="TDDLTE_Scell_Radio_Parameters_Frequency_DL" alias="i627"></ie>
       <ie name="TDDLTE_L1_measurement_Serving_Cell_Measurement_RSRP" alias="i637"></ie>
-      <ie name="TDDLTE_L1_measurement_Serving_Cell_Measurement_SINR" alias="i642"></ie>
+      <ie name="TDDLTE_L1_measurement_Serving_Cell_Measurement_SINR" alias="i642"></ie> -->
       <ie name="TDDLTE_Throughput_APP_Throughput_DL" alias="i945"></ie>
       <ie name="TDDLTE_Throughput_APP_Throughput_UL" alias="i946"></ie>
-      <ie name="TDDLTE_L1_measurement_Neighbour_Cell_Measurement_RSRP_0" alias="Nei_RSRP_0"></ie>
-      <ie name="TDDLTE_L1_measurement_Neighbour_Cell_Measurement_RSRP_1" alias="Nei_RSRP_1"></ie>
+      <ie name="TDDLTE_Schedul_Info_PDSCH_Rb_Count" alias="DL_RB"></ie>
+      <ie name="TDDLTE_Schedul_Info_PUSCH_Rb_Count" alias="UL_RB"></ie>
     </ieconfig>
   </export>
 

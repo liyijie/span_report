@@ -4,12 +4,13 @@ module SpanReport::Simulate
 
   class ConvertFileProcess < SpanReport::Process::Base
 
-    def initialize csv_file, cell_infos
+    def initialize csv_file, config_map, cell_infos
       super()
       @cell_infos = cell_infos
       @last_point_data = nil
       @holdlast_data = HoldlastData.new
       @csv_writer = SpanReport::Logfile::CsvWriter.new csv_file
+      @config_map = config_map
       reg_needed_ies
     end
 
@@ -57,6 +58,7 @@ module SpanReport::Simulate
         if @last_point_data.valid?
           @last_point_data.fill @holdlast_data
           @last_point_data.fill_extra @cell_infos
+          @last_point_data.fill_kpi_data @config_map
           @csv_writer << @last_point_data
         end
         # 
@@ -75,6 +77,7 @@ module SpanReport::Simulate
       reg_iemap = {}
       reg_iemap["dbLon"] = LON
       reg_iemap["dbLat"] = LAT
+      reg_iemap["TDDLTE_Throughput_APP_Throughput_DL"] = DL_TH
 
       reg_iemap["TDDLTE_Scell_Radio_Parameters_Scell_PCI"] = SCELL_PCI
       reg_iemap["TDDLTE_Scell_Radio_Parameters_Frequency_DL"] = SCELL_FREQ

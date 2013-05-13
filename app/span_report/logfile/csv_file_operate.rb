@@ -46,7 +46,7 @@ module SpanReport::Logfile
           point_data = SpanReport::Simulate::PointData.new time, ue, data_map
           point_data.expand_data
           
-          next if (point_data.rsrp.to_f <= -140)
+          next if (point_data.rsrp.to_f <= -140) || !point_data.valid?
       
           # 调用每个处理器处理数据
           processors.each do |process|

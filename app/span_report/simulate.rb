@@ -13,6 +13,7 @@ module SpanReport
 
     #cell kpi process
     autoload :CellKpiProcess, "span_report/simulate/cell_kpi_process.rb"
+    autoload :CellKpiProcessByService, "span_report/simulate/cell_kpi_process.rb"
     autoload :WeakCoverRatioKpi, "span_report/simulate/cell_kpi_process.rb"
     autoload :OverLapCoverRatioKpi, "span_report/simulate/cell_kpi_process.rb"
     autoload :NCellDisturbRatioKpi, "span_report/simulate/cell_kpi_process.rb"
@@ -25,6 +26,7 @@ module SpanReport
 
     LON = "lontitute"
     LAT = "latitude"
+    DL_TH = "dl_throughput"
     SCELL_PCI = "scell_pci"
     SCELL_FREQ = "scell_freq"
     SCELL_RSRP = "scell_rsrp"

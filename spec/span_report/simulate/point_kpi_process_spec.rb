@@ -63,7 +63,7 @@ module SpanReport::Simulate
 
       data_map["#{NCELL_PCI}_0"] = "101"
       data_map["#{NCELL_FREQ}_0"] = "38350"
-      data_map["#{NCELL_RSRP}_0"] = "-110"
+      data_map["#{NCELL_RSRP}_0"] = "-111"
 
       pointdata = PointData.new time, ue, data_map
       pointdata.expand_data
@@ -82,7 +82,7 @@ module SpanReport::Simulate
 
       data_map["#{NCELL_PCI}_0"] = "101"
       data_map["#{NCELL_FREQ}_0"] = "38350"
-      data_map["#{NCELL_RSRP}_0"] = "-110"
+      data_map["#{NCELL_RSRP}_0"] = "-111"
 
       data_map["#{NCELL_PCI}_1"] = "101"
       data_map["#{NCELL_FREQ}_1"] = "38350"

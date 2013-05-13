@@ -31,6 +31,7 @@ module SpanReport::Process
     def process_data logdata, file_group=""
       contents = logdata.split(/,|:/)
       group_id = contents[1].to_i
+      pctime = contents[2].to_i
       needed_ies = get_needed_ies group_id
 
       needed_ies.each do |logitem|
@@ -49,25 +50,25 @@ module SpanReport::Process
             count_mode = counter_item.count_mode
 
             #对不带file_group进行全局统计
-            add_counter_cache counter_name, counter_ievalue, count_mode
+            add_counter_cache counter_name, counter_ievalue, count_mode, pctime
 
             #如果file_group不为空，则需要再对file_group进行统计
             unless file_group.empty?
               group_counter_name = "#{file_group}##{counter_name}"
-              add_counter_cache group_counter_name, counter_ievalue, count_mode
+              add_counter_cache group_counter_name, counter_ievalue, count_mode, pctime
             end
           end
         end
       end
     end
 
-    def add_counter_cache counter_name, counter_ievalue, count_mode
+    def add_counter_cache counter_name, counter_ievalue, count_mode, pctime=0
       unless @kpi_caches.has_key? counter_name
         @kpi_caches[counter_name] = SpanReport::Process::Value.create count_mode
       end
       
       report_value = @kpi_caches[counter_name]
-      report_value.add_value counter_ievalue
+      report_value.add_value counter_ievalue, pctime
     end
 
     def reg_counter_item counter_item
@@ -98,14 +99,25 @@ module SpanReport::Process
     #3. kpiname[1]
     #4. kpiname[0][1]
     #5. kpiname_1[0][1]
+    #6. kpiname(param1,params2)
     #########################################
     def get_kpi_value(kpi_name)
-      reportvalue = @kpi_caches[kpi_name]
-      if reportvalue
-        value = reportvalue.getvalue
+      if (kpi_name =~ /\(/)
+        params = kpi_name.split(/\(|\)|,/)
+        real_name = params.delete_at(0)
+        # puts "real_name is:#{real_name}, params is:#{params.inspect}"
+        reportvalue = @kpi_caches[real_name]
+        if reportvalue
+          value = reportvalue.getvalue params
+        end
+      else
+        reportvalue = @kpi_caches[kpi_name]
+        if reportvalue
+          value = reportvalue.getvalue
+        end
       end
       value ||= ""
-      SpanReport.logger.debug "the kpi is:#{kpi_name}, value is:#{value}, reportvalue is:#{reportvalue}"
+        SpanReport.logger.debug "the kpi is:#{kpi_name}, value is:#{value}, reportvalue is:#{reportvalue}"
       value
     end
 

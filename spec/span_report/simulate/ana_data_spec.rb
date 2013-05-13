@@ -53,7 +53,7 @@ module SpanReport::Simulate
       point_data.serve_cell.should be_nil
       point_data.nei_cells.should be_nil
 
-      # [3,2,5,6,-1,0] => [6,5,3,2,0,-1]
+      # [3,2,5,6,1,7] => [7,6,5,3,2,1]
       data_map = {}
       data_map[SCELL_PCI] = 3
       data_map[SCELL_RSRP] = 3
@@ -63,22 +63,23 @@ module SpanReport::Simulate
       data_map["#{NCELL_RSRP}_1"] = 5
       data_map["#{NCELL_PCI}_2"] = 6
       data_map["#{NCELL_RSRP}_2"] = 6
-      data_map["#{NCELL_PCI}_3"] = -1
-      data_map["#{NCELL_RSRP}_3"] = -1
-      data_map["#{NCELL_PCI}_4"] = 0
-      data_map["#{NCELL_RSRP}_4"] = 0
+      data_map["#{NCELL_PCI}_3"] = 1
+      data_map["#{NCELL_RSRP}_3"] = 1
+      data_map["#{NCELL_PCI}_4"] = 7
+      data_map["#{NCELL_RSRP}_4"] = 7
       point_data = PointData.new(1,1,data_map)
       point_data.expand_data
+      point_data.nei_cells.size.should == 5
       point_data.sort_cells
 
-      point_data.pci.should == 6
-      point_data.rsrp.should == 6
+      point_data.pci.should == 7
+      point_data.rsrp.should == 7
       point_data.nei_cells.size.should == 5
-      point_data.nei_cells[0].rsrp.should == 5
-      point_data.nei_cells[1].rsrp.should == 3
-      point_data.nei_cells[2].rsrp.should == 2
-      point_data.nei_cells[3].rsrp.should == 0
-      point_data.nei_cells[4].rsrp.should == -1
+      point_data.nei_cells[0].rsrp.should == 6
+      point_data.nei_cells[1].rsrp.should == 5
+      point_data.nei_cells[2].rsrp.should == 3
+      point_data.nei_cells[3].rsrp.should == 2
+      point_data.nei_cells[4].rsrp.should == 1
     end
 
     it "should be valid when the nei_cells is not empty" do
@@ -97,8 +98,8 @@ module SpanReport::Simulate
       data_map = {}
       data_map["#{NCELL_PCI}_0"] = 2
       data_map["#{NCELL_RSRP}_0"] = 2
-      data_map["#{NCELL_PCI}_1"] = 0
-      data_map["#{NCELL_RSRP}_2"] = 0
+      data_map["#{NCELL_PCI}_1"] = 1
+      data_map["#{NCELL_RSRP}_2"] = 1
       point_data = PointData.new(1,1,data_map)
       point_data.expand_data
       point_data.sort_cells

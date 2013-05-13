@@ -22,6 +22,7 @@ module SpanReport::Simulate
       @high_disturb_ratio_kpi = HighDisturbRatioKpi.new high_disturb_threshold
       @effectsinr_kpi = EffectSinrKpi.new
       @overrange_kpi = OverRangeKpi.new
+      @service_strenth_kpi = ServiceStrenth.new
 
       @cell_kpivalue_map = {}
       @disturb_details = []
@@ -35,6 +36,7 @@ module SpanReport::Simulate
       @high_disturb_ratio_kpi.static pointdata
       @effectsinr_kpi.static pointdata
       @overrange_kpi.static pointdata
+      @service_strenth_kpi.static pointdata
     end
 
     def cal_kpi_value
@@ -79,6 +81,11 @@ module SpanReport::Simulate
         @cell_kpivalue_map[cell_name] ||= CellKpiValue.new cell_name
         @cell_kpivalue_map[cell_name].high_disturb_ratio_kpi = kpivalue.ratio
       end
+
+      @service_strenth_kpi.each do |cell_name, kpivalue|
+        @cell_kpivalue_map[cell_name] ||= CellKpiValue.new cell_name
+        @cell_kpivalue_map[cell_name].service_strenth_kpi = kpivalue.sum_value
+      end
     end
 
     def worst_cell_name
@@ -94,18 +101,18 @@ module SpanReport::Simulate
     end
 
     def to_file resultfile
-      cal_kpi_value
       File.open(resultfile, "w") do |file|
         file.puts "等效SINR,#{@effectsinr_kpi.value}".encode('GBK')
         file.puts "过覆盖数,#{@overrange_kpi.value}".encode('GBK')
-        file.puts "小区名,弱覆盖,重叠覆盖系数,邻区干扰,小区干扰,小区干扰强度,过覆盖数,高干扰".encode('GBK')
+        file.puts "小区名,弱覆盖,重叠覆盖系数,邻区干扰,小区干扰,小区干扰强度,服务系数,干扰服务比,过覆盖数,高干扰".encode('GBK')
         cell_kpivalues_sort = @cell_kpivalue_map.values.sort_by do |cell_kpivalue|
           cell_kpivalue.disturb_strenth.to_f * -1
         end
         cell_kpivalues_sort.each do |cellkpivalue|
           dis_str = ""
           dis_str << "#{cellkpivalue.cell_name},#{cellkpivalue.weakcover_ratio_kpi},#{cellkpivalue.overlapcover_ratio_kpi},"
-          dis_str << "#{cellkpivalue.ncell_disturb_ratio_kpi},#{cellkpivalue.disturb_ratio_kpi},#{cellkpivalue.disturb_strenth},#{cellkpivalue.overlap_count_kpi},#{cellkpivalue.high_disturb_ratio_kpi}"
+          dis_str << "#{cellkpivalue.ncell_disturb_ratio_kpi},#{cellkpivalue.disturb_ratio_kpi},#{cellkpivalue.disturb_strenth},#{cellkpivalue.service_strenth_kpi},#{cellkpivalue.disturb_service_ratio},"
+          dis_str << "#{cellkpivalue.overlap_count_kpi},#{cellkpivalue.high_disturb_ratio_kpi}"
           file.puts dis_str
         end
       end
@@ -127,6 +134,27 @@ module SpanReport::Simulate
 
   end
 
+
+  class CellKpiProcessByService < CellKpiProcess
+
+    def worst_cell_name
+      worst_cell_name = ""
+      max_service_disturb = 0.0
+      cell_kpivalues_sort = @cell_kpivalue_map.values.sort_by do |cell_kpivalue|
+        cell_kpivalue.disturb_strenth.to_f * -1
+      end
+
+      cell_kpivalues_sort[0..4].each do |cell_kpivalue|
+        if (cell_kpivalue.cell_name != "" && cell_kpivalue.disturb_service_ratio.to_f > max_service_disturb)
+          max_service_disturb = cell_kpivalue.disturb_service_ratio
+          worst_cell_name = cell_kpivalue.cell_name
+        end
+      end
+      
+      worst_cell_name
+    end
+  end
+
   class DisturbDetail
     attr_accessor :ncell_name, :scell_name, :distrub_ratio, :distrub_count, :all_count, :disturb_strenth
 
@@ -134,10 +162,15 @@ module SpanReport::Simulate
 
   class CellKpiValue
     attr_accessor :cell_name, :weakcover_ratio_kpi, :overlapcover_ratio_kpi, :disturb_strenth,
-                  :ncell_disturb_ratio_kpi, :disturb_ratio_kpi, :overlap_count_kpi, :high_disturb_ratio_kpi
+                  :ncell_disturb_ratio_kpi, :disturb_ratio_kpi, :overlap_count_kpi, :high_disturb_ratio_kpi,
+                  :service_strenth_kpi
 
     def initialize cell_name
       @cell_name = cell_name
+    end
+
+    def disturb_service_ratio
+      @disturb_strenth.to_f / @service_strenth_kpi.to_f
     end
   end
 
@@ -373,6 +406,21 @@ module SpanReport::Simulate
       pointdata.effect_sinr.to_f < @high_disturb_threshold
     end
     
+  end
+
+  class ServiceStrenth < BaseCellKpi
+    def initialize
+      @kpivalue_map = {}
+    end
+
+    def static pointdata
+      # unless pointdata.effect_sinr.to_s.empty?
+        scell_name = pointdata.cell_name
+        @kpivalue_map[scell_name] ||= KpiValue.new
+        kpivalue = @kpivalue_map[scell_name]
+        kpivalue.add_value 10**(pointdata.effect_sinr.to_f/10)
+      # end
+    end
   end
 
   # 全网等效SINR的计算，求平均值

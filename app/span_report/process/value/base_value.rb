@@ -5,14 +5,22 @@ module SpanReport::Process::Value
 
     def initialize
       @value = nil
+      @pctime = 0
     end
 
     def getvalue
       @value ||= ""
     end
 
-    def add_value ievalue
-      process ievalue unless (ievalue.nil? || ievalue == "")
+    # def getvalue params
+    #   @value ||= ""
+    # end
+
+    def add_value ievalue, pctime=0
+      unless (ievalue.nil? || ievalue == "")
+        process ievalue
+        @pctime = pctime
+      end
     end
 
     def process ievalue

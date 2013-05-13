@@ -49,7 +49,7 @@ module SpanReport::Map
     end
 
     def head_string
-      "Time,PCTime,UEid,Longitude,Latitude,i624,i627,i637,i642,i945,i946"
+      "Time,PCTime,UEid,Longitude,Latitude,i624,i627,i637,i642,rsrp_delta,e_sinr,over_range_count"
     end
 
     def pointdata_to_mapdata pointdata
@@ -62,7 +62,10 @@ module SpanReport::Map
       mapdata << pointdata.pci.to_s << ","
       mapdata << pointdata.freq.to_s << ","
       mapdata << pointdata.rsrp.to_s << ","
-      mapdata << pointdata.sinr.to_s
+      mapdata << pointdata.sinr.to_s << ","
+      mapdata << pointdata.rsrp_delta.to_s << ","
+      mapdata << pointdata.effect_sinr.to_s << ","
+      mapdata << pointdata.over_range_count.to_s
 
       mapdata
     end

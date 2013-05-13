@@ -21,11 +21,11 @@ module SpanReport::Process
       export_data = []
       is_lastdata = false
       #如果是和上一条一样时间的数据，如果值不为空，则进行覆盖
-      if contents[2] == last_data[1] && contents[0] == last_data[2]
-        export_data = last_data
-        is_lastdata = true
-      #如果是和上一条不一样的时间，如果值不为空，则创建一条，加入到队列中
-      else
+      # if contents[2] == last_data[1] && contents[0] == last_data[2]
+      #   export_data = last_data
+      #   is_lastdata = true
+      # #如果是和上一条不一样的时间，如果值不为空，则创建一条，加入到队列中
+      # else
         export_data = []
         #time
         export_data[0] = convert_time contents[2]
@@ -33,7 +33,7 @@ module SpanReport::Process
         export_data[1] = contents[2]
         #ueid
         export_data[2] = contents[0]
-      end
+      # end
 
       needed_ies.each do |logitem|
         ie_index = logitem.index + 3

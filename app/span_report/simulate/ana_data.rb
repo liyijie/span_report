@@ -27,8 +27,8 @@ module SpanReport::Simulate
   end
 
   class PointData
-    attr_accessor :time, :ue, :lat, :lon, :pci, :freq, :rsrp, :sinr, :cell_name, :serve_cell, :nei_cells
-    attr_accessor :over_range_count, :disturb, :effect_sinr
+    attr_accessor :time, :ue, :lat, :lon, :dl_th, :pci, :freq, :rsrp, :sinr, :cell_name, :serve_cell, :nei_cells
+    attr_accessor :over_range_count, :disturb, :effect_sinr, :rsrp_delta
     attr_reader :data_map
 
     def initialize(time, ue, data_map={})
@@ -57,6 +57,8 @@ module SpanReport::Simulate
       scell_data.rsrp = rsrp
       scell_data.sinr = sinr
       scell_data.cell_name = cell_name
+      scell_data.effect_sinr = effect_sinr
+      scell_data.over_range_count = over_range_count
       celldatas << scell_data
 
       @nei_cells.each do |nei_cell|
@@ -67,6 +69,9 @@ module SpanReport::Simulate
         nei_celldata.freq = nei_cell.freq
         nei_celldata.rsrp = nei_cell.rsrp
         nei_celldata.cell_name = nei_cell.cell_name
+        nei_celldata.rsrp_delta = nei_cell.rsrp_delta
+        nei_celldata.effect_sinr = effect_sinr
+        nei_celldata.over_range_count = over_range_count
         celldatas << nei_celldata
       end
 
@@ -76,6 +81,8 @@ module SpanReport::Simulate
     def fill holdlast_data
       @lat = holdlast_data.lat if @lat.nil? && holdlast_data.lat
       @lon = holdlast_data.lon if @lon.nil? && holdlast_data.lon
+      # @dl_th = holdlast_data.dl_th if @dl_th.nil? && holdlast_data.dl_th
+
       if (@serve_cell.nil? || @serve_cell.pci.nil?) && holdlast_data.pci
         @serve_cell ||= CellData.new
         @serve_cell.pci = holdlast_data.pci
@@ -119,6 +126,8 @@ module SpanReport::Simulate
     def expand_data
       @lat = @data_map[LAT]
       @lon = @data_map[LON]
+      @dl_th = @data_map[DL_TH]
+
       @serve_cell = CellData.new
       if @data_map[SCELL_PCI]
         @serve_cell = CellData.new(@data_map[SCELL_PCI], @data_map[SCELL_FREQ])
@@ -244,14 +253,27 @@ module SpanReport::Simulate
       rowdata_string <<  "#{@serve_cell.sinr.to_s},"
       rowdata_string <<  "#{@serve_cell.cell_name.to_s},"
       rowdata_string <<  "#{@serve_cell.distance.to_s},"
-      @nei_cells.each do |ncell|
-        rowdata_string <<  "#{ncell.pci.to_s},"
-        rowdata_string <<  "#{ncell.freq.to_s},"
-        rowdata_string <<  "#{ncell.rsrp.to_s},"
-        rowdata_string <<  "#{ncell.cell_name.to_s},"
-        rowdata_string <<  "#{ncell.distance.to_s},"
+      (0..ANA_NCELL_NUM-1).each do |index|
+        ncell = @nei_cells[index]
+        if ncell
+          rowdata_string <<  "#{ncell.pci.to_s},"
+          rowdata_string <<  "#{ncell.freq.to_s},"
+          rowdata_string <<  "#{ncell.rsrp.to_s},"
+          rowdata_string <<  "#{ncell.cell_name.to_s},"
+          rowdata_string <<  "#{ncell.distance.to_s},"
+        else
+          rowdata_string <<  ","
+          rowdata_string <<  ","
+          rowdata_string <<  ","
+          rowdata_string <<  ","
+          rowdata_string <<  ","
+        end
       end
-      rowdata_string
+      
+      rowdata_string << "#{@effect_sinr.to_s},"
+      rowdata_string << "#{@dl_th.to_s},"
+      rowdata_string << "#{@over_range_count.to_s}"
+      rowdata_string 
     end
 
     def self.head_string
@@ -259,6 +281,9 @@ module SpanReport::Simulate
       (0..ANA_NCELL_NUM-1).each do |i|
         headstring = "#{headstring},#{NCELL_PCI}_#{i},#{NCELL_FREQ}_#{i},#{NCELL_RSRP}_#{i},#{NCELL_NAME}_#{i},#{NCELL_DISTANCE}_#{i}"
       end
+      headstring = "#{headstring},E-SINR"
+      headstring = "#{headstring},#{DL_TH}"
+      headstring = "#{headstring},over_range_count"
       headstring
     end
 
@@ -270,6 +295,7 @@ module SpanReport::Simulate
   class CellData
     attr_accessor :pci, :freq, :nodeb_name, :cell_name, 
                 :distance, :rsrp, :sinr
+    attr_accessor :rsrp_delta
 
     def initialize pci=nil, freq=nil
       @pci = pci.to_i if !pci.to_s.empty?
@@ -327,6 +353,7 @@ module SpanReport::Simulate
         @distance = min_dis
       else
         @cell_name = @pci.to_s
+        @distance = 9999
       end
     end
 

@@ -8,6 +8,24 @@ module SpanReport::Simulate
       OverRangeCount.static pointdata, config_map
       NCellDisturbCount.static pointdata, config_map
       EffectSinrCount.static pointdata, config_map
+      RSRPDeltaCalc.static pointdata, config_map
+    end
+  end
+
+  ############################################
+  # 计算邻区与服务小区RSRP的差值
+  ############################################
+  class RSRPDeltaCalc
+    def self.static pointdata, config_map
+      unless pointdata.rsrp.to_s.empty?
+        f_rsrp = pointdata.rsrp.to_f
+        ncells = pointdata.nei_cells
+        ncells.each do |ncell|
+          next if ncell.rsrp.to_s.empty? || ncell.rsrp.to_f < -139
+          delta_rsrp = ncell.rsrp.to_f - f_rsrp
+          ncell.rsrp_delta = delta_rsrp
+        end
+      end
     end
   end
 
@@ -27,7 +45,7 @@ module SpanReport::Simulate
         ncells = pointdata.nei_cells
         ncells.each do |ncell|
           next if ncell.rsrp.to_s.empty?
-          if ncell.rsrp.to_f - f_rsrp > config_map[DISTURB_THRESHOLD].to_f
+          if ncell.rsrp.to_f - f_rsrp >= config_map[DISTURB_THRESHOLD].to_f
             over_range_count += 1
           end
         end
@@ -76,8 +94,8 @@ module SpanReport::Simulate
 
   class EffectSinrCount
     def self.static pointdata, config_map
-      effect_sinr = 0.0
-      unless pointdata.rsrp.to_s.empty?
+      effect_sinr = nil
+      unless pointdata.rsrp.to_s.empty? || pointdata.nei_cells.empty?
         f_s = 10**(pointdata.rsrp.to_f/10)
         f_i = 0.0
         f_rsrp = pointdata.rsrp.to_f
@@ -88,12 +106,13 @@ module SpanReport::Simulate
         # f_n = 0
         f_n = 10**(-127.0/10)
         effect_sinr = f_s/(f_i + f_n)
-      end
-      effect_sinr = 10 * Math.log10(effect_sinr)
-      if (effect_sinr > 25.0)
-        effect_sinr = 25.0
-      elsif effect_sinr < -22.0
-        effect_sinr = -22.0
+
+        effect_sinr = 10 * Math.log10(effect_sinr)
+        if (effect_sinr > 25.0)
+          effect_sinr = 25.0
+        elsif effect_sinr < -22.0
+          effect_sinr = -22.0
+        end
       end
           
       pointdata.effect_sinr = effect_sinr
