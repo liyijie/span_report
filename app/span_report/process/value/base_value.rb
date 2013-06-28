@@ -3,9 +3,10 @@
 module SpanReport::Process::Value
   class BaseValue
 
+    attr_reader :pctime
+
     def initialize
       @value = nil
-      @pctime = 0
     end
 
     def getvalue
@@ -16,11 +17,14 @@ module SpanReport::Process::Value
     #   @value ||= ""
     # end
 
-    def add_value ievalue, pctime=0
+    def add_value ievalue, pctime=0, gps=nil
       unless (ievalue.nil? || ievalue == "")
         process ievalue
-        @pctime = pctime
       end
+    end
+
+    def add_invalid_value ievalue, pctime=0, gps=nil
+      
     end
 
     def process ievalue

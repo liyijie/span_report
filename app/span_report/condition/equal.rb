@@ -19,6 +19,7 @@ module SpanReport::Condition
       if ievalue.to_f == @scope.to_f
         result = true
       end
+
       result
     end
 

@@ -31,12 +31,21 @@ module SpanReport::Process::Value
       elsif params.size == 2  # cdf threshold
         threshold = params[1].to_f
         count_threshold = threshold * @count
+        last_value = 0
+        last_count = 0
+        result_count = 0
+        result_value = 0
         @cdfcounts.each do |cdfcount|
           if cdfcount.getvalue >= count_threshold
-            value = cdfcount.threthold
+            result_value = cdfcount.threthold
+            result_count = cdfcount.getvalue
             break
           end
+          last_value = cdfcount.threthold
+          last_count = cdfcount.getvalue
         end
+        # 求线性值
+        value = get_cdf_value count_threshold, last_count, last_value, result_count, result_value
       end
       value
     end
@@ -48,6 +57,10 @@ module SpanReport::Process::Value
         cdfcount = CdfCount.new threthold
         @cdfcounts << cdfcount
       end
+    end
+
+    def get_cdf_value count_threshold, last_count, last_value, recent_count, recent_value
+      (last_value - recent_value) * (count_threshold - recent_count)* 1.0 / (last_count - recent_count) + recent_value
     end
     
   end

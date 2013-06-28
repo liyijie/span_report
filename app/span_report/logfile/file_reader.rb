@@ -28,13 +28,23 @@ module SpanReport::Logfile
         filepath = unzip filename, "./config"
         # file_group = get_file_group filename
         file_group = fileinfo.filegroup
+
+        list_logs = list_files(filepath, ["list"])
+        list_logs.each do |logfile|
+          begin
+            process_list(logfile, processor, file_group)
+          rescue Exception => e
+            puts "#{__FILE__}(#{__LINE__}):#{e}"
+          end
+        end
+
         logs = list_files(filepath, ["txt"])
         logs.each do |logfile|
-          begin
+          # begin
             process(logfile, processor, file_group)
-          rescue Exception => e
-            puts e
-          end
+          # rescue Exception => e
+            # puts "#{__FILE__}(#{__LINE__}):#{e}"
+          # end
         end
         puts ""
       end
@@ -48,16 +58,31 @@ module SpanReport::Logfile
         filepath = unzip filename, "./config"
         # file_group = get_file_group filename
         file_group = fileinfo.filegroup
+
+        list_logs = list_files(filepath, ["list"])
+        list_logs.each do |logfile|
+          processors.each do |processor|
+            begin
+              process_list(logfile, processor, file_group)
+            rescue Exception => e
+              puts "#{__FILE__}(#{__LINE__}):#{e}"
+              next
+            end
+          end
+        end
+
         logs = list_files(filepath, ["txt"])
         logs.each do |logfile|
           processors.each do |processor|
             begin
               process(logfile, processor, file_group)
             rescue Exception => e
+              puts "#{__FILE__}(#{__LINE__}):#{e}"
               next
             end
           end
         end
+
         puts ""
       end
     end
@@ -65,11 +90,29 @@ module SpanReport::Logfile
     def process(logfile, processor, file_group)
       # puts "process #{logfile}, file_group is:#{file_group} ......"
       putc "."
-      processor.before_process if processor.respond_to? :before_process
+      processor.before_process(logfile, file_group)if processor.respond_to? :before_process
       File.foreach(logfile) do |line|
         processor.add_logdata line, file_group
       end
       processor.before_process if processor.respond_to? :after_process
+    end
+
+    def process_list(logfile, processor, file_group="")
+      if logfile == "event.list" && processor.respond_to?(:add_event)
+        processor.clear_event
+        index = 0
+        File.foreach(logfile) do |line|
+          index += 1
+          processor.add_event line, file_group unless index == 1
+        end
+      elsif logfile == "signal.list" && processor.respond_to?(:add_signal)
+        processor.clear_signal
+        index = 0
+        File.foreach(logfile) do |line|
+          index += 1
+          processor.add_signal line, file_group unless index == 1
+        end
+      end
     end
 
     #解压文件到临时目录中，为每个日志都解压到当前的文件夹中
@@ -86,7 +129,11 @@ module SpanReport::Logfile
 
       Zip::ZipFile.open zip_file do |zf|
         zf.each do |e|
-          path = File.join unzip_dir,"#{e.name}.txt"  
+          if ["signal", "event", "map.csv", "IndoorPointmap"].index e.name
+            path = File.join unzip_dir,"#{e.name}.list"
+          else 
+            path = File.join unzip_dir,"#{e.name}.txt"
+          end
           zf.extract(e, path) { true }  
         end  
       end

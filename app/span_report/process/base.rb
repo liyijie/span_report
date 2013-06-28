@@ -47,6 +47,7 @@ module SpanReport::Process
     ########################################
     def add_logdata logdata, file_group=""
       # begin
+        before_process(logdata, file_group) if respond_to? :before_process
         process_data(logdata, file_group) if data_needed? logdata
       # rescue Exception => e
         # SpanReport.logger.debug "process data error:#{e}"

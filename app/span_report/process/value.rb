@@ -10,6 +10,9 @@ module SpanReport::Process
     autoload :Recent, "span_report/process/value/recent"
     autoload :Sum, "span_report/process/value/sum"
     autoload :Cdf, "span_report/process/value/cdf"
+    autoload :Time, "span_report/process/value/time"
+    autoload :Distance, "span_report/process/value/distance"
+    autoload :DistanceCondition, "span_report/process/value/distance_condition"
 
     def self.create mode
       if mode == 'avg'
@@ -26,6 +29,12 @@ module SpanReport::Process
         value = Sum.new
       elsif mode =~ /^cdf/
         value = Cdf.new mode
+      elsif mode =~ /^time/
+        value = Time.new mode
+      elsif mode == 'distance'
+        value = Distance.new mode
+      elsif mode =~ /^distance\(/
+        value = DistanceCondition.new mode
       else
         value = BaseValue.new
       end

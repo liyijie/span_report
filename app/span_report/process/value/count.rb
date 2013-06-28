@@ -10,5 +10,9 @@ module SpanReport::Process::Value
     def process ievalue
       @value += 1
     end
+
+    def getvalue
+      @value ||= 0
+    end
   end
 end

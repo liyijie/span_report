@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <context>
   <common>
-    <input_log type="folder">./log_simulate</input_log>
-    <output_log type="folder">./log_simulate</output_log>
-    <function>simulate</function>
+    <input_log type="folder">D:\ruby\span_report\log_csvsimulate</input_log>
+    <output_log type="folder">D:\ruby\span_report\log_csvsimulate</output_log>
+    <function>report</function>
   </common>
 
   <lglsplit>
@@ -29,8 +29,8 @@
   </lglconvert>
 
   <report>
-    <counter_def>D:/ruby/span_report/南京LTE优化/南京优化分析IE模版.xlsx</counter_def>
-    <outer_def>D:/ruby/span_report/南京LTE优化/南京优化分析报表模版.xlsx</outer_def>
+    <counter_def>E:\Work\0.Document\3.项目管理\LTE路测\杭州拉网测试/LTE网络质量评估IE模版.xlsx</counter_def>
+    <outer_def>E:\Work\0.Document\3.项目管理\LTE路测\杭州拉网测试/LTE网络质量评估报告.xlsx</outer_def>
     <combine>true</combine>
   </report>
 
@@ -65,8 +65,8 @@
   </simulate>
 
   <csv_simulate>
-    <cell_info>D:/ruby/span_report/log_simulate/cell_info.xlsx</cell_info>
-    <csv_file>D:/ruby/span_report/log_simulate/data.csv
+    <cell_info>D:\ruby\span_report\log_csvsimulate/cell_info.xlsx</cell_info>
+    <csv_file>D:\ruby\span_report\log_csvsimulate/data.csv
     </csv_file>
     <threshold_config>
       <!-- 邻区干扰阈值（dB） -->

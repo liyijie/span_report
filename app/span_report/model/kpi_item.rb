@@ -41,8 +41,12 @@ module SpanReport::Model
         else
           match = ""
         end
+        if match.to_s.empty?
+          match = 0.0
+        end
+        match ||= 0.0
         SpanReport.logger.debug "match value is:#{match}"
-        match ||= ""
+        match ||= 0.0
       end
       begin
         value = eval eval_string

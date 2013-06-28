@@ -110,6 +110,7 @@ module SpanReport::Simulate
     ###########################################
     def fill_extra cell_infos
       return unless @cell_name.to_s.empty?
+      return if @serve_cell.nil?
       gps_point = Point.new @lat, @lon
       @serve_cell.fill_cell_extra gps_point, cell_infos
       @cell_name = @serve_cell.cell_name

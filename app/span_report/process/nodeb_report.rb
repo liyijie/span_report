@@ -27,8 +27,8 @@ module SpanReport::Process
       @relate_nodebs = Set.new
     end
 
-    def add_counter_cache counter_name, counter_ievalue, count_mode
-      super counter_name, counter_ievalue, count_mode
+    def add_counter_cache counter_name, counter_ievalue, count_mode, pctime=0, is_valid=true
+      super counter_name, counter_ievalue, count_mode, pctime, is_valid
       #对符合用户给定基站小区信息的，需要进行统计
       cell_pci = @ie_caches[PCI_IENAME]
       cell_freq = @ie_caches[FREQ_IENAME]
@@ -80,8 +80,8 @@ module SpanReport::Process
       if cell_name != ""
         nodeb_counter_name = "#{nodeb_name}$#{counter_name}"
         cell_counter_name = "#{cell_name}$#{counter_name}"
-        super nodeb_counter_name, counter_ievalue, count_mode
-        super cell_counter_name, counter_ievalue, count_mode
+        super nodeb_counter_name, counter_ievalue, count_mode, pctime, is_valid
+        super cell_counter_name, counter_ievalue, count_mode, pctime, is_valid
       end
       
     end
