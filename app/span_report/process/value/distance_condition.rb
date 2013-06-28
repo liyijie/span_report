@@ -25,7 +25,7 @@ module SpanReport::Process::Value
       if ((pctime-@last_pctime).abs < 20000)
         if @last_gps
           dis = @last_gps.distance gps
-          @distance += dis
+          @distance += dis if dis < 100
         end
       end
 
