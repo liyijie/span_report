@@ -27,7 +27,7 @@ module SpanReport
       if @function == "nodeb_report"
         context = NodebReportContext.new path
       elsif @function == "report"
-        context = ReportContext.new path          
+        context = ReportContext.new path             
       elsif @function == "export"
         context = ExportContext.new path 
       elsif @function == "simulate"

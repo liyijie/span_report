@@ -50,6 +50,7 @@ module SpanReport::Model
       end
       begin
         value = eval eval_string
+        value = "" if value.to_f.nan?
       rescue Exception => e
         value = ""
       end
