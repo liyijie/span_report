@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <context>
   <common>
-    <input_log type="folder">./log_export</input_log>
-    <output_log type="folder">./log_export</output_log>
-    <function></function>
+    <input_log type="folder">./log_overlap</input_log>
+    <output_log type="folder">./log_overlap</output_log>
+    <function>overlap</function>
   </common>
 
   <lglsplit>
     <time start="53071274" end="53147366"></time>
     <time start="52924343" end="52999656"></time>
   </lglsplit>
+
+  <overlap>
+    <disturb_threshold>-6</disturb_threshold>
+  </overlap>
 
   <map>
     <cell_info>D:/ruby/span_report/log_map/cell_info.xlsx</cell_info>

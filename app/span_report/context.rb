@@ -13,6 +13,7 @@ module SpanReport
     autoload :LglmergeContext, "span_report/context/lglmerge_context"
     autoload :LogcombineContext, "span_report/context/logcombine_context"
     autoload :LglsplitContext, "span_report/context/lglsplit_context"
+    autoload :OverlapContext, "span_report/context/overlap_context"
 
     CONFIG_FILE = "config/config.xml"
     # FILE_TYPES = ["signal", "event", "map.csv", "IndoorPointmap"]
@@ -44,6 +45,8 @@ module SpanReport
         context = LogcombineContext.new path
       elsif @function == "lglsplit"
         context = LglsplitContext.new path
+      elsif @function == "overlap"
+        context = OverlapContext.new path
       else
         context = BaseContext.new path
       end
