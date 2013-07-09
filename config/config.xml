@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <context>
   <common>
-    <input_log type="folder">D:\ruby\span_report\log_csvsimulate</input_log>
-    <output_log type="folder">D:\ruby\span_report\log_csvsimulate</output_log>
-    <function>report</function>
+    <input_log type="folder">./log_export</input_log>
+    <output_log type="folder">./log_export</output_log>
+    <function></function>
   </common>
 
   <lglsplit>
@@ -12,7 +12,7 @@
   </lglsplit>
 
   <map>
-    <cell_info>D:/ruby/span_report/template/cell_info.xlsx</cell_info>
+    <cell_info>D:/ruby/span_report/log_map/cell_info.xlsx</cell_info>
   </map>
 
   <lglconvert>
@@ -35,9 +35,9 @@
   </report>
 
   <nodeb_report>
-    <cell_info>D:/span_report/template/cell_info.xlsx</cell_info>
-    <counter_def>D:/span_report/template/IE模板.xlsx</counter_def>
-    <outer_def>D:/span_report/template/单站报表模板.xlsx</outer_def>
+    <cell_info>D:/ruby/span_report/log_nodeb/cell_info.xlsx</cell_info>
+    <counter_def>D:/ruby/span_report/log_nodeb/IE模板.xlsx</counter_def>
+    <outer_def>D:/ruby/span_report/log_nodeb/单站报表模板.xlsx</outer_def>
   </nodeb_report>
 
   <simulate>
@@ -92,22 +92,179 @@
 
   <export>
     <combine>true</combine>
-    <ieconfig>
-      <!-- <ie name="dbLon" alias="Longitude"></ie>
+    <ieconfig name="BLER.csv">
+      <ie name="dbLon" alias="Long"></ie>
+      <ie name="dbLat" alias="Lat"></ie>
+      <ie name="TDDLTE_HARQ_UL_BLER" alias="HARQ UL BLER"></ie>
+      <ie name="TDDLTE_HARQ_DL_BLER" alias="HARQ DL BLER"></ie>
+      <ie name="TDDLTE_HARQ_DL_Code0_BLER" alias="HARQ DL Code0 BLER"></ie>
+      <ie name="TDDLTE_HARQ_DL_Code1_BLER" alias="HARQ DL Code1 BLER"></ie> 
+    </ieconfig>
+    <ieconfig name="CQI.csv">
+      <ie name="dbLon" alias="Long"></ie>
+      <ie name="dbLat" alias="Lat"></ie>
+      <ie name="TDDLTE_CQI_RI" alias="RI"></ie> 
+      <ie name="TDDLTE_CQI_Wideband_Code0_CQI" alias="W-CQI C0"></ie>   
+      <ie name="TDDLTE_CQI_Wideband_Code1_CQI" alias="W-CQI C1"></ie> 
+      <ie name="TDDLTE_CQI_Rank1_Sinr" alias="R1 SINR"></ie>
+      <ie name="TDDLTE_CQI_Rank2_Sinr1" alias="R2 SINR1"></ie>    
+      <ie name="TDDLTE_CQI_Rank2_Sinr2" alias="R2 SINR2"></ie>
+    </ieconfig>
+    <ieconfig name="General.csv">
+      <ie name="dbLon" alias="Longitude"></ie>
       <ie name="dbLat" alias="Latitude"></ie>
-      <ie name="TDDLTE_Scell_Radio_Parameters_Scell_PCI" alias="i624"></ie> -->
-      <!-- <ie name="TDDLTE_Scell_Radio_Parameters_Frequency_DL" alias="i627"></ie>
-      <ie name="TDDLTE_L1_measurement_Serving_Cell_Measurement_RSRP" alias="i637"></ie>
-      <ie name="TDDLTE_L1_measurement_Serving_Cell_Measurement_SINR" alias="i642"></ie> -->
-      <ie name="TDDLTE_Throughput_APP_Throughput_DL" alias="i945"></ie>
-      <ie name="TDDLTE_Throughput_APP_Throughput_UL" alias="i946"></ie>
-      <ie name="TDDLTE_Schedul_Info_PDSCH_Rb_Count" alias="DL_RB"></ie>
-      <ie name="TDDLTE_Schedul_Info_PUSCH_Rb_Count" alias="UL_RB"></ie>
+      <ie name="TDDLTE_Scell_Radio_Parameters_Scell_PCI" alias="PCI"></ie>
+      <ie name="TDDLTE_Scell_Radio_Parameters_Frequency_DL" alias="Frequency DL"></ie>
+      <ie name="TDDLTE_L1_measurement_Serving_Cell_Measurement_RSRP" alias="Serving Cell RSRP(dBm)"></ie>
+      <ie name="TDDLTE_L1_measurement_Serving_Cell_Measurement_SINR" alias="Average SINR(dB)"></ie>
+      <ie name="TDDLTE_L1_measurement_Serving_Cell_Measurement_TM" alias="TM"></ie>
+      <ie name="TDDLTE_CQI_RI" alias="RI"></ie>
+      <ie name="TDDLTE_Schedul_Info_PUSCH_Rb_Count" alias="=PUSCH RBCount"></ie>    
+      <ie name="TDDLTE_Schedul_Info_PDSCH_Rb_Count" alias="=PDSCH RBCount"></ie>   
+      <ie name="TDDLTE_Throughput_APP_Throughput_DL" alias="APP Throughput DL"></ie>
+      <ie name="TDDLTE_Throughput_APP_Throughput_UL" alias="APP Throughput UL"></ie>
+      <ie name="TDDLTE_Throughput_PDCP_Throughput_DL" alias="PDCP Throughput DL"></ie>
+      <ie name="TDDLTE_Throughput_PDCP_Throughput_UL" alias="PDCP Throughput UL"></ie>
+    </ieconfig>
+    <ieconfig name="MCS.csv">
+      <ie name="dbLon" alias="Long"></ie>
+      <ie name="dbLat" alias="Lat"></ie>
+      <ie name="TDDLTE_MCS_Average_UL_MCS" alias="UL MCS Avg"></ie>
+      <ie name="TDDLTE_MCS_Average_DL_Code0_MCS" alias="DL Code0 MCS Avg"></ie>
+      <ie name="TDDLTE_MCS_Average_DL_Code1_MCS" alias="DL Code1 MCS Avg"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Total" alias="MCS UL Total"></ie>  
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Total" alias="MCS DL Code0 Total"></ie>  
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Total" alias="MCS DL Code1 Total"></ie> 
+      <ie name="TDDLTE_MCS_DL_Code1_QPSK_Count" alias="Code1 QPSK  Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_16QAM_Count" alias="Code1 16QAM Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_64QAM_Count" alias="Code1 64QAM Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_QPSK" alias="DL Code1 QPSK"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_16QAM" alias="DL Code1 16QAM"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_64QAM" alias="DL Code1 64QAM"></ie>
+      <ie name="TDDLTE_MCS_UL_QPSK_Count" alias="UL QPSK Count"></ie>
+      <ie name="TDDLTE_MCS_UL_16QAM_Count" alias="UL 16QAM Count"></ie>
+      <ie name="TDDLTE_MCS_UL_64QAM_Count" alias="UL 64QAM Count"></ie>
+      <ie name="TDDLTE_MCS_UL_QPSK" alias="UL QPSK"></ie>
+      <ie name="TDDLTE_MCS_UL_16QAM" alias="UL 16QAM"></ie>
+      <ie name="TDDLTE_MCS_UL_64QAM" alias="UL 64QAM"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_0" alias="UL MCS0 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_1" alias="UL MCS1 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_2" alias="UL MCS2 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_3" alias="UL MCS3 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_4" alias="UL MCS4 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_5" alias="UL MCS5 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_6" alias="UL MCS6 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_7" alias="UL MCS7 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_8" alias="UL MCS8 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_9" alias="UL MCS9 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_10" alias="UL MCS10 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_11" alias="UL MCS11 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_12" alias="UL MCS12 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_13" alias="UL MCS13 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_14" alias="UL MCS14 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_15" alias="UL MCS15 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_16" alias="UL MCS16 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_17" alias="UL MCS17 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_18" alias="UL MCS18 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_19" alias="UL MCS19 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_20" alias="UL MCS20 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_21" alias="UL MCS21 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_22" alias="UL MCS22 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_23" alias="UL MCS23 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_24" alias="UL MCS24 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_25" alias="UL MCS25 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_26" alias="UL MCS26 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_27" alias="UL MCS27 Count"></ie>
+      <ie name="TDDLTE_MCS_UL_MCS_Count_28" alias="UL MCS28 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_0" alias="DL MCS0 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_1" alias="DL MCS1 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_2" alias="DL MCS2 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_3" alias="DL MCS3 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_4" alias="DL MCS4 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_5" alias="DL MCS5 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_6" alias="DL MCS6 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_7" alias="DL MCS7 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_8" alias="DL MCS8 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_9" alias="DL MCS9 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_10" alias="DL MCS10 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_11" alias="DL MCS11 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_12" alias="DL MCS12 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_13" alias="DL MCS13 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_14" alias="DL MCS14 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_15" alias="DL MCS15 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_16" alias="DL MCS16 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_17" alias="DL MCS17 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_18" alias="DL MCS18 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_19" alias="DL MCS19 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_20" alias="DL MCS20 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_21" alias="DL MCS21 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_22" alias="DL MCS22 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_23" alias="DL MCS23 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_24" alias="DL MCS24 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_25" alias="DL MCS25 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_26" alias="DL MCS26 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_27" alias="DL MCS27 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code0_MCS_Count_28" alias="DL MCS28 Code0 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_0" alias="DL MCS0 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_1" alias="DL MCS1 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_2" alias="DL MCS2 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_3" alias="DL MCS3 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_4" alias="DL MCS4 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_5" alias="DL MCS5 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_6" alias="DL MCS6 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_7" alias="DL MCS7 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_8" alias="DL MCS8 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_9" alias="DL MCS9 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_10" alias="DL MCS10 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_11" alias="DL MCS11 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_12" alias="DL MCS12 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_13" alias="DL MCS13 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_14" alias="DL MCS14 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_15" alias="DL MCS15 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_16" alias="DL MCS16 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_17" alias="DL MCS17 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_18" alias="DL MCS18 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_19" alias="DL MCS19 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_20" alias="DL MCS20 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_21" alias="DL MCS21 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_22" alias="DL MCS22 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_23" alias="DL MCS23 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_24" alias="DL MCS24 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_25" alias="DL MCS25 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_26" alias="DL MCS26 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_27" alias="DL MCS27 Code1 Count"></ie>
+      <ie name="TDDLTE_MCS_DL_Code1_MCS_Count_28" alias="DL MCS28 Code1 Count"></ie>
+    </ieconfig>
+    <ieconfig name="PDCCH.csv">
+      <ie name="dbLon" alias="Long"></ie>
+      <ie name="dbLat" alias="Lat"></ie>
+      <ie name="TDDLTE_L1_measurement_Serving_Cell_Measurement_TM" alias="TM"></ie>
+      <ie name="TDDLTE_Schedul_Info_CCE1_Type_Count" alias="CCE1 Type Count"></ie>
+      <ie name="TDDLTE_Schedul_Info_CCE2_Type_Count" alias="CCE2 Type Count"></ie>
+      <ie name="TDDLTE_Schedul_Info_CCE4_Type_Count" alias="CCE4 Type Count"></ie>
+      <ie name="TDDLTE_Schedul_Info_CCE8_Type_Count" alias="CCE8 Type Count"></ie>
+      <ie name="TDDLTE_Schedul_Info_DCI_Format_0_Count" alias="DCI Fmt0"></ie>
+      <ie name="TDDLTE_Schedul_Info_DCI_Format_1_Count" alias="DCI Fmt1"></ie>
+      <ie name="TDDLTE_Schedul_Info_DCI_Format_1a_Count" alias="DCI Fmt1a"></ie>
+      <ie name="TDDLTE_Schedul_Info_DCI_Format_1b_Count" alias="DCI Fmt1b"></ie>
+      <ie name="TDDLTE_Schedul_Info_DCI_Format_1c_Count" alias="DCI Fmt1c"></ie>
+      <ie name="TDDLTE_Schedul_Info_DCI_Format_1d_Count" alias="DCI Fmt1d"></ie>
+      <ie name="TDDLTE_Schedul_Info_DCI_Format_2_Count" alias="DCI Fmt2"></ie>
+      <ie name="TDDLTE_Schedul_Info_DCI_Format_2_Count" alias="DCI Fmt2"></ie>
+      <ie name="TDDLTE_Schedul_Info_DCI_Format_2a_Count" alias="DCI Fmt2a"></ie>
+      <ie name="TDDLTE_Schedul_Info_DCI_Format_2b_Count" alias="DCI Fmt2b"></ie>
+      <ie name="TDDLTE_Schedul_Info_DCI_Format_2b_Count" alias="DCI Fmt2b"></ie>
+      <ie name="TDDLTE_Schedul_Info_DCI_Format_3_Count" alias="DCI Fmt3"></ie>
+      <ie name="TDDLTE_Schedul_Info_DCI_Format_3a_Count" alias="DCI Fmt3a"></ie>
+      <ie name="TDDLTE_Schedul_Info_PUSCH_Rb_Count" alias="=PUSCH RBCount"></ie>    
+      <ie name="TDDLTE_Schedul_Info_PDSCH_Rb_Count" alias="=PDSCH RBCount"></ie>  
+      <ie name="TDDLTE_Schedul_Info_PDCCH_UL_Grant_Count" alias="PDCCH UL Grant Count"></ie>
+      <ie name="TDDLTE_Schedul_Info_PDCCH_DL_Grant_Count" alias="PDCCH DL Grant Count"></ie>
     </ieconfig>
   </export>
 
   <nodeb_export>
-    <cell_info>D:/span_report/template/cell_info.xlsx</cell_info>
+    <cell_info>D:/ruby/span_report/log_nodeb_export/cell_info.xlsx</cell_info>
     <ieconfig>
       <ie name="Longitude" alias="dbLon"></ie>
       <ie name="Latitude" alias="dbLat"></ie>

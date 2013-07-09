@@ -8,10 +8,14 @@ module SpanReport::Context
       doc.search(@function).each do |relate|
         @combine = get_content relate, "combine"
         @ieconfigs = {}
-        relate.search("ie").each do |ie|
-          ie_name = ie.get_attribute("name")
-          ie_alias = ie.get_attribute("alias")
-          @ieconfigs[ie_name] = ie_alias
+        relate.search("ieconfig").each do |ieconfig|
+          filename = ieconfig.get_attribute("name")
+          @ieconfigs[filename] = {}
+          ieconfig.search("ie").each do |ie|
+            ie_name = ie.get_attribute("name")
+            ie_alias = ie.get_attribute("alias")
+            @ieconfigs[filename][ie_name] = ie_alias
+          end
         end
       end
     end
@@ -20,47 +24,54 @@ module SpanReport::Context
 
       SpanReport::Model::Logformat.instance.load_xml "config/LogFormat_100.xml"
 
-      export = SpanReport::Process::Export.new
-      @ieconfigs.each do |ie_name, ie_alias|
-        export.reg_iename ie_name, ie_alias
-      end
-
-      logfiles = SpanReport.list_files(@input_log, ["lgl"])
-      #多个日志合并导出
-      if @combine == "true"
-        begin
-          resultfile = File.join @output_log, "combine.export.csv"
-          export.config_export_file resultfile
-          filereader = SpanReport::Logfile::FileReader.new logfiles
-          filereader.parse_many([export])
-
-          export.close_file
-        rescue Exception => e
-          puts e
-        ensure
-          filereader.clear_files
+      @ieconfigs.each do |filename, iemap|
+        export = SpanReport::Process::Export.new
+        iemap.each do |ie_name, ie_alias|
+          export.reg_iename ie_name, ie_alias
         end
-      # 日志分别导出
-      else
-        logfiles.each do |logfile|
-          begin
-            resultfile = logfile.filename.split(/\\|\//)[-1]
-            resultfile = resultfile.sub('lgl', 'export.csv')
-            resultfile = File.join @output_log, resultfile
-            export.config_export_file resultfile
 
-            filereader = SpanReport::Logfile::FileReader.new [logfile]
-            filereader.parse(export)
-            
-            SpanReport.logger.debug "resultfile is: #{resultfile}"
+        logfiles = SpanReport.list_files(@input_log, ["lgl"])
+        #多个日志合并导出
+        if @combine == "true"
+          begin
+            resultfile = File.join @output_log, filename
+            export.config_export_file resultfile
+            filereader = SpanReport::Logfile::FileReader.new logfiles
+            filereader.parse_many([export])
 
             export.close_file
           rescue Exception => e
-            next
+            puts e
+            puts e.backtrace
           ensure
-            filereader.clear_files
+            filereader.clear_files if filereader
+          end
+        # 日志分别导出
+        else
+          logfiles.each do |logfile|
+            begin
+              dest_dir = File.join @output_log, logfile.filename.split(/\\|\//)[-1].sub('.lgl', '')
+              Dir.mkdir(dest_dir) unless File.exist?(dest_dir)
+
+              resultfile = File.join dest_dir, filename
+              export.config_export_file resultfile
+
+              filereader = SpanReport::Logfile::FileReader.new [logfile]
+              filereader.parse(export)
+              
+              SpanReport.logger.debug "resultfile is: #{resultfile}"
+
+              export.close_file
+            rescue Exception => e
+              puts e
+              puts e.backtrace
+              next
+            ensure
+              filereader.clear_files if filereader
+            end
           end
         end
+
       end
       
     end
