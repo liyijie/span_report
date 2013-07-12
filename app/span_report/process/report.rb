@@ -69,7 +69,7 @@ module SpanReport::Process
           s_rsrp = sort_array[0]
           (1..sort_array.size-1).each do |index|
             n_rsrp = sort_array[index]
-            over_range_count += 1 if (s_rsrp < 0 && n_rsrp < 0 && (n_rsrp - s_rsrp) >= -6) 
+            over_range_count += 1 if (s_rsrp >= -105 && s_rsrp < 0 && n_rsrp < 0 && (n_rsrp - s_rsrp) > -6) 
           end
         end
 
