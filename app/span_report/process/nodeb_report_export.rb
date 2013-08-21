@@ -1,5 +1,6 @@
 # encoding: utf-8
-require 'win32ole'
+# require 'win32ole'
+require "smarter_csv"
 
 module SpanReport::Process
   class NodebReportExport
@@ -80,31 +81,23 @@ module SpanReport::Process
     end
 
     #从excel获取小区表的相关信息
-    def load_cell_infos excelfile
+    def load_cell_infos csv_file
       begin
-        excel = WIN32OLE::new('excel.Application')
-        workbook = excel.Workbooks.Open excelfile
-        worksheet = workbook.Worksheets('cell_info')
-        row_count = worksheet.UsedRange.Rows.count
+        SmarterCSV.process(csv_file, file_encoding: 'gbk') do |data|
+          next if data.first[:pci].to_s.encode("utf-8").empty?
 
-        worksheet.Range("a2:f#{row_count}").Rows.each do |row|
-          config_datas = row.Value[0]
-          next if config_datas[0].nil?
           cell_info = CellInfo.new
-
-          cell_info.nodeb_name = config_datas[0].to_s.encode("utf-8")
-          cell_info.cell_name = config_datas[1].to_s.encode("utf-8")
-          cell_info.pci = config_datas[2].to_s.encode("utf-8")
-          cell_info.freq = config_datas[3].to_s.encode("utf-8")
-          cell_info.lat = config_datas[4].to_s.encode("utf-8")
-          cell_info.lon = config_datas[5].to_s.encode("utf-8")
+          cell_info.nodeb_name = data.first[:sitename].to_s.encode("utf-8")
+          cell_info.cell_name = data.first[:cellname].to_s.encode("utf-8")
+          cell_info.pci = data.first[:pci].to_s.encode("utf-8")
+          cell_info.freq = data.first[:frequency_dl].to_s.encode("utf-8")
+          cell_info.lat = data.first[:latitude].to_s.encode("utf-8")
+          cell_info.lon = data.first[:longitude].to_s.encode("utf-8")
           @cell_infos << cell_info
         end
       rescue Exception => e
         SpanReport.logger.error e
         puts e
-      ensure
-        workbook.close
       end
     end
 

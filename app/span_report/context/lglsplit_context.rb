@@ -39,11 +39,13 @@ module SpanReport::Context
       Dir.mkdir(unzip_temp_dir)
 
       # 1. 解压缩
-      logfiles = SpanReport.list_files(@input_log, ["lgl"])
-      logfiles.each_with_index do |logfile, file_index|
-        zip_file = logfile.filename
-        unzip zip_file, unzip_temp_dir
-      end
+      # logfiles = SpanReport.list_files(@input_log, ["lgl"])
+      # logfiles.each_with_index do |logfile, file_index|
+      #   zip_file = logfile.filename
+      #   unzip zip_file, unzip_temp_dir
+      # end
+      zip_file = @input_log
+      unzip zip_file, unzip_temp_dir
 
       @timeinfos.each do |timeinfo|
         result_dir = File.join @output_log, "#{timeinfo}"

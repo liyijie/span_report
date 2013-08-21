@@ -1,5 +1,6 @@
 #encoding: utf-8
-require 'win32ole'
+# require 'win32ole'
+require "smarter_csv"
 
 module SpanReport::Simulate
   class CellInfos
@@ -12,35 +13,23 @@ module SpanReport::Simulate
       @cellname_infos_map = {}
     end
 
-    def load_from_xls excelfile
-      # begin
-        excel = WIN32OLE::new('excel.Application')
-        workbook = excel.Workbooks.Open excelfile
-        worksheet = workbook.Worksheets('cell_info')
-        row_count = worksheet.UsedRange.Rows.count
+    def load_from_xls csv_file
+      
+      SmarterCSV.process(csv_file, file_encoding: 'gbk') do |data|
+        next if data.first[:pci].to_s.encode("utf-8").empty?
 
-        worksheet.Range("a2:h#{row_count}").Rows.each do |row|
-          config_datas = row.Value[0]
-          next if config_datas[0].nil?
-          cell_info = CellInfo.new
-
-          cell_info.nodeb_name = config_datas[0].to_s
-          cell_info.cell_name = config_datas[1].to_s
-          cell_info.pci = config_datas[2].to_s.encode("utf-8")
-          cell_info.freq = config_datas[3].to_s.encode("utf-8")
-          cell_info.lat = config_datas[4].to_s.encode("utf-8")
-          cell_info.lon = config_datas[5].to_s.encode("utf-8")
-          cell_info.high = config_datas[6].to_s.encode("utf-8")
-          cell_info.angle = config_datas[7].to_s.encode("utf-8")
-          SpanReport.logger.debug "cell_info nodeb_name is:#{cell_info.nodeb_name}, cell_info high is:#{cell_info.high}, cell_info angle is:#{cell_info.angle}"
-          add_cellinfo cell_info
-        end
-      # rescue Exception => e
-      #   SpanReport.logger.error e
-      #   puts e
-      # ensure
-        workbook.close
-      # end
+        cell_info = CellInfo.new
+        cell_info.nodeb_name = data.first[:sitename].to_s.encode("utf-8")
+        cell_info.cell_name = data.first[:cellname].to_s.encode("utf-8")
+        cell_info.pci = data.first[:pci].to_s.encode("utf-8")
+        cell_info.freq = data.first[:frequency_dl].to_s.encode("utf-8")
+        cell_info.lat = data.first[:latitude].to_s.encode("utf-8")
+        cell_info.lon = data.first[:longitude].to_s.encode("utf-8")
+        cell_info.high = data.first[:high].to_s.encode("utf-8")
+        cell_info.angle = data.first[:tilt_total].to_s.encode("utf-8")
+        
+        add_cellinfo cell_info
+      end
     end
 
     def get_cellinfos pci, freq
@@ -77,5 +66,9 @@ module SpanReport::Simulate
       @high = 0
       @angle = 0
     end
+
+    # def to_s
+      
+    # end
   end
 end

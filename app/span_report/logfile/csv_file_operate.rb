@@ -43,6 +43,10 @@ module SpanReport::Logfile
           end
           time = data_map["time"]
           ue = data_map["ue"]
+          data_map.map do |key, value|
+            key = key.encode('utf-8')
+            value = value.encode('utf-8')
+          end
           point_data = SpanReport::Simulate::PointData.new time, ue, data_map
           point_data.expand_data
           
@@ -131,6 +135,7 @@ module SpanReport::Logfile
 
     def open_file result_file
       # puts "output csv file is:#{result_file}"
+      result_file = result_file.encode 'gbk'
       @file = File.new(result_file, "w")
       @file.puts head_string
     end
@@ -143,7 +148,7 @@ module SpanReport::Logfile
 
     def flush
       @export_datas.each do |pointdata|
-        @file.puts pointdata
+        @file.puts pointdata.to_s.encode 'gbk'
       end
       @export_datas.clear
     end
