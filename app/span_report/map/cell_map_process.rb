@@ -20,7 +20,7 @@ module SpanReport::Map
           cell_name = pointdata.cell_name
           next if cell_name.nil? || cell_name.empty?
           unless @mapfile_map.has_key? cell_name
-            result_filename = File.join @result_path, "#{cell_name}.csv"
+            result_filename = File.join @result_path, "#{cell_name}.csv".encode('utf-8')
             # puts "result_filename is:#{result_filename}"
             @mapfile_map[cell_name] = File.new(result_filename, "w")  
             @mapfile_map[cell_name].puts head_string
