@@ -134,7 +134,7 @@ module SpanReport::Simulate
         @serve_cell = CellData.new(@data_map[SCELL_PCI], @data_map[SCELL_FREQ])
         @serve_cell.rsrp = @data_map[SCELL_RSRP]
         @serve_cell.sinr = @data_map[SCELL_SINR]
-        @serve_cell.cell_name = @data_map[SCELL_NAME]
+        @serve_cell.cell_name = @data_map[SCELL_NAME].encode('utf-8') if @data_map[SCELL_NAME]
         @serve_cell.distance = @data_map[SCELL_DISTANCE]
         @pci = @data_map[SCELL_PCI]
         @freq = @data_map[SCELL_FREQ]
@@ -150,7 +150,7 @@ module SpanReport::Simulate
           freq = @data_map["#{NCELL_FREQ}_#{i}"]
           nei_cell =  CellData.new(pci, freq)
           nei_cell.rsrp = @data_map["#{NCELL_RSRP}_#{i}"]
-          nei_cell.cell_name = @data_map["#{NCELL_NAME}_#{i}"]
+          nei_cell.cell_name = @data_map["#{NCELL_NAME}_#{i}"].encode('utf-8') if @data_map["#{NCELL_NAME}_#{i}"]
           nei_cell.distance = @data_map["#{NCELL_DISTANCE}_#{i}"]
           @nei_cells << nei_cell
         end
