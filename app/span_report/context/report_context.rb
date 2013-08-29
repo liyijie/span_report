@@ -18,7 +18,7 @@ module SpanReport::Context
 
       excel_export = SpanReport::Process::ReportExport.new @outer_def
 
-      report = SpanReport::Process::NodebReport.new
+      report = SpanReport::Process::Report.new
 
       counter_model = SpanReport::Model::CounterModel.new
       counter_model.parse @counter_def
