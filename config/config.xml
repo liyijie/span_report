@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <context>
   <common>
-    <input_log type="folder">./log_overlap</input_log>
-    <output_log type="folder">./log_overlap</output_log>
-    <function>overlap</function>
+    <input_log type="folder">./log_simulate</input_log>
+    <output_log type="foldermap">D:/ruby/span_report/log_simulate/结果</output_log>
+    <function></function>
   </common>
 
   <lglsplit>
@@ -16,7 +16,7 @@
   </overlap>
 
   <map>
-    <cell_info>D:/ruby/span_report/log_map/cell_info.xlsx</cell_info>
+    <cell_info>./log_map/LTECell.csv</cell_info>
   </map>
 
   <lglconvert>
@@ -33,8 +33,8 @@
   </lglconvert>
 
   <report>
-    <counter_def>E:\Work\0.Document\3.项目管理\LTE路测\杭州拉网测试/LTE网络质量评估IE模版.xlsx</counter_def>
-    <outer_def>E:\Work\0.Document\3.项目管理\LTE路测\杭州拉网测试/LTE网络质量评估报告.xlsx</outer_def>
+    <counter_def>D:\ruby\span_report\log_report\福州IE模板.xlsx</counter_def>
+    <outer_def>D:\ruby\span_report\log_report\福州片区报表模板.xlsx</outer_def>
     <combine>true</combine>
   </report>
 
@@ -45,7 +45,7 @@
   </nodeb_report>
 
   <simulate>
-    <cell_info>D:/ruby/span_report/log_simulate/cell_info_f.xlsx</cell_info>
+    <cell_info>D:/ruby/span_report/log_simulate/LTECell.csv</cell_info>
     <threshold_config>
       <!-- 邻区干扰阈值（dB） -->
       <threshold name="disturb" value="-6"></threshold>
