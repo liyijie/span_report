@@ -6,6 +6,7 @@ module SpanReport::Condition
     # section condition is a list of range conditions
     attr_reader :sections
 
+    # [-140,130);[-130,-120);[-120,-100)
     def parse
       @sections = []
       @sections = @scope.split ";"

@@ -65,6 +65,57 @@ module SpanReport::Process::Value
     
   end
 
+  class PdfCdf < BaseValue
+    
+    def initialize mode
+      super()
+      params = mode.split(/\(|\)|,/)
+      @min = params[1].to_f
+      @max = params[2].to_f
+      @step = params[3].to_f
+      @count = 0
+      init_counts
+    end
+
+    def process ievalue
+      return if (ievalue.to_s.empty?)
+      return if (ievalue.to_f > @max || ievalue.to_f < @min)
+      @count += 1
+      @cdfcounts.each do |cdfcount|
+        cdfcount.process ievalue
+      end
+      @pdfcounts.each do |pdfcount|
+        pdfcount.process ievalue
+      end
+    end
+
+    def getvalue params
+      if params[0] == "cdf"   # cdf value
+        array = @cdfcounts
+      else
+        array = @pdfcounts
+      end
+      array ||= []
+      value_array = array.map do |count_value|
+        @count > 0 ? (count_value.getvalue.to_f / @count).round(4) : 0
+      end
+      value_array.join(";")
+    end
+
+    private
+    def init_counts
+      @cdfcounts = []
+      @pdfcounts = []
+      @min.step(@max, @step).each do |threthold|
+        cdfcount = CdfCount.new threthold
+        @cdfcounts << cdfcount
+        pdfcount = PdfCount.new threthold, threthold + @step
+        @pdfcounts << pdfcount
+      end
+    end
+
+  end
+
   class CdfCount
 
     attr_reader :threthold
@@ -86,5 +137,28 @@ module SpanReport::Process::Value
       @count
     end
     
+  end
+
+  class PdfCount
+
+    attr_reader :min, :max
+
+    def initialize min, max
+      @min, @max = min.to_f, max.to_f
+      @count = 0
+    end
+
+    def valid? ievalue
+      ievalue.to_f >= @min && ievalue.to_f < @max
+    end
+
+    def process ievalue
+      @count += 1 if valid? ievalue
+    end
+
+    def getvalue
+      @count
+    end
+
   end
 end

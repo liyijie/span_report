@@ -3,7 +3,7 @@
 module SpanReport::Condition
   class Range < Default
 
-    #[-1,0) (-1,0], (-1,0), [-1,0]"
+    # [-1,0) (-1,0], (-1,0), [-1,0]"
     def parse
       @scope = @scope.gsub(' ', '')
       
@@ -38,7 +38,6 @@ module SpanReport::Condition
           return_value = true
         end
       end
-
       return_value
     end
 

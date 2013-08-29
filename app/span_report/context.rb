@@ -14,6 +14,7 @@ module SpanReport
     autoload :LogcombineContext, "span_report/context/logcombine_context"
     autoload :LglsplitContext, "span_report/context/lglsplit_context"
     autoload :OverlapContext, "span_report/context/overlap_context"
+    autoload :IeStaticContext, "span_report/context/ie_static_context"
 
     CONFIG_FILE = "config/config.xml"
     # FILE_TYPES = ["signal", "event", "map.csv", "IndoorPointmap"]
@@ -35,6 +36,8 @@ module SpanReport
         context = SimulateContext.new path
       elsif @function == "csv_simulate"
         context = CsvSimulateContext.new path
+      elsif @function == "ie_static"
+        context = IeStaticContext.new path
       elsif @function == "lglconvert"
         context = LglconvertContext.new path
       elsif @function == "map"

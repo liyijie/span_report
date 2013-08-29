@@ -44,6 +44,15 @@ module SpanReport::Process
       end
     end
 
+    def process_ies ie_map, pctime
+      ie_map.each do |ie_name, ie_value|
+        ie_name = ie_name.to_s
+        next if ie_value.to_s.empty?
+        @ie_caches[ie_name] = ie_value
+        report_caculate ie_name, ie_value, pctime
+      end
+    end
+
     # 处理器，增加IE触发器的结构
     # 通过邻区结构生成重叠覆盖度这个IE
     def before_process logdata, file_group=""
@@ -176,6 +185,10 @@ module SpanReport::Process
       value
     end
 
+    def has_kpi_value?(kpi_name)
+      @kpi_caches.has_key? kpi_name
+    end
+
     def count_kpi_value
       @kpi_items.each do |kpi_item|
         kpi_item.eval_value! @kpi_caches
@@ -189,7 +202,8 @@ module SpanReport::Process
 
     private
 
-    def report_caculate ie_name, ie_value, pctime, file_group
+    def report_caculate ie_name, ie_value, pctime, file_group=""
+      ie_name = ie_name.to_s
       if @counter_item_map.has_key? ie_name
         counter_items = @counter_item_map[ie_name]
         counter_items.each do |counter_item|

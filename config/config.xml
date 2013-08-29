@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <context>
   <common>
-    <input_log type="folder">./log_simulate</input_log>
-    <output_log type="foldermap">D:/ruby/span_report/log_simulate/结果</output_log>
-    <function></function>
+    <input_log type="folder">./log_report/outum_ul2</input_log>
+    <output_log type="folder">./log_report/outum_ul2</output_log>
+    <function>ie_static</function>
   </common>
+
+  <ie_static>
+    <ie name="i637">
+      <section>[-141,-130);[-130,-120);[-120,-100);[-100,100];</section>
+      <pdf_cdf>(-140,50,2)</pdf_cdf>
+    </ie>
+    <ie name="i642">
+      <section>[-141,-130);[-130,-120);[-120,-100);</section>
+      <pdf_cdf>(-140,50,2)</pdf_cdf>
+    </ie>
+  </ie_static>
 
   <lglsplit>
     <time start="53071274" end="53147366"></time>
