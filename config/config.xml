@@ -6,6 +6,10 @@
     <function>ie_static</function>
   </common>
 
+  <kml_convert>
+    <ieconfig>./config/ieconfig.xml</ieconfig>
+  </kml_convert>
+
   <ie_static>
     <ie name="i637">
       <section>[-141,-130);[-130,-120);[-120,-100);[-100,100];</section>

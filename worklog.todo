@@ -1,0 +1,6 @@
+kml_convert:
+ ☐ read map.csv, note: should be fit to the various model
+ ☐ find the ie sections info from the ieconfig.xml file
+ ☐ generate the kml file, which is the xml format
+ ☐ kml file should be sorted by ie folder
+ ☐ kml file should be sorted by the ie sections, use the default icon
