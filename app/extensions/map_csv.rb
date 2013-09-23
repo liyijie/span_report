@@ -39,7 +39,7 @@ module MapCsv
       puts e
       puts e.backtrace
     ensure
-      return
+      return header_map
     end
   end
 end
