@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <context>
   <common>
-    <input_log type="folder">./log_report/outum_ul2</input_log>
-    <output_log type="folder">./log_report/outum_ul2</output_log>
-    <function>ie_static</function>
+    <input_log type="folder">./log_report/加扰</input_log>
+    <output_log type="folder">./log_report/加扰</output_log>
+    <function>kml_convert</function>
   </common>
 
   <kml_convert>
     <ieconfig>./config/ieconfig.xml</ieconfig>
+    <interval>2</interval>
   </kml_convert>
 
   <ie_static>

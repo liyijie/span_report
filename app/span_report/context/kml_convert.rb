@@ -6,6 +6,7 @@ module SpanReport::Context
       doc = Nokogiri::XML(open(CONFIG_FILE))
       doc.search(@function).each do |relate|
         @ieconfig_file = get_content relate, "ieconfig"
+        @interval = get_content relate, "interval"
       end
     end
 
@@ -33,7 +34,7 @@ module SpanReport::Context
     end
 
     def convert_kml mapcsv_file, kml_file
-      kml_cache = KmlCache.new kml_file
+      kml_cache = KmlCache.new kml_file, @interval
       MapCsv.foreach(mapcsv_file) do |row|
         kml_cache.add_data row
       end
@@ -62,9 +63,10 @@ module SpanReport::Context
   end
 
   class KmlCache
-    def initialize kml_path_file
+    def initialize kml_path_file, interval
       @kml_path = File.dirname kml_path_file
       @kml_file = File.basename kml_path_file
+      @interval = interval.to_i
       @ie_nodes = {}
     end
 
@@ -76,6 +78,7 @@ module SpanReport::Context
       options.delete_if do |k, v|
         k.to_s.start_with? "i"
       end
+      options[:time_interval] = @interval
       data.each do |k, v|
         if k.to_s.start_with? "i"
           @ie_nodes[k] ||= IENode.new k
@@ -90,6 +93,9 @@ module SpanReport::Context
         xml.kml(xmlns: "http://www.opengis.net/kml/2.2") {
           xml.Document {
             xml.name @kml_file
+            @ie_nodes.each do |iename, ienode|
+              ienode.to_xml xml
+            end
           }
         }
       end
@@ -105,10 +111,19 @@ module SpanReport::Context
       @name = name
       @datas = {}
       @segment_nodes = {}
-      segment_heads = get_segment_heads
+      @alias_name, segment_heads = get_segment_heads
       segment_heads.each_with_index do |head, index|
         @segment_nodes[index] = SegmentNode.new @name, head
       end
+    end
+
+    def to_xml xml
+      xml.Folder{
+        xml.name @alias_name
+        @segment_nodes.each do |index, segment_node|
+          segment_node.to_xml xml, index
+        end
+      }
     end
 
     # find the valid segment and add to it
@@ -126,10 +141,53 @@ module SpanReport::Context
   end
 
   class SegmentNode
-    attr_accessor :color
     def initialize(iename, head)
-      @iename, @max, @min, @color = iename, head[:max], head[:min], head[color]
+      @iename, @max, @min, @color = iename, head[:max], head[:min], head[:color]
+      @last_time = 0
       @datas = []
+    end
+
+    def to_xml xml, index
+      xml.Document { #section
+        xml.name "[#{@min}, #{@max})"
+        icon_style_id = "#{@iename}_#{index}"
+        # icon style
+        icon_hrefs = []
+        icon_hrefs << "http://maps.google.com/mapfiles/kml/paddle/wht-blank_maps.png"
+        icon_hrefs << "http://maps.google.com/mapfiles/kml/paddle/wht-stars_maps.png"
+        2.times do |i|
+          xml.Style(id: "#{icon_style_id}_#{i}") {
+            xml.IconStyle {
+              xml.color @color
+              xml.colorMode "normal"
+              xml.Icon {
+                xml.href icon_hrefs[i]
+              }
+            }
+          }
+        end
+        xml.StyleMap(id: icon_style_id) {
+          xml.Pair {
+            xml.key "normal"
+            xml.styleUrl "##{icon_style_id}_0"
+          }
+          xml.Pair {
+            xml.key "highlight"
+            xml.styleUrl "##{icon_style_id}_1"
+          }
+        }
+
+        # placemarks
+        @datas.each do |data|
+          xml.Placemark {
+            xml.name data[:value]
+            xml.styleUrl "##{icon_style_id}"
+            xml.Point {
+              xml.coordinates "#{data[:dblon]},#{data[:dblat]}"
+            }
+          }
+        end
+      } 
     end
 
     def valid? value
@@ -138,9 +196,14 @@ module SpanReport::Context
 
     def add_value value, options
       valid = valid? value
+      interval = options[:time_interval]
       if valid
-        options[:value] = value
-        @datas << options
+        pctime = options[:pctime]
+        if (pctime - @last_time > 1000 * interval)
+          @last_time = pctime
+          options[:value] = value
+          @datas << options
+        end
       end
       valid
     end
