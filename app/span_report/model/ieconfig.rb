@@ -27,3 +27,4 @@ module SpanReport::Model
     end
 
   end
+end

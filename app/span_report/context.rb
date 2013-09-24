@@ -1,4 +1,7 @@
 # encoding: utf-8
+require 'fileutils'  
+require 'zip/zip'  
+require 'zip/zipfilesystem' 
 
 module SpanReport
   module Context
@@ -15,6 +18,7 @@ module SpanReport
     autoload :LglsplitContext, "span_report/context/lglsplit_context"
     autoload :OverlapContext, "span_report/context/overlap_context"
     autoload :IeStaticContext, "span_report/context/ie_static_context"
+    autoload :KmlConvertContext, "span_report/context/kml_convert"
 
     CONFIG_FILE = "config/config.xml"
     # FILE_TYPES = ["signal", "event", "map.csv", "IndoorPointmap"]
@@ -50,6 +54,8 @@ module SpanReport
         context = LglsplitContext.new path
       elsif @function == "overlap"
         context = OverlapContext.new path
+      elsif @function == "kml_convert"
+        context = KmlConvertContext.new path
       else
         context = BaseContext.new path
       end

@@ -1,9 +1,5 @@
 # encoding: utf-8
 
-require 'fileutils'  
-require 'zip/zip'  
-require 'zip/zipfilesystem' 
-
 
 module SpanReport::Context
   class LglmergeContext < BaseContext
