@@ -24,7 +24,7 @@ module SpanReport::Context
         mapcsv_file = File.join dest_dir, "map.csv.list"
         kml_file = zip_file.sub("lgl", "kml")
         puts "converting #{zip_file} to #{kml_file} ..."
-        
+
         convert_kml mapcsv_file, kml_file
 
         # 删除
@@ -33,10 +33,11 @@ module SpanReport::Context
     end
 
     def convert_kml mapcsv_file, kml_file
-      kml_cache = KmlCache.new
+      kml_cache = KmlCache.new kml_file
       MapCsv.foreach(mapcsv_file) do |row|
         kml_cache.add_data row
       end
+      kml_cache.to_xml_file
     end
     
     #解压文件到临时目录中，为每个日志都解压到当前的文件夹中
@@ -61,7 +62,9 @@ module SpanReport::Context
   end
 
   class KmlCache
-    def initialize
+    def initialize kml_path_file
+      @kml_path = File.dirname kml_path_file
+      @kml_file = File.basename kml_path_file
       @ie_nodes = {}
     end
 
@@ -80,6 +83,19 @@ module SpanReport::Context
           ienode.add(v, options)
         end
       end
+    end
+
+    def to_xml_file
+      builder = Nokogiri::XML::Builder.new(encoding: 'utf-8') do |xml|
+        xml.kml(xmlns: "http://www.opengis.net/kml/2.2") {
+          xml.Document {
+            xml.name @kml_file
+          }
+        }
+      end
+
+      output_file = File.join @kml_path, @kml_file
+      File.open(output_file, "w") { |file| file.puts builder.to_xml }
     end
     
   end
