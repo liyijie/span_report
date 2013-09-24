@@ -72,7 +72,7 @@ module SpanReport::Context
       zipfile_name = zip_file.split(/\\|\//)[-1]
       puts "zipfile_name is:#{zipfile_name}"
       Dir.mkdir(dest_dir) unless File.exist?(dest_dir)
-      start_time = 99999999
+      start_time = 9999999999999999
 
 
       Zip::ZipFile.open zip_file do |zf|
