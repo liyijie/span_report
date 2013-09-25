@@ -19,6 +19,7 @@ module SpanReport
     autoload :OverlapContext, "span_report/context/overlap_context"
     autoload :IeStaticContext, "span_report/context/ie_static_context"
     autoload :KmlConvertContext, "span_report/context/kml_convert"
+    autoload :KmlCellContext, "span_report/context/kml_cell"
 
     CONFIG_FILE = "config/config.xml"
     # FILE_TYPES = ["signal", "event", "map.csv", "IndoorPointmap"]
@@ -56,6 +57,8 @@ module SpanReport
         context = OverlapContext.new path
       elsif @function == "kml_convert"
         context = KmlConvertContext.new path
+      elsif @function == "kml_cell"
+        context = KmlCellContext.new path
       else
         context = BaseContext.new path
       end

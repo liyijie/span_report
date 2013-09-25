@@ -1,4 +1,6 @@
 # encoding: utf-8
+require "smarter_csv"
+
 class CellCsv
 
   def self.foreach(input, options={}, &block)
@@ -12,7 +14,7 @@ class CellCsv
       cell_info[:frequency_dl] = data.first[:frequency_dl]
       cell_info[:latitude] = data.first[:latitude]
       cell_info[:longitude] = data.first[:longitude]
-      cell_info[:high] = data.first[:high]
+      cell_info[:high] = data.first[:high] || 10
       cell_info[:tilt_total] = data.first[:tilt_total]
       cell_info[:azimuth] = data.first[:azimuth]
 
