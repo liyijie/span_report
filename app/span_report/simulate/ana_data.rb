@@ -130,7 +130,7 @@ module SpanReport::Simulate
       @dl_th = @data_map[DL_TH]
 
       @serve_cell = CellData.new
-      if @data_map[SCELL_PCI]
+      if @data_map[SCELL_PCI] || @data_map[SCELL_FREQ] || @data_map[SCELL_RSRP] || @data_map[SCELL_SINR]
         @serve_cell = CellData.new(@data_map[SCELL_PCI], @data_map[SCELL_FREQ])
         @serve_cell.rsrp = @data_map[SCELL_RSRP]
         @serve_cell.sinr = @data_map[SCELL_SINR]
@@ -141,6 +141,8 @@ module SpanReport::Simulate
         @rsrp = @data_map[SCELL_RSRP]
         @sinr = @data_map[SCELL_SINR]
         @cell_name = @data_map[SCELL_NAME]
+      # else
+        # puts "no pci info, data_map is:#{@data_map.inspect}"
       end
 
       @nei_cells = []
