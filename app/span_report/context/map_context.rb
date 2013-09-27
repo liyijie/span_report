@@ -45,6 +45,7 @@ module SpanReport::Context
       filereader.parse convert_file_process
 
       filereader.clear_files
+      convert_file_process.close_file
 
       csv_file
     end
