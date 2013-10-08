@@ -9,6 +9,7 @@ require "nokogiri"
 require "extensions/hash"
 require "extensions/map_csv"
 require "extensions/cell_csv"
+require "extensions/geo"
 
 module SpanReport
 
