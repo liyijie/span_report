@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <context>
   <common>
-    <input_log type="folder">./log_kml</input_log>
-    <output_log type="folder">./log_kml</output_log>
-    <function>kml_convert</function>
+    <input_log type="folder">./log_iestatic/outum_dl</input_log>
+    <output_log type="folder">./log_iestatic/</output_log>
+    <function>distance_static</function>
   </common>
 
-  <kmo_cell></kml_cell>
+  <kml_cell></kml_cell>
+
+  <distance_static>
+    <cell_info>./log_iestatic/LTECell.csv</cell_info> 
+    <iename>i637</iename>
+  </distance_static>
 
   <kml_convert>
     <ieconfig>./config/ieconfig.xml</ieconfig>
@@ -51,8 +56,8 @@
   </lglconvert>
 
   <report>
-    <counter_def>D:\ruby\span_report\log_report\福州IE模板.xlsx</counter_def>
-    <outer_def>D:\ruby\span_report\log_report\福州片区报表模板.xlsx</outer_def>
+    <counter_def>D:\ruby\span_report\template\hangzhou\LTE网络质量评估IE模版.xlsx</counter_def>
+    <outer_def>D:\ruby\span_report\template\hangzhou\LTE网络质量评估报告.xlsx</outer_def>
     <combine>true</combine>
   </report>
 
