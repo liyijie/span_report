@@ -92,7 +92,11 @@ module SpanReport::Logfile
       putc "."
       processor.before_process(logfile, file_group)if processor.respond_to? :before_process
       File.foreach(logfile) do |line|
-        processor.add_logdata line, file_group
+        begin
+          processor.add_logdata line, file_group
+        rescue Exception => e
+          next
+        end
       end
       processor.before_process if processor.respond_to? :after_process
     end

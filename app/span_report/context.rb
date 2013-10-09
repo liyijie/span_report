@@ -20,6 +20,7 @@ module SpanReport
     autoload :IeStaticContext, "span_report/context/ie_static_context"
     autoload :KmlConvertContext, "span_report/context/kml_convert"
     autoload :KmlCellContext, "span_report/context/kml_cell"
+    autoload :DistanceStaticContext, "span_report/context/distance_static"
 
     CONFIG_FILE = "config/config.xml"
     # FILE_TYPES = ["signal", "event", "map.csv", "IndoorPointmap"]
@@ -59,6 +60,8 @@ module SpanReport
         context = KmlConvertContext.new path
       elsif @function == "kml_cell"
         context = KmlCellContext.new path
+      elsif @function == "distance_static"
+        context = DistanceStaticContext.new path
       else
         context = BaseContext.new path
       end

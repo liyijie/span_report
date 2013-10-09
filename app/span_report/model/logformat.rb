@@ -27,13 +27,13 @@ module SpanReport::Model
         type = item.get_attribute("Type")
         logitem = LogItem.new(logline_index, index, name, type)
         @group_map[logline_index] << logitem
-        @item_map[name] = logitem
+        @item_map[name.downcase] = logitem
       end
     end
   end
 
   def get_logitem(iename)
-    @item_map[iename]
+    @item_map[iename.downcase]
   end
 end
 
