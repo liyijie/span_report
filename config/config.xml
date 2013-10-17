@@ -3,8 +3,10 @@
   <common>
     <input_log type="folder">./log_iestatic/outum_dl</input_log>
     <output_log type="folder">./log_iestatic/</output_log>
-    <function>distance_static</function>
+    <function>event_export</function>
   </common>
+
+  <event_export></event_export>
 
   <kml_cell></kml_cell>
 

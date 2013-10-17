@@ -1,6 +1,15 @@
 require "csv"
+require "singleton"
 
 module MapCsv
+  # type: LTE or TD
+  # pctime
+  # ueid
+  # dblon
+  # dblat
+  # g624/g85
+  # g627/g86
+  # i637..i945/i87..i283
   def self.foreach(input, options={}, &block)
     default_options = {
       type_col: 0, pctime_col: 1, data_start_col: 7
@@ -42,5 +51,41 @@ module MapCsv
       return header_map
     end
   end
-end
 
+
+  # map cache, load datas from map.csv
+  # can be find by time
+  # select the data list by time range
+
+  class MapCache
+    include Singleton
+
+    def load_csv csv_file
+        # context, {ueid => {g624 => value, ...}}
+        @context = {}
+        @cache = []
+        MapCsv.foreach(csv_file) do |data|
+          item = data.select { |key, value| key =~ /^(db|g)/ }
+          ueid = data[:ueid]
+          @context[ueid] ||= {}
+          @context[ueid].merge! item
+          data.merge! @context[ueid]
+          @cache << data
+        end
+      end
+
+      def find ueid, pctime, iename
+        @cache.find do |data|
+          data[:ueid] == ueid && data[:pctime] >= pctime && data[iename]
+        end
+      end
+
+      def select ueid, (begin_pctime, end_pctime)
+        @cache.select do |data|
+          data[:ueid] == ueid && data[:pctime] >= begin_pctime && data[:pctime] <= end_pctime 
+        end
+      end
+
+    end
+
+  end
