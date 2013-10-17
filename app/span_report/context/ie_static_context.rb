@@ -42,7 +42,7 @@ module SpanReport::Context
         ie_map = data.first.select do |key, value|
           key.to_s.start_with? "i"
         end
-        report.process_ies ie_map, pctime, ueid
+        report.process_ies ueid, ie_map, pctime
       end
 
       # store the result
