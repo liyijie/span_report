@@ -1,5 +1,6 @@
 # encoding: utf-8
 require "smarter_csv"
+require 'set'
 
 module SpanReport::Context
   class IeStaticContext < BaseContext
@@ -30,38 +31,30 @@ module SpanReport::Context
       end
 
       # open map.csv file and process the data
+      ue_set = Set.new
       map_file = File.join @input_log, "map.csv"
       SmarterCSV.process(map_file, file_encoding: 'gbk') do |data|
         next if data.first[:pctime].to_i <= 0
+        ueid = data.first[:ueid].to_i
+        next if ueid < 1
+        ue_set << ueid
         pctime = data.first[:pctime].to_s
         ie_map = data.first.select do |key, value|
           key.to_s.start_with? "i"
         end
-        report.process_ies ie_map, pctime
+        report.process_ies ie_map, pctime, ueid
       end
 
       # store the result
       static_result = []
       @ieconfigs.each do |ie_name, ie_item|
-        static_value = StaticValue.new
-        static_value.name = ie_name
-        static_value.max = report.get_kpi_value "#{ie_name}_max"
-        static_value.min = report.get_kpi_value "#{ie_name}_min"
-        static_value.avg = report.get_kpi_value "#{ie_name}_avg"
-        static_value.count = report.get_kpi_value "#{ie_name}_count"
-        static_value.pdf = report.get_kpi_value "#{ie_name}_pdf_cdf(pdf)"
-        static_value.cdf = report.get_kpi_value "#{ie_name}_pdf_cdf(cdf)"
-
-        sections = []
-        (0..8).each do |index|
-          kpi_key = "#{ie_name}_range[#{index}]"
-          break unless report.has_kpi_value? kpi_key
-          value = report.get_kpi_value kpi_key
-          sections << value
-        end
-        static_value.section = sections.join ";"
-
+        
+        static_value = create_static_value report,ie_name, "all"
         static_result << static_value
+        ue_set.each do |ueid|
+          static_value_ue = create_static_value report, ie_name, ueid
+          static_result << static_value_ue
+        end
       end
 
       # write the result file
@@ -72,6 +65,30 @@ module SpanReport::Context
           file.puts static_value
         end
       end
+    end
+
+
+    def create_static_value report, ie_name, ueid
+      static_value = StaticValue.new
+      static_value.name = ie_name
+      static_value.ueid = ueid
+      prefex = ueid.to_i > 0 ? "#{ueid}#" : ""
+      static_value.max = report.get_kpi_value "#{prefex}#{ie_name}_max"
+      static_value.min = report.get_kpi_value "#{prefex}#{ie_name}_min"
+      static_value.avg = report.get_kpi_value "#{prefex}#{ie_name}_avg"
+      static_value.count = report.get_kpi_value "#{prefex}#{ie_name}_count"
+      static_value.pdf = report.get_kpi_value "#{prefex}#{ie_name}_pdf_cdf(pdf)"
+      static_value.cdf = report.get_kpi_value "#{prefex}#{ie_name}_pdf_cdf(cdf)"
+
+      sections = []
+      (0..8).each do |index|
+        kpi_key = "#{prefex}#{ie_name}_range[#{index}]"
+        break unless report.has_kpi_value? kpi_key
+        value = report.get_kpi_value kpi_key
+        sections << value
+      end
+      static_value.section = sections.join ";"
+      static_value
     end
 
 
@@ -119,14 +136,14 @@ module SpanReport::Context
 
   class StaticValue
     
-    attr_accessor :name, :max, :min, :avg, :count, :section, :pdf, :cdf
+    attr_accessor :name, :ueid, :max, :min, :avg, :count, :section, :pdf, :cdf
 
     def self.head
-      "name,max,min,avg,count,section,pdf,cdf"  
+      "name,ueid,max,min,avg,count,section,pdf,cdf"  
     end
 
     def to_s
-      "#{name},#{max},#{min},#{avg},#{count},#{section},#{pdf},#{cdf}"
+      "#{name},#{ueid},#{max},#{min},#{avg},#{count},#{section},#{pdf},#{cdf}"
     end
   end
   

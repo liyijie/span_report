@@ -44,12 +44,12 @@ module SpanReport::Process
       end
     end
 
-    def process_ies ie_map, pctime
+    def process_ies ie_map, pctime, file_group=""
       ie_map.each do |ie_name, ie_value|
         ie_name = ie_name.to_s
         next if ie_value.to_s.empty?
         @ie_caches[ie_name] = ie_value
-        report_caculate ie_name, ie_value, pctime
+        report_caculate ie_name, ie_value, pctime, file_group
       end
     end
 
@@ -216,7 +216,7 @@ module SpanReport::Process
           add_counter_cache counter_name, counter_ievalue, count_mode, pctime, is_valid
 
           #如果file_group不为空，则需要再对file_group进行统计
-          unless file_group.empty?
+          unless file_group.to_s.empty?
             group_counter_name = "#{file_group}##{counter_name}"
             add_counter_cache group_counter_name, counter_ievalue, count_mode, pctime, is_valid
           end
