@@ -30,6 +30,7 @@ module SpanReport::Process
     #########################################
     def process_data logdata, file_group=""
       contents = logdata.split(/,|:/)
+      ue_id = contents[0].to_i
       group_id = contents[1].to_i
       pctime = contents[2].to_i
       needed_ies = get_needed_ies group_id
@@ -40,16 +41,16 @@ module SpanReport::Process
         @ie_caches[ie_name] = contents[ie_index] unless contents[ie_index].to_s.empty?
 
         ie_value = contents[ie_index]
-        report_caculate ie_name, ie_value, pctime, file_group
+        report_caculate ue_id, ie_name, ie_value, pctime, file_group
       end
     end
 
-    def process_ies ie_map, pctime
+    def process_ies ue_id, ie_map, pctime, file_group=""
       ie_map.each do |ie_name, ie_value|
         ie_name = ie_name.to_s
         next if ie_value.to_s.empty?
         @ie_caches[ie_name] = ie_value
-        report_caculate ie_name, ie_value, pctime
+        report_caculate ue_id, ie_name, ie_value, pctime, file_group
       end
     end
 
@@ -57,6 +58,7 @@ module SpanReport::Process
     # 通过邻区结构生成重叠覆盖度这个IE
     def before_process logdata, file_group=""
       contents = logdata.split(/,|:/)
+      ue_id = contents[0].to_i
       group_id = contents[1].to_i
       pctime = contents[2].to_i
       over_range_count = 1
@@ -83,7 +85,7 @@ module SpanReport::Process
         end
 
         @ie_caches["over_range_count"] = over_range_count
-        report_caculate "over_range_count", over_range_count, pctime, file_group
+        report_caculate ue_id, "over_range_count", over_range_count, pctime, file_group
       end
     end
 
@@ -202,7 +204,7 @@ module SpanReport::Process
 
     private
 
-    def report_caculate ie_name, ie_value, pctime, file_group=""
+    def report_caculate ue_id, ie_name, ie_value, pctime, file_group=""
       ie_name = ie_name.to_s
       if @counter_item_map.has_key? ie_name
         counter_items = @counter_item_map[ie_name]
@@ -216,8 +218,15 @@ module SpanReport::Process
           add_counter_cache counter_name, counter_ievalue, count_mode, pctime, is_valid
 
           #如果file_group不为空，则需要再对file_group进行统计
-          unless file_group.empty?
+          unless file_group.to_s.empty?
             group_counter_name = "#{file_group}##{counter_name}"
+            add_counter_cache group_counter_name, counter_ievalue, count_mode, pctime, is_valid
+          end
+
+          # for ue information static
+          if ue_id.to_i > 0
+            prefex = file_group.to_s.empty? ? "#{ue_id}" : "#{file_group}_#{ue_id}"
+            group_counter_name = "#{prefex}##{counter_name}"
             add_counter_cache group_counter_name, counter_ievalue, count_mode, pctime, is_valid
           end
         end
