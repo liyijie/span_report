@@ -21,7 +21,24 @@ class EventCsv
     
   end
 
+  def self.output(outfile, output_events)
+    header = self.header
+    CSV.open(outfile, 'w') do |f|
+      f << header
+      output_events.each do |event|
+        csv_line = f.generate_line(header.map { |h| event[h]})
+        # should be covert the second ","" to ":""
+        count = 0
+        csv_line.gsub!(/,/) do |s|
+          count += 1
+          count == 2 ? ":" : s
+        end
+        f << csv_line
+      end
+    end
+  end
+
   def self.header
-    [:ueid, :pctime, :time, :event, :extrainfo]
+    [:ueid, :pctime, :record_id, :ue_version, :ue_mode, :rec_type, :event, :extrainfo] 
   end
 end

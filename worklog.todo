@@ -14,7 +14,7 @@ map_cache
 event_creator
  ☐ modify the xml file
  ☐ signal csv reader
- ☐ event csv writer
+ ✔ event csv writer @done (13-10-22 13:20)
  ☐ ie rule, some ie fit a condition for a time, create a event
  ☐ signal rule, some signal name fit, then create a event
  ☐ rewrite the event file

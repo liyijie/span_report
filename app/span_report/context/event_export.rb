@@ -3,6 +3,10 @@
 module SpanReport::Context
 
   class EventExportContext < BaseContext
+
+    def self.header
+     [:ueid, :pctime, :time, :event, :extrainfo] 
+    end
     
     # 1. load map csv file
     # 2. read event file, loop every event data
@@ -27,7 +31,7 @@ module SpanReport::Context
       end
       
       header = []
-      header.concat EventCsv.header
+      header.concat EventExportContext.header
       header.concat event_ex.map { |ex| ex.to_s.sub('g', 'i').to_sym }
 
       output_file = File.join @output_log, "event_ex.csv"
