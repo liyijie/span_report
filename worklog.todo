@@ -7,7 +7,12 @@ kml_convert:
  ✔ use sample data, to advoid the kml file too huge @done (13-09-24 15:39)
  ✔ cell map info @done (13-09-25 16:40)
 map_cache
- ☐ find by time + ueid
- ☐ select by time section, to get list data, note must with the ueid
- ☐ fill the pci, freq etc, which is start with "g", with the ueid
- ☐ context filling, should be sorted with the ueid. How to filling the information that is wanted? Use white list is not a good idea. gps ie plus the ie which is start with "g". Use delete_if, and should merge twice
+ ✔ find by time + ueid @done (13-10-22 10:48)
+ ✔ select by time section, to get list data, note must with the ueid @done (13-10-22 10:48)
+ ✔ fill the pci, freq etc, which is start with "g", with the ueid @done (13-10-22 10:48)
+ ✔ context filling, should be sorted with the ueid. How to filling the information that is wanted? Use white list is not a good idea. gps ie plus the ie which is start with "g". Use delete_if, and should merge twice @done (13-10-22 10:48)
+event_creator
+ ☐ modify the xml file
+ ☐ ie rule, some ie fit a condition for a time, create a event
+ ☐ signal rule, some signal name fit, then create a event
+ ☐ rewrite the event file
