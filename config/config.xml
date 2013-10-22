@@ -3,8 +3,13 @@
   <common>
     <input_log type="folder">./log_iestatic/outum_dl</input_log>
     <output_log type="folder">./log_iestatic/</output_log>
-    <function>event_export</function>
+    <function>event_creator</function>
   </common>
+
+  <event_creator>
+    <rule type="ie_duration" iename="i637" event_name="RSRP low" duration="3000" threshold="-60" compare_type="1"></rule>
+    <rule type="signal" event_name="RRC Reconfig" signal_name="RRCConnectionReconfiguration"></rule>
+  </event_creator>
 
   <event_export></event_export>
 
