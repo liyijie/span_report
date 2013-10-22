@@ -25,17 +25,17 @@ class EventCsv
 
   def self.output(outfile, output_events)
     header = self.header
-    CSV.open(outfile, 'w') do |f|
-      f << header
+    File.open(outfile, 'w') do |f|
+      f.puts header.join(',')
       output_events.each do |event|
-        csv_line = f.generate_line(header.map { |h| event[h]})
+        csv_line = (header.map { |h| event[h]}).join(',')
         # should be covert the second ","" to ":""
         count = 0
         csv_line.gsub!(/,/) do |s|
           count += 1
           count == 2 ? ":" : s
         end
-        f << csv_line
+        f.puts csv_line
       end
     end
   end

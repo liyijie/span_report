@@ -10,8 +10,10 @@ require "extensions/hash"
 require "extensions/map_csv"
 require "extensions/cell_csv"
 require "extensions/event_csv"
+require "extensions/signal_csv"
 require "extensions/geo"
 require "extensions/time"
+require "extensions/array"
 
 module SpanReport
 
