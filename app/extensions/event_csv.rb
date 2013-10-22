@@ -2,6 +2,8 @@
 
 require "smarter_csv"
 
+# ueid,pctime,record_id,ue_version,ue_mode,rec_type,event,ExtraInfo
+
 class EventCsv
   
   def self.foreach(input, options={}, &block)
@@ -10,15 +12,15 @@ class EventCsv
     SmarterCSV.process(input, file_encoding: 'gbk', col_sep: /,|:/) do |events|
       event = events.first
       next if event[:event].to_s.empty?
-      event_info = {} 
-      event_info[:ueid] = event[:ueid]
-      event_info[:pctime] = event[:pctime] 
-      event_info[:time] = Time.at_pctime(event[:pctime])
-      event_info[:event] = event[:event]
-      event_info[:extrainfo] = event[:extrainfo]
-      yield event_info if block_given?
+
+      if block_given?
+        yield event
+      else
+        event_infos << event
+      end
     end
-    
+
+    event_infos
   end
 
   def self.output(outfile, output_events)
