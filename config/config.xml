@@ -3,8 +3,12 @@
   <common>
     <input_log type="folder">./log_iestatic/outum_dl</input_log>
     <output_log type="folder">./log_iestatic/</output_log>
-    <function>event_export</function>
+    <function>event_creator</function>
   </common>
+
+  <event_creator>
+    
+  </event_creator>
 
   <event_export></event_export>
 

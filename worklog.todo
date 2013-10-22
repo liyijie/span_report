@@ -13,6 +13,8 @@ map_cache
  ✔ context filling, should be sorted with the ueid. How to filling the information that is wanted? Use white list is not a good idea. gps ie plus the ie which is start with "g". Use delete_if, and should merge twice @done (13-10-22 10:48)
 event_creator
  ☐ modify the xml file
+ ☐ signal csv reader
+ ☐ event csv writer
  ☐ ie rule, some ie fit a condition for a time, create a event
  ☐ signal rule, some signal name fit, then create a event
  ☐ rewrite the event file
