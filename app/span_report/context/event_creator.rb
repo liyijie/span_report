@@ -3,12 +3,42 @@
 module SpanReport::Context
   class EventCreator < BaseContext
 
-    # def load_relate
-      
-    # end
+    def load_relate
+      doc = Nokogiri::XML(open(CONFIG_FILE))
+      doc.search(@function).each do |relate|
+        @rules = []
+        relate.search("rule").each do |rule|
+          type = rule.get_attribute("type")
+          if type == "ie_duration"
+            iename = rule.get_attribute("iename")
+            event_name = rule.get_attribute("event_name")
+            duration = rule.get_attribute("duration").to_i
+            threshold = rule.get_attribute("threshold").to_f
+            compare_type = rule.get_attribute("compare_type").to_i
+            ie_rule = IEDurationRule.new iename: iename, event_name: event_name, duration: duration,
+                                        threshold: threshold, compare_type: compare_type
+            @rules << ie_rule                            
+          elsif type == "signal"
+            event_name = rule.get_attribute("event_name")
+            signal_name = rule.get_attribute("signal_name")
+            signal_rule = SignalRule.new signal_name: signal_name, event_name: event_name
+            @rules << signal_rule
+          end
+              
+        end
+        @ieconfigs = {}
+        relate.search("ie").each do |ie|
+          ie_name = ie.get_attribute("name")
+          ie_section = get_content ie, "section"
+          ie_pdf_cdf = get_content ie, "pdf_cdf"
+          @ieconfigs[ie_name] = {}
+          @ieconfigs[ie_name][:section] = ie_section
+          @ieconfigs[ie_name][:pdf_cdf] = ie_pdf_cdf
+        end
+      end 
+    end
 
     # * create the rules
-    # * sort the rules, ie or singal
     # * read the orign events from event file
     # * if has any signal rule, read signal datas and process
     # * if has any ie rule, read map csv file datas and process
@@ -16,11 +46,6 @@ module SpanReport::Context
     # * rewrite the event file
     def process
       # * create the rules
-      signal_rule = SignalRule.new signal_name: "RRCConnectionReconfiguration",
-                                    event_name: "RRC Reconfig"
-      ie_rule = IEDurationRule.new iename: "i637", event_name: "RSRP low", duration: 3,
-                                  threshold: -100, compare_type: 1
-      # * sort the rules, ie or singal
       # * read the orign events from event file
       event_file = File.join @input_log, "event"
       events = EventCsv.foreach(event_file)
@@ -28,17 +53,21 @@ module SpanReport::Context
       # * if has any signal rule, read signal datas and process
       signal_file = File.join @input_log, "signal"
       SignalCsv.foreach(signal_file) do |signal|
-        if signal_rule.valid? signal
-          event_added = signal_rule.create_event signal
-          merge_event events, event_added
+        @rules.each do |rule|
+          if rule.class == SignalRule && rule.valid?(signal)
+            event_added = rule.create_event signal
+            merge_event events, event_added
+          end
         end
       end
       # * if has any ie rule, read map csv file datas and process
       map_csv_file = File.join @input_log, "map.csv"
       MapCsv.foreach(map_csv_file) do |data|
-        if ie_rule.valid? data
-          event_added = ie_rule.create_event data
-          merge_event events, event_added
+        @rules.each do |rule|
+          if rule.class == IEDurationRule && rule.valid?(data)
+            event_added = rule.create_event data
+            merge_event events, event_added
+          end
         end
       end
       # * insert the created event into the orgin signals
