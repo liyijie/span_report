@@ -19,3 +19,6 @@ event_creator
  ✔ ie rule, some ie fit a condition for a time, create a event @done (13-10-22 18:02)
  ✔ signal rule, some signal name fit, then create a event @done (13-10-22 18:02)
  ✔ rewrite the event file @done (13-10-22 18:02)
+export
+ ☐ export with time range
+ ☐ export with data range
