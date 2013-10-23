@@ -18,6 +18,7 @@ module MapCsv
     header_map = {}
     begin
       CSV.foreach(input) do |row|
+        row[options[:type_col]] || row[options[:type_col]] = "Time" # for old log has no type
         type = row[options[:type_col]]
         if row[options[:pctime_col]].to_i == 0
           header = []

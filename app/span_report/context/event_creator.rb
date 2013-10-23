@@ -71,7 +71,7 @@ module SpanReport::Context
         end
       end
       # * insert the created event into the orgin signals
-      new_event_file = File.join @output_log, "event.new"
+      new_event_file = @output_log
       # * rewrite the event file
       EventCsv.output(new_event_file, events)
     end
@@ -132,16 +132,16 @@ module SpanReport::Context
     # * duration time is satisfy
     def valid? ieinfo
       return false unless ieinfo.has_key? @iename
+      result = false
       check = ( value_valid?(ieinfo[@iename].to_f) )
       if check && !@satisfied
         @first_satify_time > 0 || @first_satify_time = ieinfo[:pctime].to_i
-        return @satisfied = (ieinfo[:pctime].to_i - @first_satify_time > @threshold)
+        result = @satisfied = (ieinfo[:pctime].to_i - @first_satify_time > @duration)
       elsif !check
         @first_satify_time = 0
-        return @satisfied = false
-      else
-        return false
+        result = @satisfied = false
       end
+      result
     end
 
     def create_event ieinfo
