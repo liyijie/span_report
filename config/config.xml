@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <context>
   <common>
-    <input_log type="folder">./log_iestatic/outum_dl</input_log>
-    <output_log type="folder">./log_iestatic/</output_log>
-    <function>event_creator</function>
+    <input_log type="folder">./log_export</input_log>
+    <output_log type="folder">./log_export/result/</output_log>
+    <function>export</function>
   </common>
 
   <event_creator>
@@ -126,6 +126,7 @@
 
   <export>
     <combine>true</combine>
+    <range count_range="" begin_time="14:39" end_time="14:41"></range>
     <ieconfig name="BLER.csv">
       <ie name="dbLon" alias="Long"></ie>
       <ie name="dbLat" alias="Lat"></ie>

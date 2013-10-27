@@ -17,6 +17,13 @@ module SpanReport::Context
             @ieconfigs[filename][ie_name] = ie_alias
           end
         end
+        @range_context = {}
+        relate.search("range").each do |range|
+          @range_context[:count_range] = range.get_attribute("count_range")
+          @range_context[:begin_time] = range.get_attribute("begin_time")
+          @range_context[:end_time] = range.get_attribute("end_time")
+        end
+
       end
     end
 
@@ -29,6 +36,8 @@ module SpanReport::Context
         iemap.each do |ie_name, ie_alias|
           export.reg_iename ie_name, ie_alias
         end
+        # add context to the export processor
+        export.add_range @range_context
 
         logfiles = SpanReport.list_files(@input_log, ["lgl"])
         #多个日志合并导出

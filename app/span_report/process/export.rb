@@ -8,7 +8,44 @@ module SpanReport::Process
     def initialize
       super
       @export_datas = []
+      @data_counts = 0
       @file = nil
+    end
+
+    ############################################
+    #判断数据是否需要进行处理
+    ############################################
+    def data_needed? logdata
+      contents = logdata.split(/,|:/)
+      group_id = contents[1].to_i
+      pctime = contents[2].to_i
+      @reg_groups.has_key?(group_id) && time_valid?(pctime) && data_counts_valid?
+    end
+
+    def add_range range_context
+      @count_range = range_context[:count_range].to_i
+      @begin_time = range_context[:begin_time]
+      @end_time = range_context[:end_time]
+    end
+
+    def time_valid? pctime
+      return true if @begin_time.to_s.empty? && @end_time.to_s.empty?
+
+      pc_time = Time.at_pctime pctime
+      pc_stime = pc_time.hour * 3600 + pc_time.min * 60 + pc_time.sec
+
+      array = @begin_time.split(":")
+      begin_stime = array[0].to_i * 3600 + array[1].to_i * 60 + array[2].to_i
+      array = @end_time.split(":")
+      end_stime = array[0].to_i * 3600 + array[1].to_i * 60 + array[2].to_i
+      # puts "pctime is:#{pc_stime}, begintime is:#{begin_stime}, endtime is:#{end_stime}"
+
+      result = end_stime > begin_stime && pc_stime > begin_stime && end_stime > pc_stime
+      result
+    end
+
+    def data_counts_valid?
+      @count_range == 0 || (@count_range > 0 && @data_counts < @count_range)
     end
 
     def process_data logdata, file_group=""
@@ -46,7 +83,8 @@ module SpanReport::Process
       end
 
       if export_data.size > 3 && !is_lastdata
-        @export_datas << export_data 
+        @export_datas << export_data
+        @data_counts += 1 
         write_result
       end
     end
