@@ -19,5 +19,9 @@ module SpanReport::Model
       @name == other.name
     end
 
+    def to_s
+      "group is:#{group}, index is:#{index}, name is:#{name}, type is:#{type}"
+    end
+
   end
 end

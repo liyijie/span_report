@@ -19,7 +19,8 @@ module SpanReport::Process
       contents = logdata.split(/,|:/)
       group_id = contents[1].to_i
       pctime = contents[2].to_i
-      @reg_groups.has_key?(group_id) && time_valid?(pctime) && data_counts_valid?
+      is_needed = @reg_groups.has_key?(group_id) && time_valid?(pctime) && data_counts_valid?
+      is_needed
     end
 
     def add_range range_context
@@ -53,33 +54,36 @@ module SpanReport::Process
       group_id = contents[1].to_i
       needed_ies = get_needed_ies group_id
 
-      last_data = @export_datas[-1]
-      last_data ||= []
-      export_data = []
-      is_lastdata = false
-      #如果是和上一条一样时间的数据，如果值不为空，则进行覆盖
-      if contents[2] == last_data[1] && contents[0] == last_data[2]
-        export_data = last_data
-        is_lastdata = true
-      #如果是和上一条不一样的时间，如果值不为空，则创建一条，加入到队列中
-      else
-        export_data = []
-        #time
-        export_data[0] = convert_time contents[2]
-        #pctime
-        export_data[1] = contents[2]
-        #ueid
-        export_data[2] = contents[0]
+      @last_data ||= {}
+      ue_id = contents[0].to_i
+      pctime = contents[2].to_i
+      
+
+      @last_data[ue_id] ||= {}
+      @last_data[ue_id]["PCTime"] ||= pctime
+      @last_data[ue_id]["UEid"] ||= ue_id
+      @last_data[ue_id]["Time"] ||= convert_time(pctime)
+      # if the time is in 1s, then cover the data
+      # else push the data to export_datas, then empty the relate ue's last_data
+      delta_time = pctime - @last_data[ue_id]["PCTime"]
+
+      if delta_time >= 1000
+        export_data = @last_data[ue_id].clone
+        
+        @export_datas << export_data
+        @data_counts += 1
+        @last_data[ue_id] = {}
+        @last_data[ue_id]["PCTime"] ||= pctime
+        @last_data[ue_id]["UEid"] ||= ue_id
+        @last_data[ue_id]["Time"] ||= convert_time(pctime)
       end
 
       needed_ies.each do |logitem|
         ie_index = logitem.index + 3
         ie_name = logitem.name
-        data_index = get_data_index ie_name
-
-        if data_index && contents[ie_index] && !contents[ie_index].empty?
-          export_data[data_index] = contents[ie_index] if contents[ie_index].to_s != "-999"
-        end
+        unless contents[ie_index].to_s.empty?
+          @last_data[ue_id][ie_name] = contents[ie_index] if contents[ie_index].to_s != "-999"
+        end 
       end
 
       if export_data.size > 3 && !is_lastdata
@@ -103,11 +107,17 @@ module SpanReport::Process
     end
 
     def head_string
-      head = "Time,PCTime,UEid"
-      @reg_ies.each do |iename|
-        head << ",#{@alis_map[iename]}"
+      self.head.join ","
+    end
+
+    def head
+      if @head.nil?
+        @head = ["Time", "PCTime", "UEid"]
+        @reg_ies.each do |iename|
+          @head << iename
+        end
       end
-      head
+      @head
     end
 
     def write_result   
@@ -118,12 +128,7 @@ module SpanReport::Process
 
     def flush
       @export_datas.each do |datas|
-        data_string = ""
-        datas.each_with_index do |data, index|
-          data ||= ""
-          data_string << data
-          data_string << "," if index != datas.length-1
-        end
+        data_string = self.head.map { |key| datas[key] }.join(",")
         @file.puts data_string
       end
       @export_datas.clear
