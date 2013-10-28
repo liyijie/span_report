@@ -33,13 +33,13 @@ module SpanReport::Context
       # open map.csv file and process the data
       ue_set = Set.new
       map_file = File.join @input_log, "map.csv"
-      SmarterCSV.process(map_file, file_encoding: 'gbk') do |data|
-        next if data.first[:pctime].to_i <= 0
-        ueid = data.first[:ueid].to_i
+      MapCsv.foreach(map_file) do |data|
+        next if data[:pctime].to_i <= 0
+        ueid = data[:ueid].to_i
         next if ueid < 1
         ue_set << ueid
-        pctime = data.first[:pctime].to_s
-        ie_map = data.first.select do |key, value|
+        pctime = data[:pctime].to_s
+        ie_map = data.select do |key, value|
           key.to_s.start_with? "i"
         end
         report.process_ies ueid, ie_map, pctime
@@ -62,7 +62,7 @@ module SpanReport::Context
       File.open(result_file, "w") do |file|
         file.puts StaticValue.head
         static_result.each do |static_value|
-          file.puts static_value
+          file.puts static_value if static_value.count.to_i > 0
         end
       end
     end
