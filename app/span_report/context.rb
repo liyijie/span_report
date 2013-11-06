@@ -22,6 +22,7 @@ module SpanReport
     autoload :KmlCellContext, "span_report/context/kml_cell"
     autoload :DistanceStaticContext, "span_report/context/distance_static"
     autoload :EventExportContext, "span_report/context/event_export"
+    autoload :SignalExportContext, "span_report/context/signal_export"
     autoload :EventCreator, "span_report/context/event_creator"
 
     CONFIG_FILE = "config/config.xml"
@@ -66,6 +67,8 @@ module SpanReport
         context = DistanceStaticContext.new path
       elsif @function == "event_export"
         context = EventExportContext.new path
+      elsif @function == "signal_export"
+        context = SignalExportContext.new path
       elsif @function == "event_creator"
         context = EventCreator.new path
       else
