@@ -3,13 +3,15 @@
   <common>
     <input_log type="folder">./log_export</input_log>
     <output_log type="folder">./log_export/result/</output_log>
-    <function>export</function>
+    <function>signal_export</function>
   </common>
 
   <event_creator>
     <rule type="ie_duration" iename="i637" event_name="RSRP low" duration="3000" threshold="-60" compare_type="1"></rule>
     <rule type="signal" event_name="RRC Reconfig" signal_name="RRCConnectionReconfiguration"></rule>
   </event_creator>
+
+  <signal_export></signal_export>
 
   <event_export></event_export>
 
