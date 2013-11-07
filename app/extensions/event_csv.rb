@@ -35,7 +35,7 @@ class EventCsv
           count += 1
           count == 2 ? ":" : s
         end
-        f.puts csv_line
+        f.puts csv_line.encode('gbk')
       end
     end
   end

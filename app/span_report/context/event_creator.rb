@@ -70,6 +70,11 @@ module SpanReport::Context
           end
         end
       end
+
+      # * regenerate the record_id
+      events.each_with_index do |event, i|
+        event[:record_id] = i + 1
+      end
       # * insert the created event into the orgin signals
       new_event_file = @output_log
       # * rewrite the event file
