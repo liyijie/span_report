@@ -11,7 +11,7 @@ module SpanReport::Context
           type = rule.get_attribute("type")
           if type == "ie_duration"
             iename = rule.get_attribute("iename")
-            event_name = rule.get_attribute("event_name")
+            event_name = "[USER]" + rule.get_attribute("event_name")
             duration = rule.get_attribute("duration").to_i
             threshold = rule.get_attribute("threshold").to_f
             compare_type = rule.get_attribute("compare_type").to_i
@@ -19,7 +19,7 @@ module SpanReport::Context
                                         threshold: threshold, compare_type: compare_type
             @rules << ie_rule                            
           elsif type == "signal"
-            event_name = rule.get_attribute("event_name")
+            event_name = "[USER]" + rule.get_attribute("event_name")
             signal_name = rule.get_attribute("signal_name")
             signal_rule = SignalRule.new signal_name: signal_name, event_name: event_name
             @rules << signal_rule
