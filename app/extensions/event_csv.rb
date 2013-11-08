@@ -9,16 +9,27 @@ class EventCsv
   def self.foreach(input, options={}, &block)
     event_infos = []
 
-    SmarterCSV.process(input, file_encoding: 'gbk', col_sep: /,|:/) do |events|
-      event = events.first
-      next if event[:event].to_s.empty?
-
-      if block_given?
-        yield event
+    line_count = 0
+    header = []
+    File.foreach(input) do |line|
+      line_count += 1
+      line = line.encode('gbk')
+      if line_count == 1
+        header = line.split(',')
+        header.map! { |e| e.to_s.strip.gsub(/\s+/,'_')}
+        header.map! { |e| e.downcase.to_sym }
       else
-        event_infos << event
+        line.sub!(':', ',')
+        content = line.split(',')
+        event = Hash.zip(header, content)
+        next if event.empty?
+        if block_given?
+          yield event
+        else
+          event_infos << event
+        end
       end
-    end
+    end 
 
     event_infos
   end
