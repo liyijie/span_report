@@ -11,22 +11,25 @@ class EventCsv
 
     line_count = 0
     header = []
-    File.foreach(input) do |line|
-      line_count += 1
-      line = line.encode('gbk')
-      if line_count == 1
-        header = line.split(',')
-        header.map! { |e| e.to_s.strip.gsub(/\s+/,'_')}
-        header.map! { |e| e.downcase.to_sym }
-      else
-        line.sub!(':', ',')
-        content = line.split(',')
-        event = Hash.zip(header, content)
-        next if event.empty?
-        if block_given?
-          yield event
+    File.open(input, "r:gbk") do |f|
+      while ! f.eof?
+        line = f.readline
+        line.chomp!
+        line_count += 1
+        if line_count == 1
+          header = line.split(',')
+          header.map! { |e| e.to_s.strip.gsub(/\s+/,'_')}
+          header.map! { |e| e.downcase.to_sym }
         else
-          event_infos << event
+          line.sub!(':', ',')
+          content = line.split(',')
+          event = Hash.zip(header, content)
+          next if event.empty?
+          if block_given?
+            yield event
+          else
+            event_infos << event
+          end
         end
       end
     end 
