@@ -39,6 +39,7 @@ module SpanReport::Context
           filereader.parse(report)
           report.count_kpi_value
           resultfile = File.join @output_log, "combine.report.xlsx"
+          resultfile = File.expand_path resultfile
           excel_export.to_excel resultfile, report
 
           report.clear
@@ -60,6 +61,7 @@ module SpanReport::Context
             resultfile = File.join @output_log, resultfile
             SpanReport.logger.debug "resultfile is: #{resultfile}"
 
+            resultfile = File.expand_path resultfile
             excel_export.to_excel resultfile, report
             
             report.clear
