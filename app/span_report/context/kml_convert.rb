@@ -7,6 +7,7 @@ module SpanReport::Context
       doc.search(@function).each do |relate|
         @ieconfig_file = get_content relate, "ieconfig"
         @interval = get_content relate, "interval"
+        @cell_info = get_content relate, "cell_info"
       end
     end
 
@@ -34,7 +35,7 @@ module SpanReport::Context
     end
 
     def convert_kml mapcsv_file, kml_file
-      kml_cache = KmlCache.new kml_file, @interval
+      kml_cache = KmlCache.new kml_file, @interval, @cell_info
       MapCsv.foreach(mapcsv_file) do |row|
         kml_cache.add_data row
       end
@@ -63,11 +64,25 @@ module SpanReport::Context
   end
 
   class KmlCache
-    def initialize kml_path_file, interval
+    include Geo
+    PCI_KEY = :g624
+    FREQ_KEY = :g627
+
+    def initialize kml_path_file, interval, cell_file
       @kml_path = File.dirname kml_path_file
       @kml_file = File.basename kml_path_file
       @interval = interval.to_i
       @ie_nodes = {}
+
+      # cache store lat, lon, pci, freq
+      @context_cache = {}
+
+      # read cell info file
+      @cell_map = {}
+      CellCsv.foreach(cell_file) do |cell_info|
+        @cell_map[[cell_info[:pci], cell_info[:frequency_dl]]] ||= []
+        @cell_map[[cell_info[:pci], cell_info[:frequency_dl]]] << cell_info
+      end
     end
 
     # data is from MapCsv, the data is a hash
@@ -79,6 +94,15 @@ module SpanReport::Context
         k.to_s.start_with? "i"
       end
       options[:time_interval] = @interval
+
+      # fill cell_name and distance information
+      dis_value = calc_distance data
+      cell = relate_cell
+      if dis_value && cell
+        options[:distance] = dis_value
+        options[:cell_name] = cell[:cellname]
+      end
+
       data.each do |k, v|
         if k.to_s.start_with? "i"
           @ie_nodes[k] ||= IENode.new k
@@ -102,6 +126,45 @@ module SpanReport::Context
 
       output_file = File.join @kml_path, @kml_file
       File.open(output_file, "w") { |file| file.puts builder.to_xml }
+    end
+
+    private
+
+    # caculate the distance from the point(context cache) to relate cell
+    def calc_distance data
+      # update the context cache
+      @context_cache[:lat] = data[:dblat] if data[:dblat]
+      @context_cache[:lon] = data[:dblon] if data[:dblon]
+      @context_cache[:pci] = data[PCI_KEY] if data[PCI_KEY]
+      @context_cache[:freq] = data[FREQ_KEY] if data[FREQ_KEY]
+
+      cell = relate_cell
+      return nil if cell.nil?
+      recent_gps = [@context_cache[:lat], @context_cache[:lon]]
+      cell_gps = [cell[:latitude], cell[:longitude]]
+      distance(recent_gps, cell_gps)
+    end
+
+    # fecth the cell info from the context cache by [pci, freq]
+    # if the cell info has more than one records, should find the nearest one
+    def relate_cell
+      relate = nil
+
+      if [@context_cache[:pci], @context_cache[:freq]] == @last_key
+        relate = @last_cell
+      else
+        @cell_map ||= {}
+        cells = @cell_map[[@context_cache[:pci], @context_cache[:freq]]] || []
+        recent_gps = [@context_cache[:lat], @context_cache[:lon]]
+        sort_cells = cells.sort_by do |cell|
+          cell_gps = [cell[:latitude], cell[:longitude]]
+          distance(recent_gps, cell_gps)
+        end
+        relate = sort_cells.first
+        @last_key = [@context_cache[:pci], @context_cache[:freq]]
+        @last_cell = relate
+      end
+      relate
     end
     
   end
@@ -182,6 +245,7 @@ module SpanReport::Context
           xml.Placemark {
             xml.name data[:value]
             xml.styleUrl "##{icon_style_id}"
+            xml.description "cell name:#{data[:cell_name]}\ndistance:#{data[:distance]}"
             xml.Point {
               xml.coordinates "#{data[:dblon]},#{data[:dblat]}"
             }
