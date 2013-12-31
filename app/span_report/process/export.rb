@@ -67,7 +67,7 @@ module SpanReport::Process
       # else push the data to export_datas, then empty the relate ue's last_data
       delta_time = pctime - @last_data[ue_id]["PCTime"]
 
-      if delta_time >= 1000
+      if delta_time >= 1000 || @last_data[ue_id]["Event"] || @last_data[ue_id]["Signals"]
         export_data = @last_data[ue_id].clone
         
         @export_datas << export_data

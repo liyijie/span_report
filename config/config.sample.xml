@@ -2,17 +2,16 @@
 <context>
   <common>
     <input_log type="folder">./log_export</input_log>
-    <output_log type="folder">./log_export/result/</output_log>
-    <function>signal_export</function>
+    <output_log type="folder">./log_export</output_log>
+    <function>test</function>
   </common>
 
   <event_creator>
-    <rule type="ie_duration" iename="i637" event_name="RSRP low" duration="3000" threshold="-60" compare_type="1"></rule>
+    <rule type="ie_duration" iename="i637" event_name="RSRP low 中文" duration="3000" threshold="-60" compare_type="1"></rule>
     <rule type="signal" event_name="RRC Reconfig" signal_name="RRCConnectionReconfiguration"></rule>
   </event_creator>
 
   <signal_export></signal_export>
-
   <event_export></event_export>
 
   <kml_cell></kml_cell>
@@ -24,17 +23,42 @@
 
   <kml_convert>
     <ieconfig>./config/ieconfig.xml</ieconfig>
+    <cell_info>./log_kml/LTECell.csv</cell_info>
     <interval>2</interval>
   </kml_convert>
 
   <ie_static>
     <ie name="i637">
-      <section>[-141,-130);[-130,-120);[-120,-100);[-100,100];</section>
-      <pdf_cdf>(-140,50,2)</pdf_cdf>
+        <section>[-141,-115);[-115,-105);[-105,-95);[-95,-85);[-85,-44);</section>
+        <pdf_cdf>(-141,-44,1)</pdf_cdf>
     </ie>
     <ie name="i642">
-      <section>[-141,-130);[-130,-120);[-120,-100);</section>
-      <pdf_cdf>(-140,50,2)</pdf_cdf>
+        <section>[-22,0);[0,5);[5,15);[15,22);[22,50);</section>
+        <pdf_cdf>(-20,50,1)</pdf_cdf>
+    </ie>
+    <ie name="i945">
+        <section>[0,4000);[4000,20000);[20000,40000);[40000,50000);[50000,100000);</section>
+        <pdf_cdf>(0,100000,1000)</pdf_cdf>
+    </ie>
+    <ie name="i946">
+        <section>[0,1000);[1000,5000);[5000,10000);[10000,15000);[15000,100000);</section>
+        <pdf_cdf>(0,100000,1000)</pdf_cdf>
+    </ie>
+    <ie name="i168">
+        <section>[-141,-110);[-110,-100);[-100,-90);[-90,-85);[-85,-80);[-80,-75);[-75,-44);</section>
+        <pdf_cdf>(-116,-25,1)</pdf_cdf>
+    </ie>
+    <ie name="i170">
+        <section>[-20,-9);[-9,-6);[-6,-3);[-3,0);[0,3);[3,6);[6,90);</section>
+        <pdf_cdf>(-20,90,1)</pdf_cdf>
+    </ie>
+    <ie name="i282">
+        <section>[0,64);[64,1);[128,512);[512,1024);</section>
+        <pdf_cdf>(0,2048,20)</pdf_cdf>
+    </ie>
+    <ie name="i283">
+        <section>[0,64);[64,1);[128,512);[512,1024);</section>
+        <pdf_cdf>(0,2048,20)</pdf_cdf>
     </ie>
   </ie_static>
 
@@ -65,8 +89,8 @@
   </lglconvert>
 
   <report>
-    <counter_def>D:\ruby\span_report\template\hangzhou\LTE网络质量评估IE模版.xlsx</counter_def>
-    <outer_def>D:\ruby\span_report\template\hangzhou\LTE网络质量评估报告.xlsx</outer_def>
+    <counter_def>D:\ruby\span_report\log_report\TD\TDS_IE模板.xlsx</counter_def>
+    <outer_def>D:\ruby\span_report\log_report\TD\TDS_报表模板.xlsx</outer_def>
     <combine>true</combine>
   </report>
 
@@ -150,6 +174,8 @@
     <ieconfig name="General.csv">
       <ie name="dbLon" alias="Longitude"></ie>
       <ie name="dbLat" alias="Latitude"></ie>
+      <ie name="Event" alias="Event"></ie>
+      <ie name="Signals" alias="Signals"></ie>
       <ie name="TDDLTE_Scell_Radio_Parameters_Scell_PCI" alias="PCI"></ie>
       <ie name="TDDLTE_Scell_Radio_Parameters_Frequency_DL" alias="Frequency DL"></ie>
       <ie name="TDDLTE_L1_measurement_Serving_Cell_Measurement_RSRP" alias="Serving Cell RSRP(dBm)"></ie>

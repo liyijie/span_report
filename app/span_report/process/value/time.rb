@@ -16,9 +16,10 @@ module SpanReport::Process::Value
       unless (ievalue.nil? || ievalue == "")
         if @begin == ievalue
           @begin_time = pctime
-        elsif @end == ievalue
+        elsif ( @end == ievalue && @begin_time > 0)
           @end_time = pctime
           delay_time = @end_time - @begin_time if (@end_time > @begin_time && @begin_time > 0)
+          @begin_time = 0
           process delay_time
         end
       end
