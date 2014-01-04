@@ -12,7 +12,7 @@ module SpanReport::Context
     # 3. find relate information needed
     # 4. export the result to csv
     def process
-      map_cache = load_map_csv
+      # map_cache = load_map_csv
       signal_ex = [:dblat, :dblon, :g624, :g627, :i637, :i642]
       output_signals = []
       signal_file = File.join @input_log, "signal"
@@ -20,11 +20,11 @@ module SpanReport::Context
         pctime = signal[:pctime]
         ueid = signal[:ueid]
 
-        signal_ex.each do |ex|
-          key = ex.to_s.sub('g', 'i').to_sym
-          extra_info = map_cache.find(ueid, pctime, ex)
-          signal[key] = extra_info[ex] if extra_info
-        end
+        # signal_ex.each do |ex|
+        #   key = ex.to_s.sub('g', 'i').to_sym
+        #   extra_info = map_cache.find(ueid, pctime, ex)
+        #   signal[key] = extra_info[ex] if extra_info
+        # end
         output_signals << signal
       end
 
